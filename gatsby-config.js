@@ -6,10 +6,11 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://gatsbycontentfulhomepage.gatsbyjs.io/",
-    title: "Gatsby Contentful Homepage Starter",
-    author: `Gatsby`,
-    description: "A Gatsby Starter for building homepages with Contentful",
+    siteUrl: "https://nazza.be",
+    title: "Nazza Agency",
+    author: `Ulysse Coates`,
+    description: `Nazza Agency is an exclusive agency for the BeLux  in high quality clothing for men, women, kids and accessories.
+    Here you can find the following collections: Eden Park, Olivier Strelli, Saint James, Europann and Le Parapluie de Cherbourg.`,
   },
   plugins: [
     {
@@ -28,8 +29,8 @@ module.exports = {
     {
       resolve: "gatsby-plugin-manifest",
       options: {
-        name: "Gatsby Starter Contentful Homepage",
-        short_name: "Gatsby",
+        name: "Nazza Agency",
+        short_name: "Nazza",
         start_url: "/",
         // These can be imported once ESM support lands
         background_color: "#ffe491",

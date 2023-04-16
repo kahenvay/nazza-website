@@ -28,6 +28,7 @@ export function Flex({
   marginY,
   alignItems,
   cx: _cx = [],
+  evenlySpaced,
   ...props
 }) {
   return (
@@ -41,6 +42,7 @@ export function Flex({
         gutter ? styles.flexGap[0] : styles.flexGap[gap],
         marginY && styles.marginY[marginY],
         alignItems && styles.flexVariants[alignItems],
+        // evenlySpaced && styles.flexVariants.evenlySpaced,
         ..._cx,
       ]}
       {...props}

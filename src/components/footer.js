@@ -20,6 +20,13 @@ import {
   VisuallyHidden,
 } from "./ui"
 import BrandLogo from "./brand-logo"
+import EventList from "./events"
+import {
+  atSmallFlexAlignCenter,
+  atSmallTextAlignCenter,
+  evenlySpacedFlexChild,
+  square,
+} from "./ui.css"
 
 const socialMedia = {
   TWITTER: {
@@ -91,48 +98,88 @@ export default function Footer() {
             username
           }
         }
+        header {
+          id
+          navItems {
+            id
+            navItemType
+            ... on NavItem {
+              href
+              text
+            }
+          }
+        }
       }
     }
   `)
 
   const { links, meta, socialLinks, copyright } = data.layout.footer
+  const { navItems } = data.layout.header
 
   return (
     <Box as="footer" paddingY={4}>
       <Container>
-        <Flex variant="start" responsive>
-          <NavLink to="/">
-            <VisuallyHidden>Home</VisuallyHidden>
-            <BrandLogo />
-          </NavLink>
-          <Space />
-          <FlexList>
-            {socialLinks &&
-              socialLinks.map((link) => {
-                const url = getSocialURL(link)
-                return (
-                  url && (
-                    <li key={link.id}>
-                      <IconLink to={url}>
-                        <VisuallyHidden>{getSocialName(link)}</VisuallyHidden>
-                        {getSocialIcon(link)}
-                      </IconLink>
-                    </li>
-                  )
-                )
-              })}
-          </FlexList>
+        <Flex responsive>
+          <Flex className={evenlySpacedFlexChild}>
+            <div>
+              <NavLink to="/">
+                <VisuallyHidden>Home</VisuallyHidden>
+                <BrandLogo />
+              </NavLink>
+              <Space size={2} />
+              <FlexList variant="center" gap={1}>
+                {socialLinks &&
+                  socialLinks.map((link) => {
+                    const url = getSocialURL(link)
+                    return (
+                      url && (
+                        <li fart="true" key={link.id}>
+                          <IconLink to={url}>
+                            <VisuallyHidden>
+                              {getSocialName(link)}
+                            </VisuallyHidden>
+                            {getSocialIcon(link)}
+                          </IconLink>
+                        </li>
+                      )
+                    )
+                  })}
+              </FlexList>
+            </div>
+          </Flex>
+          <Space size={2} />
+          <Flex variant="center" className={evenlySpacedFlexChild}>
+            <div className={square}></div>
+          </Flex>
+          <Space size={2} />
+          <Flex
+            variant="justifyEnd"
+            className={`${evenlySpacedFlexChild} ${atSmallTextAlignCenter}`}
+          >
+            <EventList />
+          </Flex>
         </Flex>
         <Space size={5} />
-        <Flex variant="start" responsive>
-          <FlexList variant="start" responsive>
+        <Flex variant="start" responsive className={atSmallFlexAlignCenter}>
+          <FlexList
+            variant="start"
+            responsive
+            className={atSmallFlexAlignCenter}
+          >
             {links &&
               links.map((link) => (
                 <li key={link.id}>
                   <NavLink to={link.href}>{link.text}</NavLink>
                 </li>
               ))}
+            {navItems &&
+              navItems.map((navItem) => (
+                <li key={navItem.id}>
+                  <NavLink to={navItem.href}>{navItem.text}</NavLink>
+                </li>
+              ))}
           </FlexList>
+
           <Space />
           <FlexList>
             {meta &&

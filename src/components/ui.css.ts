@@ -2,7 +2,8 @@ import { style, styleVariants } from "@vanilla-extract/css"
 import { calc } from "@vanilla-extract/css-utils"
 import { theme } from "../theme.css"
 
-const breakpoints = ["40em", "52em", "64em"]
+const breakpoints = ["40em", "52em", "64em"],
+       maxBreakpoints = ["39.9375em", "51.9375em", "63.9375em"]
 
 export const media = {
   small: `screen and (min-width: ${breakpoints[0]})`,
@@ -10,7 +11,25 @@ export const media = {
   large: `screen and (min-width: ${breakpoints[2]})`,
 }
 
-export const container = style({
+// export const maxMedia = {
+//   small: `screen and (max-width: calc( ${breakpoints[0]} - 1px ))`,
+//   medium: `screen and (max-width: calc( ${breakpoints[1]} - 1px ))`,
+//   large: `screen and (max-width: calc( ${breakpoints[2]} - 1px ))`,
+// }
+
+export const maxMedia = {
+  small: `screen and (max-width: ${maxBreakpoints[0]})`,
+  medium: `screen and (max-width: ${maxBreakpoints[1]})`,
+  large: `screen and (max-width: ${maxBreakpoints[2]})`,
+}
+
+export const square = style({
+  width:"50px",
+  backgroundColor:"#000",
+  height:"50px"
+})
+
+export const container = style({ 
   maxWidth: theme.sizes.container,
   marginLeft: "auto",
   marginRight: "auto",
@@ -66,6 +85,28 @@ export const flex = style({
   alignItems: "center",
 })
 
+export const atSmallFlexAlignCenter = style({
+  "@media": {
+    [maxMedia.small]: {
+      alignItems: "center",
+    },
+  },
+})
+
+export const atSmallTextAlignCenter = style({
+  "@media": {
+    [maxMedia.small]: {
+      textAlign: "center",
+    },
+  },
+})
+
+export const evenlySpacedFlexChild = style({
+  flexBasis: 0,
+  flexGrow: 1,
+  flexShrink: 0
+})
+
 export type FlexVariants =
   | "wrap"
   | "start"
@@ -98,6 +139,9 @@ export const flexVariants: Record<FlexVariants, string> = styleVariants({
   end: {
     alignItems: "flex-end",
   },
+  justifyEnd: {
+    justifyContent: "flex-end",
+  },
   stretch: {
     alignItems: "stretch",
   },
@@ -120,6 +164,8 @@ export const flexVariants: Record<FlexVariants, string> = styleVariants({
     },
   },
 })
+
+
 
 export const flexGap = styleVariants(theme.space, (gap) => ({ gap }))
 
@@ -593,7 +639,8 @@ export const icons: Record<IconSizes, string> = styleVariants(
 
 export const iconLink = style({
   color: theme.colors.text,
-  marginRight: theme.space[3],
+  // marginRight: theme.space[3],
+  marginRight: theme.space[1],
   ":hover": {
     color: theme.colors.active,
   },

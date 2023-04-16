@@ -19,7 +19,7 @@ import {
   mobileHeaderNavWrapper,
   mobileNavSVGColorWrapper,
 } from "./header.css"
-import NavItemGroup from "./nav-item-group"
+
 import BrandLogo from "./brand-logo"
 
 export default function Header() {
@@ -35,31 +35,13 @@ export default function Header() {
               href
               text
             }
-            ... on NavItemGroup {
-              name
-              navItems {
-                id
-                href
-                text
-                description
-                icon {
-                  alt
-                  gatsbyImageData
-                }
-              }
-            }
-          }
-          cta {
-            id
-            href
-            text
           }
         }
       }
     }
   `)
 
-  const { navItems, cta } = data.layout.header
+  const { navItems } = data.layout.header
   const [isOpen, setOpen] = React.useState(false)
 
   React.useEffect(() => {
@@ -84,19 +66,11 @@ export default function Header() {
               {navItems &&
                 navItems.map((navItem) => (
                   <li key={navItem.id}>
-                    {navItem.navItemType === "Group" ? (
-                      <NavItemGroup
-                        name={navItem.name}
-                        navItems={navItem.navItems}
-                      />
-                    ) : (
-                      <NavLink to={navItem.href}>{navItem.text}</NavLink>
-                    )}
+                    <NavLink to={navItem.href}>{navItem.text}</NavLink>
                   </li>
                 ))}
             </FlexList>
           </nav>
-          <div>{cta && <Button to={cta.href}>{cta.text}</Button>}</div>
         </Flex>
       </Container>
       <Container className={mobileHeaderNavWrapper[isOpen ? "open" : "closed"]}>
@@ -114,13 +88,6 @@ export default function Header() {
           </span>
           <Flex>
             <Space />
-            <div>
-              {cta && (
-                <Button to={cta.href} variant={isOpen ? "reversed" : "primary"}>
-                  {cta.text}
-                </Button>
-              )}
-            </div>
             <Nudge right={3}>
               <InteractiveIcon
                 title="Toggle menu"
@@ -141,16 +108,11 @@ export default function Header() {
             <FlexList responsive variant="stretch">
               {navItems?.map((navItem) => (
                 <li key={navItem.id}>
-                  {navItem.navItemType === "Group" ? (
-                    <NavItemGroup
-                      name={navItem.name}
-                      navItems={navItem.navItems}
-                    />
-                  ) : (
-                    <NavLink to={navItem.href} className={mobileNavLink}>
-                      {navItem.text}
-                    </NavLink>
-                  )}
+                  (
+                  <NavLink to={navItem.href} className={mobileNavLink}>
+                    {navItem.text}
+                  </NavLink>
+                  )
                 </li>
               ))}
             </FlexList>

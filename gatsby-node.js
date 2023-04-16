@@ -588,6 +588,8 @@ exports.createSchemaCustomization = async ({ actions }) => {
       id: ID!
       links: [HomepageLink] @link(from: "links___NODE")
       meta: [HomepageLink] @link(from: "meta___NODE")
+      eventTitle: String
+      eventLines: [String]
       socialLinks: [SocialLink] @link(from: "socialLinks___NODE")
       copyright: String
     }
@@ -623,4 +625,3 @@ exports.createPages = ({ actions }) => {
     component: require.resolve("./src/components/footer.js"),
   })
 }
-      
