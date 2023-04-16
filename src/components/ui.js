@@ -19,6 +19,24 @@ export function Container({ width = "normal", ...props }) {
   return <Base cx={[styles.containers[width]]} {...props} />
 }
 
+// export function Container({
+//   padding = 4,
+//   paddingY,
+//   width = "normal",
+//   ...props
+// }) {
+//   return (
+//     <Base
+//       cx={
+//         ([styles.containers[width]],
+//         padding && styles.padding[padding],
+//         paddingY && styles.paddingY[paddingY])
+//       }
+//       {...props}
+//     />
+//   )
+// }
+
 export function Flex({
   variant,
   gap = 3,
