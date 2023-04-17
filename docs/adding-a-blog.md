@@ -65,8 +65,8 @@ If you're using a different CMS in your blog than the one used for the homepage 
 - WordPress requires:
   - `WPGRAPHQL_URL`
 - Contentful requires:
-  - `CONTENTFUL_SPACE_ID`
-  - `CONTENTFUL_ACCESS_TOKEN`
+  - `GATSBY_CONTENTFUL_SPACE_ID`
+  - `GATSBY_CONTENTFUL_ACCESS_TOKEN`
 - DatoCMS requires:
   - `DATOCMS_API_TOKEN`
   - `DATOCMS_ENVIRONMENT`

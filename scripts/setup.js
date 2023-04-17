@@ -28,7 +28,7 @@ const questions = [
   {
     name: "spaceId",
     message: "Your Space ID",
-    when: !argv.spaceId && !process.env.CONTENTFUL_SPACE_ID,
+    when: !argv.spaceId && !process.env.GATSBY_CONTENTFUL_SPACE_ID,
     validate: (input) =>
       /^[a-z0-9]{12}$/.test(input) ||
       "Space ID must be 12 lowercase characters",
@@ -37,7 +37,7 @@ const questions = [
     name: "accessToken",
     when:
       !argv.accessToken &&
-      !process.env.CONTENTFUL_ACCESS_TOKEN &&
+      !process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN &&
       !argv.deliveryToken &&
       !process.env.CONTENTFUL_DELIVERY_ACCESS_TOKEN,
     message: "Your Content Delivery API access token",
@@ -59,24 +59,24 @@ inquirer
       // previewToken
     }) => {
       const {
-        CONTENTFUL_SPACE_ID,
-        CONTENTFUL_ACCESS_TOKEN,
+        GATSBY_CONTENTFUL_SPACE_ID,
+        GATSBY_CONTENTFUL_ACCESS_TOKEN,
         CONTENTFUL_DELIVERY_ACCESS_TOKEN,
         CONTENTFUL_MANAGEMENT_TOKEN,
       } = process.env
 
       // env vars are given precedence followed by args provided to the setup
       // followed by input given to prompts displayed by the setup script
-      spaceId = CONTENTFUL_SPACE_ID || argv.spaceId || spaceId
+      spaceId = GATSBY_CONTENTFUL_SPACE_ID || argv.spaceId || spaceId
       managementToken =
         CONTENTFUL_MANAGEMENT_TOKEN || argv.managementToken || managementToken
       // Some scripts that set up this repo use `deliveryToken` and
       // `CONTENTFUL_DELIVERY_TOKEN`, instead of `accessToken` and
-      // `CONTENTFUL_ACCESS_TOKEN`. Until all scripts are updated to
-      // use `accessToken` and `CONTENTFUL_ACCESS_TOKEN` both variations
+      // `GATSBY_CONTENTFUL_ACCESS_TOKEN`. Until all scripts are updated to
+      // use `accessToken` and `GATSBY_CONTENTFUL_ACCESS_TOKEN` both variations
       // will work.
       accessToken =
-        CONTENTFUL_ACCESS_TOKEN ||
+        GATSBY_CONTENTFUL_ACCESS_TOKEN ||
         CONTENTFUL_DELIVERY_ACCESS_TOKEN ||
         argv.accessToken ||
         argv.deliveryToken ||
@@ -91,8 +91,8 @@ inquirer
         `# All environment variables will be sourced`,
         `# and made available to gatsby-config.js, gatsby-node.js, etc.`,
         `# Do NOT commit this file to source control`,
-        `CONTENTFUL_SPACE_ID='${spaceId}'`,
-        `CONTENTFUL_ACCESS_TOKEN='${accessToken}'`,
+        `GATSBY_CONTENTFUL_SPACE_ID='${spaceId}'`,
+        `GATSBY_CONTENTFUL_ACCESS_TOKEN='${accessToken}'`,
       ]
         .filter(Boolean)
         .join("\n")
