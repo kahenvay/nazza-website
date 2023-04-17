@@ -2,7 +2,14 @@ import { graphql } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import * as React from "react"
 import { useState, useEffect } from "react"
-import { heroImageFull, heroTextHidden } from "./hero.css"
+import {
+  heroImageDefault,
+  heroImageFull,
+  heroText,
+  heroTextHidden,
+  hideOverflowX,
+  tooBigFlex,
+} from "./hero.css"
 
 import {
   Box,
@@ -30,11 +37,11 @@ export default function Hero(props) {
   }, [])
 
   return (
-    <Section>
-      <Flex gap={0} variant="responsive">
+    <Section className={hideOverflowX}>
+      <Flex gap={0} variant="responsive" className={tooBigFlex}>
         <Box
           width="half"
-          className={isScrolledTop ? heroImageFull : ""}
+          className={isScrolledTop ? heroImageFull : heroImageDefault}
           style={{ transition: "transform 0.2s ease-in-out" }}
         >
           {props.image && (
@@ -46,8 +53,9 @@ export default function Hero(props) {
         </Box>
         <Box
           width="half"
-          padding={4}
-          className={isScrolledTop ? heroTextHidden : ""}
+          padding={5}
+          background="white"
+          className={`${heroText} ${isScrolledTop ? heroTextHidden : ""}`}
           style={{
             transition:
               "transform 0.2s ease-in-out, opacity 0.2s ease-in-out, width 0.2s ease-in-out",

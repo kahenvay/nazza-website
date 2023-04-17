@@ -2,6 +2,15 @@ import { style, styleVariants } from "@vanilla-extract/css"
 import { theme } from "../theme.css"
 import { media } from "./ui.css"
 
+
+export const header = style({
+  "@media": {
+    [media.small]: {
+    backgroundColor:"#fff"
+    },
+  },
+})
+
 export const desktopHeaderNavWrapper = style({
   position: "relative",
   zIndex: 1,
@@ -10,6 +19,10 @@ export const desktopHeaderNavWrapper = style({
     [media.small]: {
       display: "block",
       paddingTop: theme.space[4],
+      fontSize: theme.fontSizes[4],
+
+      paddingBottom: theme.space[4],
+      
     },
   },
 })

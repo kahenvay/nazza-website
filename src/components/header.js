@@ -18,6 +18,7 @@ import {
   desktopHeaderNavWrapper,
   mobileHeaderNavWrapper,
   mobileNavSVGColorWrapper,
+  header,
 } from "./header.css"
 
 import BrandLogo from "./brand-logo"
@@ -53,7 +54,7 @@ export default function Header() {
   }, [isOpen])
 
   return (
-    <header>
+    <header className={header}>
       <Container className={desktopHeaderNavWrapper}>
         <Space size={2} />
         <Flex variant="spaceBetween">
