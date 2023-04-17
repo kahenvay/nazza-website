@@ -160,12 +160,15 @@ export function Kicker({ ...props }) {
   return <Text variant="kicker" {...props} />
 }
 
-export function Link({ to, href, ...props }) {
+export function Link({ to, href, target, ...props }) {
   const url = href || to || ""
+
+  // const t = target ? `target="${taget}"` : ""
+
   if (isAbsoluteURL(url)) {
     return (
       // eslint-disable-next-line jsx-a11y/anchor-has-content
-      <a href={url} className={styles.link} {...props} />
+      <a href={url} target={target} className={styles.link} {...props} />
     )
   }
   return <GatsbyLink to={url} className={styles.link} {...props} />

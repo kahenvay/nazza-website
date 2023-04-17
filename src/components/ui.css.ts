@@ -29,6 +29,19 @@ export const square = style({
   height:"50px"
 })
 
+export const noMarginBottom = style({
+  marginBottom:0
+})
+
+export const noMarginTop = style({
+  marginTop:0,
+})
+
+export const noMarginTopBottom = style({
+  marginTop:0,
+  marginBottom:0
+})
+
 export const container = style({ 
   maxWidth: theme.sizes.container,
   marginLeft: "auto",

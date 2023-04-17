@@ -66,6 +66,10 @@ exports.createSchemaCustomization = async ({ actions }) => {
     extend(options) {
       return {
         resolve(source, args, context, info) {
+          // const body = source.body
+          // const doc = JSON.parse(body.raw)
+          // const html = documentToHtmlString(doc)
+          // return html
           const body = source.body
           const doc = JSON.parse(body.raw)
           const html = documentToHtmlString(doc)
@@ -272,6 +276,12 @@ exports.createSchemaCustomization = async ({ actions }) => {
       meta: [HomepageLink]
       socialLinks: [SocialLink]
       copyright: String
+      eventTitle: String
+      eventLines: [String]
+      abdelName: String
+      zachName: String
+      abdelPhone: String
+      zachPhone: String
     }
 
     interface Layout implements Node {
@@ -590,6 +600,10 @@ exports.createSchemaCustomization = async ({ actions }) => {
       meta: [HomepageLink] @link(from: "meta___NODE")
       eventTitle: String
       eventLines: [String]
+      abdelName: String
+      zachName: String
+      abdelPhone: String
+      zachPhone: String
       socialLinks: [SocialLink] @link(from: "socialLinks___NODE")
       copyright: String
     }
