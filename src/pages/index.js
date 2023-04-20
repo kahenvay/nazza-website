@@ -10,7 +10,7 @@ export default function Homepage(props) {
   const { homepage } = props.data
 
   return (
-    <Layout>
+    <Layout style={{ overflowX: "hidden" }}>
       {homepage.blocks.map((block) => {
         const { id, blocktype, ...componentProps } = block
         const Component = sections[blocktype] || Fallback

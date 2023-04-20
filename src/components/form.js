@@ -14,6 +14,7 @@ class Form extends React.Component {
       feedbackMsg: null,
       submitHovered: false,
       formData: {
+        "form-name": "contact-form",
         email: "",
         name: "",
         message: "",
@@ -97,17 +98,18 @@ class Form extends React.Component {
 
         <form
           ref={this.domRef}
-          name="Contact Form"
+          name="contact-form"
           method="POST"
           data-netlify="true"
           onSubmit={(event) => this.handleSubmit(event)}
           className={form}
+          data-netlify-honeypot="bot-field"
         >
           <input
-            ref="form-name"
+            ref="contact-form"
             type="hidden"
-            name="form-name"
-            value="Contact Form"
+            name="contact-form"
+            value="contact-form"
           />
 
           <InputGroup
