@@ -1,18 +1,7 @@
 import React from "react"
 import axios from "axios"
 import * as qs from "./qs"
-import {
-  fillSpan,
-  form,
-  hoverSubmit,
-  hoverText,
-  inputGroup,
-  label,
-  labelAndInput,
-  submit,
-  textInput,
-  wrappy,
-} from "./form.css"
+import { fillSpan, form, hoverSubmit, hoverText, submit } from "./form.css"
 import { Space } from "./ui"
 import InputGroup from "./InputGroup"
 // const stringify = require("./stringify")
@@ -21,7 +10,15 @@ class Form extends React.Component {
   constructor(props) {
     super(props)
     this.domRef = React.createRef()
-    this.state = { feedbackMsg: null, submitHovered: false }
+    this.state = {
+      feedbackMsg: null,
+      submitHovered: false,
+      formData: {
+        email: "",
+        name: "",
+        message: "",
+      },
+    }
   }
 
   handleSubmit(event) {
@@ -30,16 +27,17 @@ class Form extends React.Component {
     // Loop through this component's refs (the fields) and add them to the
     // formData object. What we're left with is an object of key-value pairs
     // that represent the form data we want to send to Netlify.
-    const formData = {}
-    Object.keys(this.refs).map((key) => (formData[key] = this.refs[key].value))
+    // const formData = {}
+    // Object.keys(this.refs).map((key) => (formData[key] = this.refs[key].value))
 
+    // console.log("formData", this.state.formData)
     // Set options for axios. The URL we're submitting to
     // (this.props.location.pathname) is the current page.
     const axiosOptions = {
       url: this.props.location.pathname,
       method: "post",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      data: qs.stringify(formData),
+      data: qs.stringify(this.state.formData),
     }
 
     // Submit to Netlify. Upon success, set the feedback message and clear all
@@ -57,6 +55,15 @@ class Form extends React.Component {
           feedbackMsg: "Form could not be submitted.",
         })
       )
+  }
+
+  handleInputChange = (e) => {
+    // console.log("change", e)
+
+    // this.setState({ [e.target.name]: e.target.value })
+    this.setState({
+      formData: { ...this.state.formData, [e.target.name]: e.target.value },
+    })
   }
 
   handleMouseEnter = (e) => {
@@ -81,7 +88,7 @@ class Form extends React.Component {
 
   render() {
     return (
-      console.log("props", this.props) || (
+      // console.log("props", this.props) || (
         <>
           {this.state.feedbackMsg && <p>{this.state.feedbackMsg}</p>}
 
@@ -100,11 +107,22 @@ class Form extends React.Component {
               value="Contact Form"
             />
 
-            <InputGroup inputType="input" labelTitle="Name" name="name" />
-            <Space size={1} />
-            <InputGroup inputType="input" labelTitle="Email" name="email" />
+            <InputGroup
+              handleInputChange={this.handleInputChange}
+              inputType="input"
+              labelTitle="Name"
+              name="name"
+            />
             <Space size={1} />
             <InputGroup
+              handleInputChange={this.handleInputChange}
+              inputType="input"
+              labelTitle="Email"
+              name="email"
+            />
+            <Space size={1} />
+            <InputGroup
+              handleInputChange={this.handleInputChange}
               inputType="textArea"
               labelTitle="Message"
               name="message"
@@ -112,7 +130,6 @@ class Form extends React.Component {
             <Space size={1} />
             <div
               style={{ position: "relative", maxWidth: "200px", width: "100%" }}
-              className={wrappy}
               onMouseEnter={this.handleMouseEnter}
               onMouseOut={this.handleMouseOut}
             >

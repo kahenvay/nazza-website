@@ -20,6 +20,7 @@ class InputGroup extends React.Component {
       isFocused: false,
     }
   }
+
   inputGroupActive = () => {}
 
   handleFocus = (event) => {
@@ -32,12 +33,13 @@ class InputGroup extends React.Component {
   }
 
   render() {
-    return this.inputType == "input" ? (
+    return this.inputType === "input" ? (
       <div className={inputGroup}>
         <label className={`${labelAndInput} ${label} `} htmlFor={this.name}>
           {this.labelTitle}:
         </label>
         <input
+          onChange={this.props.handleInputChange}
           className={`${textInput} ${labelAndInput}`}
           ref={this.name}
           type={this.name}
@@ -55,6 +57,7 @@ class InputGroup extends React.Component {
           {this.labelTitle}:
         </label>
         <textarea
+          onChange={this.props.handleInputChange}
           className={`${textInput} ${labelAndInput}`}
           ref={this.name}
           type={this.name}
