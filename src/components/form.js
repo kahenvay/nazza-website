@@ -88,68 +88,66 @@ class Form extends React.Component {
 
   render() {
     return (
-      // console.log("props", this.props) || (
-        <>
-          {this.state.feedbackMsg && <p>{this.state.feedbackMsg}</p>}
+      <>
+        {this.state.feedbackMsg && <p>{this.state.feedbackMsg}</p>}
 
-          <form
-            ref={this.domRef}
-            name="Contact Form"
-            method="POST"
-            data-netlify="true"
-            onSubmit={(event) => this.handleSubmit(event)}
-            className={form}
+        <form
+          ref={this.domRef}
+          name="Contact Form"
+          method="POST"
+          data-netlify="true"
+          onSubmit={(event) => this.handleSubmit(event)}
+          className={form}
+        >
+          <input
+            ref="form-name"
+            type="hidden"
+            name="form-name"
+            value="Contact Form"
+          />
+
+          <InputGroup
+            handleInputChange={this.handleInputChange}
+            inputType="input"
+            labelTitle="Name"
+            name="name"
+          />
+          <Space size={1} />
+          <InputGroup
+            handleInputChange={this.handleInputChange}
+            inputType="input"
+            labelTitle="Email"
+            name="email"
+          />
+          <Space size={1} />
+          <InputGroup
+            handleInputChange={this.handleInputChange}
+            inputType="textArea"
+            labelTitle="Message"
+            name="message"
+          />
+          <Space size={1} />
+          <div
+            style={{ position: "relative", maxWidth: "200px", width: "100%" }}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseOut={this.handleMouseOut}
           >
             <input
-              ref="form-name"
-              type="hidden"
-              name="form-name"
-              value="Contact Form"
+              className={`${submit} ${
+                this.state.submitHovered ? hoverText : ""
+              }`}
+              ref="submit"
+              type="submit"
+              value="Send"
             />
-
-            <InputGroup
-              handleInputChange={this.handleInputChange}
-              inputType="input"
-              labelTitle="Name"
-              name="name"
-            />
-            <Space size={1} />
-            <InputGroup
-              handleInputChange={this.handleInputChange}
-              inputType="input"
-              labelTitle="Email"
-              name="email"
-            />
-            <Space size={1} />
-            <InputGroup
-              handleInputChange={this.handleInputChange}
-              inputType="textArea"
-              labelTitle="Message"
-              name="message"
-            />
-            <Space size={1} />
-            <div
-              style={{ position: "relative", maxWidth: "200px", width: "100%" }}
-              onMouseEnter={this.handleMouseEnter}
-              onMouseOut={this.handleMouseOut}
-            >
-              <input
-                className={`${submit} ${
-                  this.state.submitHovered ? hoverText : ""
-                }`}
-                ref="submit"
-                type="submit"
-                value="Send"
-              />
-              <span
-                className={`${fillSpan} ${
-                  this.state.submitHovered ? hoverSubmit : ""
-                }`}
-              ></span>
-            </div>
-          </form>
-        </>
-      )
+            <span
+              className={`${fillSpan} ${
+                this.state.submitHovered ? hoverSubmit : ""
+              }`}
+            ></span>
+          </div>
+        </form>
+      </>
     )
   }
 }
