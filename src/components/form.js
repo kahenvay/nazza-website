@@ -30,7 +30,10 @@ class Form extends React.Component {
     // const formData = {}
     // Object.keys(this.refs).map((key) => (formData[key] = this.refs[key].value))
 
-    // console.log("formData", this.state.formData)
+    console.log("formData", this.state.formData)
+    console.log("formData", this.state.formData["name"])
+    console.log("formData", this.state.formData["email"])
+    console.log("formData", this.state.formData["message"])
     // Set options for axios. The URL we're submitting to
     // (this.props.location.pathname) is the current page.
     const axiosOptions = {
@@ -50,11 +53,12 @@ class Form extends React.Component {
         })
         this.domRef.current.reset()
       })
-      .catch((err) =>
+      .catch((err) => {
+        console.log(err)
         this.setState({
           feedbackMsg: "Form could not be submitted.",
         })
-      )
+      })
   }
 
   handleInputChange = (e) => {
