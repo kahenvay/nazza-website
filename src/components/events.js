@@ -30,8 +30,8 @@ export default function EventList(props) {
       <Space size={2} />
       <List>
         {eventLines &&
-          eventLines.map((eventLine) => (
-            <li key={eventLine.id}>
+          eventLines.map((eventLine, index) => (
+            <li key={index}>
               <Text variant="small">{eventLine}</Text>
             </li>
           ))}

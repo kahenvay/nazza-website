@@ -1,11 +1,22 @@
 import { style } from "@vanilla-extract/css"
 import { theme } from "../theme.css"
+import { maxMedia } from "./ui.css"
 
 export const logoListContainer = style({
     background: "white",
     zIndex: 1,
     position: "relative",
-    padding: theme.space[5]
+    padding: theme.space[5],
+    "@media": {
+        [maxMedia.small]: {
+          paddingLeft: theme.space[4],
+          paddingRight: theme.space[4],
+        //   padding: theme.space[2]
+           paddingTop: theme.space[2],
+        //   paddingBottom: theme.space[2]
+        },
+      },
+    
   })
 
 

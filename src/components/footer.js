@@ -118,6 +118,7 @@ export default function Footer() {
 
   return (
     <Box as="footer" paddingY={4}>
+      <Space size={3} />
       <Container>
         <Flex responsive>
           <Flex className={evenlySpacedFlexChild}>

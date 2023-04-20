@@ -217,7 +217,16 @@ export const list = style({
   margin: 0,
 })
 
-export const padding = styleVariants(theme.space, (padding) => ({ padding }))
+export const padding = styleVariants(theme.space, (padding) => ({ 
+  padding,
+  "@media": {
+    [maxMedia.small]: {
+      paddingLeft: theme.space[2],
+      paddingRight: theme.space[2]
+      // padding: theme.space[2]
+    },
+  },
+ }))
 export const paddingY = styleVariants(theme.space, (padding) => ({
   paddingTop: padding,
   paddingBottom: padding,
@@ -601,8 +610,12 @@ export const backgrounds: Record<Backgrounds, string> = styleVariants({
     color: theme.colors.background,
     backgroundColor: theme.colors.primary,
   },
+  // muted: {
+  //   color: theme.colors.primary,
+  //   backgroundColor: theme.colors.muted,
+  // },
   muted: {
-    color: theme.colors.primary,
+    color: theme.colors.text,
     backgroundColor: theme.colors.muted,
   },
   white: {

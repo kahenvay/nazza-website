@@ -3,8 +3,9 @@ import { graphql, useStaticQuery } from "gatsby"
 import { Box, Container, Flex, Section, Space } from "./ui"
 import Address from "./address"
 import NameAndAddress from "./name-and-address"
+import Form from "./form"
 
-export default function Contact() {
+export default function Contact({ location }) {
   const data = useStaticQuery(graphql`
     query {
       contentfulLayoutFooter {
@@ -23,10 +24,13 @@ export default function Contact() {
     // console.log("events", props, eventTitle) || (
     <div>
       <Section padding={4} background="muted">
+        <Space size={4} />
         <Container>
           <Flex gap={4} variant="responsive">
-            <Box width="half"></Box>
             <Box width="half">
+              <Form location={location} />
+            </Box>
+            <Box width="half" style={{ textAlign: "center" }}>
               <NameAndAddress name={abdelName} number={abdelPhone} />
               <Space size={1} />
               <NameAndAddress name={zachName} number={zachPhone} />
@@ -35,6 +39,7 @@ export default function Contact() {
             </Box>
           </Flex>
         </Container>
+        <Space size={4} />
       </Section>
     </div>
   )
