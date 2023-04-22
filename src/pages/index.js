@@ -9,6 +9,8 @@ import Contact from "../components/contact"
 export default function Homepage(props) {
   const { homepage } = props.data
 
+  console.log(homepage)
+
   return (
     <Layout style={{ overflowX: "hidden" }}>
       {homepage.blocks.map((block) => {
@@ -17,7 +19,7 @@ export default function Homepage(props) {
         // console.log(sections[blocktype])
         return <Component key={id} {...componentProps} />
       })}
-      <Contact location={props.location} />
+      <Contact />
     </Layout>
   )
 }
@@ -39,14 +41,16 @@ export const query = graphql`
         id
         blocktype
         ...HomepageHeroContent
-        ...HomepageFeatureListContent
-        ...HomepageCtaContent
         ...HomepageLogoListContent
-        ...HomepageTestimonialListContent
-        ...HomepageBenefitListContent
-        ...HomepageStatListContent
-        ...HomepageProductListContent
       }
     }
   }
 `
+// ...HomepageHeroContent
+// ...HomepageFeatureListContent
+// ...HomepageCtaContent
+// ...HomepageLogoListContent
+// ...HomepageTestimonialListContent
+// ...HomepageBenefitListContent
+// ...HomepageStatListContent
+// ...HomepageProductListContent

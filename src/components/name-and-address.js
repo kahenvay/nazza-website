@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Text, Space, Link } from "./ui"
+import { Text, Link } from "./ui"
 import { noMarginTopBottom } from "./ui.css"
 
 export default function NameAndAddress(props) {

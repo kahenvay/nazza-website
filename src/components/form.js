@@ -38,7 +38,8 @@ class Form extends React.Component {
     // Set options for axios. The URL we're submitting to
     // (this.props.location.pathname) is the current page.
     const axiosOptions = {
-      url: this.props.location.pathname,
+      // url: this.props.location.pathname,
+      url: "/",
       method: "post",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: qs.stringify(this.state.formData),
