@@ -1,7 +1,7 @@
 import React from "react"
 import axios from "axios"
 import * as qs from "./qs"
-import { form, submit, submitWrapper } from "./form.css"
+import { feedbackWrapShow, form, submit, submitWrapper } from "./form.css"
 import { Space } from "./ui"
 import InputGroup from "./InputGroup"
 // const stringify = require("./stringify")
@@ -80,7 +80,9 @@ class Form extends React.Component {
   render() {
     return (
       <>
-        {this.state.feedbackMsg && <p>{this.state.feedbackMsg}</p>}
+        <div className={` ${this.state.feedbackMsg ? feedbackWrapShow : ""}`}>
+          <p>{this.state.feedbackMsg}</p>
+        </div>
 
         <form
           // ref={this.domRef}

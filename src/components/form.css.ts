@@ -151,7 +151,10 @@ export const submit = style({
     }
 })
 
-
+export const feedbackWrapShow = style({
+    visibility:"visible",
+    opacity:1
+}) 
 
 export const submitWrapper = style({
     ...pseudoBeforeAfterEffect(0,0,"100%", "hover")
