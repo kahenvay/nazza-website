@@ -5,7 +5,7 @@ import Address from "./address"
 import NameAndAddress from "./name-and-address"
 import Form from "./form"
 
-export default function Contact({ location }) {
+export default function Contact() {
   const data = useStaticQuery(graphql`
     query {
       contentfulLayoutFooter {
@@ -27,9 +27,7 @@ export default function Contact({ location }) {
         <Space size={4} />
         <Container>
           <Flex gap={4} variant="responsive">
-            <Box width="half">
-              <Form location={location} />
-            </Box>
+            <Box width="half"></Box>
             <Box width="half" style={{ textAlign: "center" }}>
               <NameAndAddress name={abdelName} number={abdelPhone} />
               <Space size={1} />
