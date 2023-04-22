@@ -9,7 +9,7 @@ import InputGroup from "./InputGroup"
 class Form extends React.Component {
   constructor(props) {
     super(props)
-    this.domRef = React.createRef()
+    // this.domRef = React.createRef()
     this.state = {
       feedbackMsg: null,
       submitHovered: false,
@@ -53,7 +53,15 @@ class Form extends React.Component {
         this.setState({
           feedbackMsg: "Form submitted successfully!",
         })
-        this.domRef.current.reset()
+        // this.domRef.current.reset()
+        this.setState({
+          formData: {
+            "form-name": "contact-form",
+            email: "",
+            FLname: "",
+            message: "",
+          },
+        })
       })
       .catch((err) => {
         console.log(err)
@@ -75,7 +83,7 @@ class Form extends React.Component {
         {this.state.feedbackMsg && <p>{this.state.feedbackMsg}</p>}
 
         <form
-          ref={this.domRef}
+          // ref={this.domRef}
           name="contact-form"
           method="POST"
           data-netlify="true"

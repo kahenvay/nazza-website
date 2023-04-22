@@ -9,8 +9,6 @@ import Contact from "../components/contact"
 export default function Homepage(props) {
   const { homepage } = props.data
 
-  console.log(homepage)
-
   return (
     <Layout style={{ overflowX: "hidden" }}>
       {homepage.blocks.map((block) => {
