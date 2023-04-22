@@ -27,7 +27,9 @@ export default function Contact() {
         <Space size={4} />
         <Container>
           <Flex gap={4} variant="responsive">
-            <Box width="half"></Box>
+            <Box width="half">
+              <Form />
+            </Box>
             <Box width="half" style={{ textAlign: "center" }}>
               <NameAndAddress name={abdelName} number={abdelPhone} />
               <Space size={1} />
