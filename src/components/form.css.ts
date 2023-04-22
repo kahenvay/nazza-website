@@ -1,7 +1,78 @@
 import { style } from "@vanilla-extract/css"
 import { theme } from "../theme.css"
-import { media, padding } from "./ui.css"
+// import { media, padding } from "./ui.css"
 import {colors} from "../colors.css"
+
+const beforeAndAfter = (height) => {
+    return {
+        content:"",
+        position: "absolute",
+        display: "block",
+        width: "0",
+        height: height,
+        backgroundColor: colors.primary,
+        
+        // transform: "translateX(-50%)",
+        transition: "width 0.1s ease-in-out",
+        
+    }
+}
+
+const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
+    let returnObj = {}
+    switch (event) {
+        case "hover":
+            returnObj = {
+                selectors: {
+                    "&::before": {
+                        ...beforeAndAfter(height),
+                        left:"0%",
+                        top:top,
+                        bottom:bottom
+                       },
+                       "&:hover::before": {
+                        width:"50%"
+                       },
+                    "&::after": {
+                        ...beforeAndAfter(height),
+                        right:"0%",
+                        top:top,
+                        bottom:bottom
+                       },
+                       "&:hover::after": {
+                        width:"50%"
+                       }
+                },
+            }
+            break;
+        case "focus":
+            returnObj = {
+                selectors: {
+                    "&::before": {
+                        ...beforeAndAfter(height),
+                        left:"0%",
+                        top:top,
+                        bottom:bottom
+                       },
+                       "&:focus-within::before": {
+                        width:"50%"
+                       },
+                    "&::after": {
+                        ...beforeAndAfter(height),
+                        right:"0%",
+                        top:top,
+                        bottom:bottom
+                       },
+                       "&:focus-within::after": {
+                        width:"50%"
+                       }
+                },
+            }
+        default:
+            break;
+    }
+    return returnObj
+}
 
 export const form = style({
   maxWidth:"600px",
@@ -14,7 +85,8 @@ export const form = style({
 export const inputGroup = style({
   position:"relative",
   width:"100%",
-  display:"flex"
+  display:"flex",
+  ...pseudoBeforeAfterEffect("initial",0,"3px","focus")
 })
 
 export const labelAndInput = style({
@@ -47,16 +119,16 @@ export const textInput = style({
     }
 })
 
-export const span = style({
-    width: "0",
-    height: "3Px",
-    position: "absolute",
-    background: colors.primary,
-    left: "50%",
-    bottom: "0",
-    transform: "translateX(-50%)",
-    transition: "width 0.2s ease-in-out"
-})
+// export const span = style({
+//     width: "0",
+//     height: "3Px",
+//     position: "absolute",
+//     background: colors.primary,
+//     left: "50%",
+//     bottom: "0",
+//     transform: "translateX(-50%)",
+//     transition: "width 0.2s ease-in-out"
+// })
 
 export const spanHighlight = style({
     width: "100%",
@@ -71,45 +143,16 @@ export const submit = style({
     position: "relative",
     backgroundColor: "transparent",
     color:"#000",
-    transition:"color 0.2s ease-in-out"
+    cursor:"pointer",
+    selectors:{
+        '&:hover':{
+            color:colors.muted,
+        }
+    }
 })
 
-export const fillSpan = style({
-    // position: "absolute",
-    // display: "block",
-    // width: "0",
-    // height: "0",
-    // borderRadius: "50%",
-    // backgroundColor: "#233433",
-    // transition: "width 0.4s ease-in-out, height 0.4s ease-in-out",
-    // transform: "translate(-50%, -50%)",
-    // zIndex: "-1",
-    pointerEvents:"none",
-    position: "absolute",
-    display: "block",
-    width: "0",
-    height: "100%",
-    backgroundColor: colors.primary,
-    left:"50%",
-    transform: "translateX(-50%)",
-    transition: "width 0.1s ease-in-out",
-    top:0,
+
+
+export const submitWrapper = style({
+    ...pseudoBeforeAfterEffect(0,0,"100%", "hover")
 })
-
-// export const wrappy = style({
-//     selectors:{
-//         ':hover span':{
-//             // color: tint($btn-color, 75%);
-//             width: "100%",
-//         }
-//     }
-// })
-
-export const hoverSubmit = style({
-    width: "100%"
-})
-
-export const hoverText = style({
-    color:colors.muted
-})
-

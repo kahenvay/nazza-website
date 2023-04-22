@@ -1,7 +1,7 @@
 import React from "react"
 import axios from "axios"
 import * as qs from "./qs"
-import { fillSpan, form, hoverSubmit, hoverText, submit } from "./form.css"
+import { form, submit, submitWrapper } from "./form.css"
 import { Space } from "./ui"
 import InputGroup from "./InputGroup"
 // const stringify = require("./stringify")
@@ -63,32 +63,9 @@ class Form extends React.Component {
   }
 
   handleInputChange = (e) => {
-    // console.log("change", e)
-
-    // this.setState({ [e.target.name]: e.target.value })
     this.setState({
       formData: { ...this.state.formData, [e.target.name]: e.target.value },
     })
-  }
-
-  handleMouseEnter = (e) => {
-    // const parentOffset = e.currentTarget.getBoundingClientRect()
-    // const relX = e.pageX - parentOffset.left
-    // const relY = parentOffset.top
-    // e.currentTarget.querySelector("span").style.top = `${relY}px`
-    // e.currentTarget.querySelector("span").style.left = `${relX}px`
-    // console.log(e.currentTarget.getBoundingClientRect())
-    // console.log(parentOffset)
-    this.setState({ submitHovered: true })
-  }
-
-  handleMouseOut = (e) => {
-    // const parentOffset = e.currentTarget.getBoundingClientRect()
-    // const relX = e.pageX - parentOffset.left
-    // const relY = parentOffset.top
-    // e.currentTarget.querySelector("span").style.top = `${relY}px`
-    // e.currentTarget.querySelector("span").style.left = `${relX}px`
-    this.setState({ submitHovered: false })
   }
 
   render() {
@@ -135,22 +112,14 @@ class Form extends React.Component {
           <Space size={1} />
           <div
             style={{ position: "relative", maxWidth: "200px", width: "100%" }}
-            onMouseEnter={this.handleMouseEnter}
-            onMouseOut={this.handleMouseOut}
+            className={submitWrapper}
           >
             <input
-              className={`${submit} ${
-                this.state.submitHovered ? hoverText : ""
-              }`}
+              className={`${submit}`}
               ref="submit"
               type="submit"
               value="Send"
             />
-            <span
-              className={`${fillSpan} ${
-                this.state.submitHovered ? hoverSubmit : ""
-              }`}
-            ></span>
           </div>
         </form>
       </>
