@@ -7,6 +7,7 @@ class InputGroup extends React.Component {
   constructor(props) {
     super(props)
     this.name = props.name
+    this.type = props.type
     this.labelTitle = props.labelTitle
     this.inputType = props.inputType
   }
@@ -23,8 +24,9 @@ class InputGroup extends React.Component {
           onChange={this.props.handleInputChange}
           className={`${textInput} ${labelAndInput}`}
           ref={this.name}
-          type={this.name}
+          type={this.type}
           name={this.name}
+          id={this.name}
         />
       </div>
     ) : (
@@ -36,9 +38,9 @@ class InputGroup extends React.Component {
           onChange={this.props.handleInputChange}
           className={`${textInput} ${labelAndInput}`}
           ref={this.name}
-          type={this.name}
           name={this.name}
           style={{ height: "100px" }}
+          id={this.name}
         />
       </div>
     )

@@ -134,7 +134,7 @@ export default function Footer() {
                     const url = getSocialURL(link)
                     return (
                       url && (
-                        <li fart="true" key={link.id}>
+                        <li key={link.id}>
                           <IconLink to={url}>
                             <VisuallyHidden>
                               {getSocialName(link)}

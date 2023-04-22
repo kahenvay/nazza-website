@@ -16,13 +16,18 @@ class Form extends React.Component {
       formData: {
         "form-name": "contact-form",
         email: "",
-        name: "",
+        FLname: "",
         message: "",
       },
     }
   }
 
   handleSubmit(event) {
+    // console.log("formData", this.state.formData)
+    // console.log("formData", this.state.formData["FLname"])
+    // console.log("formData", this.state.formData["email"])
+    // console.log("formData", this.state.formData["message"])
+
     // Do not submit form via HTTP, since we're doing that via XHR request.
     event.preventDefault()
     // Loop through this component's refs (the fields) and add them to the
@@ -30,11 +35,6 @@ class Form extends React.Component {
     // that represent the form data we want to send to Netlify.
     // const formData = {}
     // Object.keys(this.refs).map((key) => (formData[key] = this.refs[key].value))
-
-    console.log("formData", this.state.formData)
-    console.log("formData", this.state.formData["name"])
-    console.log("formData", this.state.formData["email"])
-    console.log("formData", this.state.formData["message"])
     // Set options for axios. The URL we're submitting to
     // (this.props.location.pathname) is the current page.
     const axiosOptions = {
@@ -93,7 +93,8 @@ class Form extends React.Component {
             handleInputChange={this.handleInputChange}
             inputType="input"
             labelTitle="Name"
-            name="name"
+            name="FLname"
+            type="text"
           />
           <Space size={1} />
           <InputGroup
@@ -101,6 +102,7 @@ class Form extends React.Component {
             inputType="input"
             labelTitle="Email"
             name="email"
+            type="email"
           />
           <Space size={1} />
           <InputGroup
