@@ -127,6 +127,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       kicker: String
       subhead: String
       image: HomepageImage
+      images: [HomepageImage]
       text: String
       links: [HomepageLink]
     }
@@ -395,6 +396,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       kicker: String
       subhead: String
       image: HomepageImage @link(from: "image___NODE")
+      images: [HomepageImage] @link(from: "images___NODE")
       text: String
       links: [HomepageLink] @link(from: "links___NODE")
     }

@@ -1,5 +1,4 @@
 import { graphql } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import * as React from "react"
 import { useState, useEffect } from "react"
 import {
@@ -10,6 +9,7 @@ import {
   hideOverflowX,
   tooBigFlex,
 } from "./hero.css"
+import ImageSlider from "./imageSlider"
 
 import {
   Box,
@@ -42,14 +42,9 @@ export default function Hero(props) {
         <Box
           width="half"
           className={isScrolledTop ? heroImageFull : heroImageDefault}
-          style={{ transition: "transform 0.2s ease-in-out" }}
+          style={{ transition: "transform 0.2s ease-out" }}
         >
-          {props.image && (
-            <GatsbyImage
-              alt={props.image.alt}
-              image={getImage(props.image.gatsbyImageData)}
-            />
-          )}
+          <ImageSlider images={props.images} />
         </Box>
         <Box
           width="half"
@@ -76,6 +71,26 @@ export default function Hero(props) {
   )
 }
 
+// export const query = graphql`
+//   fragment HomepageHeroContent on HomepageHero {
+//     id
+//     kicker
+//     h1: heading
+//     subhead
+//     text
+//     links {
+//       id
+//       href
+//       text
+//     }
+//     image {
+//       id
+//       gatsbyImageData
+//       alt
+//     }
+//   }
+// `
+
 export const query = graphql`
   fragment HomepageHeroContent on HomepageHero {
     id
@@ -88,7 +103,7 @@ export const query = graphql`
       href
       text
     }
-    image {
+    images {
       id
       gatsbyImageData
       alt

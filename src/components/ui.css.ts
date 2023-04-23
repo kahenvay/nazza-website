@@ -1,5 +1,6 @@
 import { style, styleVariants } from "@vanilla-extract/css"
 import { calc } from "@vanilla-extract/css-utils"
+import { relative } from "path"
 import { theme } from "../theme.css"
 
 const breakpoints = ["40em", "52em", "64em"],
@@ -210,6 +211,19 @@ export const widths: Record<Widths, string> = styleVariants(
     },
   ]
 )
+
+export const absoluteParent = style({
+  position:"relative",
+  // paddingBottom:"52.25%"
+})
+
+export const absoluteChild = style({
+  position:"absolute",
+  left:0,
+  top:0,
+  width:"100%",
+  height:"100%"
+})
 
 export const list = style({
   listStyle: "none",
