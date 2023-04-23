@@ -20,6 +20,12 @@ export const logoListContainer = style({
   })
 
 
+  export const rounded = style({
+    border:"1px solid black",
+    borderRadius:"100%",
+    height: "100%"
+  })
+
   export const logoStyle = style({
     filter: "grayscale(1)",
     transform: "scale(1)",

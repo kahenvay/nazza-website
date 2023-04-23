@@ -234,12 +234,14 @@ export function Avatar({ alt, image }) {
   )
 }
 
-export function Logo({ alt, image, size = "small" }) {
+export function Logo({ alt, image, size = "small", className, imgStyle }) {
   return (
     <GatsbyImage
       alt={alt}
       image={getImage(image)}
-      className={styles.logos[size]}
+      className={`${styles.logos[size]} ${className}`}
+      objectFit="contain"
+      imgStyle={imgStyle}
     />
   )
 }

@@ -39,11 +39,31 @@ export const query = graphql`
         id
         blocktype
         ...HomepageHeroContent
-        ...HomepageLogoListContent
       }
     }
   }
 `
+
+// export const query = graphql`
+//   {
+//     homepage {
+//       id
+//       title
+//       description
+//       image {
+//         id
+//         url
+//       }
+//       blocks: content {
+//         id
+//         blocktype
+//         ...HomepageHeroContent
+//         ...HomepageLogoListContent
+//       }
+//     }
+//   }
+// `
+
 // ...HomepageHeroContent
 // ...HomepageFeatureListContent
 // ...HomepageCtaContent

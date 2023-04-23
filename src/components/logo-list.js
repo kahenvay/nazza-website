@@ -1,39 +1,65 @@
 import * as React from "react"
-import { graphql } from "gatsby"
+import { graphql, useStaticQuery } from "gatsby"
 import { Space, Container, Section, FlexList, Text, Logo, Subhead } from "./ui"
-import { logoListContainer, logoStyle } from "./logo-list.css"
-
-export function LogoItem(props) {
-  if (!props.image) return null
-
-  return (
-    <Logo
-      alt={props.image.alt}
-      image={props.image.gatsbyImageData}
-      size="medium"
-    />
-  )
-}
+import { logoListContainer, logoStyle, rounded } from "./logo-list.css"
 
 export default function LogoList(props) {
+  const data = useStaticQuery(graphql`
+    query {
+      contentfulHomepageLogoList {
+        id
+        text
+        logos {
+          id
+          alt
+          image {
+            id
+            alt
+            gatsbyImageData
+          }
+        }
+      }
+    }
+  `)
+
+  const { text, logos } = data.contentfulHomepageLogoList
+
+  const LogoItem = (image) => {
+    console.log(image)
+    console.log(props)
+    console.log(props.rounded)
+
+    if (!image) return null
+
+    return (
+      <Logo
+        alt={image.alt}
+        image={image.gatsbyImageData}
+        size="medium"
+        className={`${props.rounded ? rounded : ""}`}
+        imgStyle={props.rounded ? { width: "80%", margin: "auto" } : ""}
+      />
+    )
+  }
+
   return (
     <Section paddingY={4}>
       {/* <Space size={4} /> */}
       <Container width="narrow" className={logoListContainer}>
         <Subhead style={{ textAlign: "center" }}> Our Brands </Subhead>
         <Space size={4} />
-        {props.text && (
+        {text && (
           <Text center variant="lead">
-            {props.text}
+            {text}
           </Text>
         )}
         <Space size={5} />
-        <FlexList gap={4} variant="center">
-          {props.logos.map(
+        <FlexList gap={4} variant="center" alignItems="stretch">
+          {logos.map(
             (logo) =>
-              logo && (
-                <li className={logoStyle} key={logo.id}>
-                  <LogoItem {...logo} />
+              logo.image && (
+                <li className={`${logoStyle} `} key={logo.id}>
+                  <LogoItem {...logo.image} />
                 </li>
               )
           )}
@@ -43,19 +69,19 @@ export default function LogoList(props) {
   )
 }
 
-export const query = graphql`
-  fragment HomepageLogoListContent on HomepageLogoList {
-    id
+// export const query = graphql`
+//   fragment HomepageLogoListContent on HomepageLogoList {
+//     id
 
-    text
-    logos {
-      id
-      alt
-      image {
-        id
-        gatsbyImageData
-        alt
-      }
-    }
-  }
-`
+//     text
+//     logos {
+//       id
+//       alt
+//       image {
+//         id
+//         gatsbyImageData
+//         alt
+//       }
+//     }
+//   }
+// `
