@@ -19,7 +19,7 @@ export default function ImageSlider(props) {
   }, [props.images.length])
 
   return (
-    <div className={absoluteParent} style={{ paddingBottom: "100%" }}>
+    <div className={absoluteParent} style={{ paddingBottom: "75%" }}>
       {props.images.map((image, index) => {
         return (
           image && (
