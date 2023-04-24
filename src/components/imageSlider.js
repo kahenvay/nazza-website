@@ -30,6 +30,7 @@ export default function ImageSlider(props) {
               className={`${absoluteChild} ${slideImage} ${
                 index === currentImageIndex ? activeImage : ""
               }`}
+              style={{ position: "absolute" }}
             />
           )
         )
