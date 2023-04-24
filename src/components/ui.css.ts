@@ -218,7 +218,7 @@ export const absoluteParent = style({
 })
 
 export const absoluteChild = style({
-  position:"absolute",
+  position:"absolute !important",
   left:0,
   top:0,
   width:"100%",
