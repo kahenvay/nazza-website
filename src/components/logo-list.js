@@ -37,7 +37,7 @@ export default function LogoList(props) {
         image={image.gatsbyImageData}
         size="medium"
         className={`${props.rounded ? rounded : ""}`}
-        imgStyle={props.rounded ? { width: "80%", margin: "auto" } : ""}
+        imgStyle={props.rounded ? { width: "70%", margin: "auto" } : ""}
       />
     )
   }

@@ -37,7 +37,7 @@ export default function Hero(props) {
   }, [])
 
   return (
-    <Section className={hideOverflowX}>
+    <Section style={{ padding: 0 }}>
       <Flex gap={0} variant="responsive" className={tooBigFlex}>
         <Box
           width="half"

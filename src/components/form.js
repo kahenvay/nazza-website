@@ -70,7 +70,7 @@ const Form = () => {
           name="FLname"
           type="text"
         />
-        <Space size={1} />
+        <Space size={2} />
         <InputGroup
           handleInputChange={handleInputChange}
           inputType="input"
@@ -78,14 +78,14 @@ const Form = () => {
           name="email"
           type="email"
         />
-        <Space size={1} />
+        <Space size={2} />
         <InputGroup
           handleInputChange={handleInputChange}
           inputType="textArea"
           labelTitle="Message"
           name="message"
         />
-        <Space size={1} />
+        <Space size={2} />
         <div
           style={{ position: "relative", maxWidth: "200px", width: "100%" }}
           className={submitWrapper}

@@ -5,7 +5,7 @@ import { media } from "./ui.css"
 export const hideOverflowX = style({
     "@media": {
         [media.small]: {
-            // overflowX:"hidden"
+            overflowX:"hidden"
         },
     },
 })

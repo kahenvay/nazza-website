@@ -3,14 +3,14 @@ import { theme } from "../theme.css"
 // import { media, padding } from "./ui.css"
 import {colors} from "../colors.css"
 
-const beforeAndAfter = (height) => {
+const beforeAndAfter = (height, color) => {
     return {
         content:"",
         position: "absolute",
         display: "block",
         width: "0",
         height: height,
-        backgroundColor: colors.primary,
+        backgroundColor: color,
         
         // transform: "translateX(-50%)",
         transition: "width 0.1s ease-in-out",
@@ -25,7 +25,7 @@ const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
             returnObj = {
                 selectors: {
                     "&::before": {
-                        ...beforeAndAfter(height),
+                        ...beforeAndAfter(height,"#fff"),
                         left:"0%",
                         top:top,
                         bottom:bottom
@@ -34,7 +34,7 @@ const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
                         width:"50%"
                        },
                     "&::after": {
-                        ...beforeAndAfter(height),
+                        ...beforeAndAfter(height,"#fff"),
                         right:"0%",
                         top:top,
                         bottom:bottom
@@ -49,7 +49,7 @@ const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
             returnObj = {
                 selectors: {
                     "&::before": {
-                        ...beforeAndAfter(height),
+                        ...beforeAndAfter(height, colors.primary),
                         left:"0%",
                         top:top,
                         bottom:bottom
@@ -58,7 +58,7 @@ const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
                         width:"50%"
                        },
                     "&::after": {
-                        ...beforeAndAfter(height),
+                        ...beforeAndAfter(height, colors.primary),
                         right:"0%",
                         top:top,
                         bottom:bottom
@@ -142,11 +142,15 @@ export const submit = style({
     zIndex: "1",
     position: "relative",
     backgroundColor: "transparent",
-    color:"#000",
+    // color:"#000",
+    color:"#fff",
+    border:"2px solid #fff",
+    // border:"none",
     cursor:"pointer",
     selectors:{
         '&:hover':{
-            color:colors.muted,
+            // color:colors.muted,
+            color:"#000"
         }
     }
 })

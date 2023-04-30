@@ -11,6 +11,14 @@ export const header = style({
   },
 })
 
+export const brandLogo = style({
+  "@media": {
+    [media.small]: {
+      width:"200px"
+    }
+  },
+})
+
 export const desktopHeaderNavWrapper = style({
   position: "relative",
   zIndex: 1,
@@ -30,7 +38,8 @@ export const desktopHeaderNavWrapper = style({
 const mobileHeaderNavWrapperBase = style({
   display: "block",
   position: "relative",
-  paddingTop: theme.space[3],
+  // paddingTop: theme.space[3],
+
   "@media": {
     [media.small]: {
       display: "none",

@@ -10,14 +10,16 @@ export default function Homepage(props) {
   const { homepage } = props.data
 
   return (
-    <Layout style={{ overflowX: "hidden" }}>
-      {homepage.blocks.map((block) => {
-        const { id, blocktype, ...componentProps } = block
-        const Component = sections[blocktype] || Fallback
-        // console.log(sections[blocktype])
-        return <Component key={id} {...componentProps} />
-      })}
-      <Contact />
+    <Layout>
+      <div style={{ overflowX: "hidden" }}>
+        {homepage.blocks.map((block) => {
+          const { id, blocktype, ...componentProps } = block
+          const Component = sections[blocktype] || Fallback
+          // console.log(sections[blocktype])
+          return <Component key={id} {...componentProps} />
+        })}
+        <Contact />
+      </div>
     </Layout>
   )
 }

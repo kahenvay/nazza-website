@@ -212,6 +212,10 @@ export const widths: Record<Widths, string> = styleVariants(
   ]
 )
 
+export const colorWhite = style({
+  color:"#fff"
+})
+
 export const absoluteParent = style({
   position:"relative",
   // paddingBottom:"52.25%"

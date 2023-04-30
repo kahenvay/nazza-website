@@ -30,6 +30,7 @@ export const logoListContainer = style({
     filter: "grayscale(1)",
     transform: "scale(1)",
     transition: "all 0.2s ease-in-out, filter 0.2s ease-in-out",
+    display: "flex",
     selectors: {
         '&:hover': {
             transform: "scale(1.2)",

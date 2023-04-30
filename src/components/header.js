@@ -7,7 +7,6 @@ import {
   FlexList,
   Space,
   NavLink,
-  Button,
   InteractiveIcon,
   Nudge,
   VisuallyHidden,
@@ -21,7 +20,8 @@ import {
   header,
 } from "./header.css"
 
-import BrandLogo from "./brand-logo"
+import BrandLogo from "./brand-logo-2"
+import { hideOverflowX } from "./hero.css"
 
 export default function Header() {
   const data = useStaticQuery(graphql`
@@ -56,9 +56,8 @@ export default function Header() {
   return (
     <header className={header}>
       <Container className={desktopHeaderNavWrapper}>
-        <Space size={2} />
         <Flex variant="spaceBetween">
-          <NavLink to="/">
+          <NavLink to="/" style={{ height: "82px" }}>
             <VisuallyHidden>Home</VisuallyHidden>
             <BrandLogo />
           </NavLink>
@@ -75,12 +74,12 @@ export default function Header() {
         </Flex>
       </Container>
       <Container className={mobileHeaderNavWrapper[isOpen ? "open" : "closed"]}>
-        <Space size={2} />
         <Flex variant="spaceBetween">
           <span
             className={
               mobileNavSVGColorWrapper[isOpen ? "reversed" : "primary"]
             }
+            style={{ height: "60px", display: "flex" }}
           >
             <NavLink to="/">
               <VisuallyHidden>Home</VisuallyHidden>
