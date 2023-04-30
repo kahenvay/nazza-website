@@ -32,7 +32,7 @@ export default function Brand(props) {
           brand.images.map((image) => {
             return (
               <GatsbyImage
-                id={image.id}
+                key={image.id}
                 alt={image.alt}
                 image={getImage(image.gatsbyImageData)}
                 className={gridImage}

@@ -27,7 +27,11 @@ export default function Contact() {
     // console.log("events", props, eventTitle) || (
     <div>
       <Section padding={4} background="muted" className={absoluteParent}>
-        <StaticImage src="../images/hanger.jpg" className={absoluteChild} />
+        <StaticImage
+          src="../images/hanger.jpg"
+          className={absoluteChild}
+          alt=""
+        />
         <Space size={4} />
         <Container className={absoluteParent}>
           <Flex gap={4} variant="responsive">

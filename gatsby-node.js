@@ -358,6 +358,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       title: String
       description: String
       image: HomepageImage
+      logo: HomepageImage
       html: String!
       images: [HomepageImage]
     }
@@ -451,6 +452,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       blocktype: String @blocktype
       text: String
       logos: [HomepageLogo] @link(from: "logos___NODE")
+      brands: [Brand] @link(from: "brands___NODE")
     }
 
     type ContentfulHomepageTestimonial implements Node & HomepageTestimonial
@@ -646,6 +648,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       title: String
       description: String
       image: HomepageImage @link(from: "image___NODE")
+      logo: HomepageImage @link(from: "logo___NODE")
       images: [HomepageImage] @link(from: "images___NODE")
       html: String! @richText
     }
