@@ -351,6 +351,16 @@ exports.createSchemaCustomization = async ({ actions }) => {
       image: HomepageImage
       html: String!
     }
+
+    interface Brand implements Node {
+      id: ID!
+      slug: String!
+      title: String
+      description: String
+      image: HomepageImage
+      html: String!
+      images: [HomepageImage]
+    }
   `)
 
   // CMS-specific types for Homepage
@@ -625,6 +635,18 @@ exports.createSchemaCustomization = async ({ actions }) => {
       title: String
       description: String
       image: HomepageImage @link(from: "image___NODE")
+      html: String! @richText
+    }
+  `)
+
+  actions.createTypes(/* GraphQL */ `
+    type ContentfulBrand implements Node & Brand {
+      id: ID!
+      slug: String!
+      title: String
+      description: String
+      image: HomepageImage @link(from: "image___NODE")
+      images: [HomepageImage] @link(from: "images___NODE")
       html: String! @richText
     }
   `)
