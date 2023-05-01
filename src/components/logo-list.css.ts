@@ -23,7 +23,7 @@ export const logoListContainer = style({
   export const rounded = style({
     border:"1px solid black",
     borderRadius:"100%",
-    height: "100%"
+    // height: "100%"
   })
 
   export const logoStyle = style({
@@ -33,7 +33,7 @@ export const logoListContainer = style({
     display: "flex",
     selectors: {
         '&:hover': {
-            transform: "scale(1.2)",
+            transform: "scale(1.25)",
             filter: "grayscale(0)"
         }
     }

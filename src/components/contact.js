@@ -26,7 +26,7 @@ export default function Contact() {
   return (
     // console.log("events", props, eventTitle) || (
     <div>
-      <Section padding={4} background="muted" className={absoluteParent}>
+      <Section padding={5} background="muted" className={absoluteParent}>
         <StaticImage
           src="../images/hanger.jpg"
           className={absoluteChild}

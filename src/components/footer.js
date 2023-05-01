@@ -195,7 +195,7 @@ export default function Footer() {
           <Text variant="small">{copyright}</Text>
         </Flex>
       </Container>
-      <Space size={3} />
+      <Space size={0} />
     </Box>
   )
 }

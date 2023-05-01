@@ -1,7 +1,7 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import Layout from "../../components/layout"
-import { Container, Box, Heading } from "../../components/ui"
+import { Container, Box, Heading, Space } from "../../components/ui"
 import SEOHead from "../../components/head"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import { brandImages, gridImage } from "../../components/brand.css"
@@ -41,6 +41,7 @@ export default function Brand(props) {
             )
           })}
       </Container>
+      <Space size={5} />
     </Layout>
   )
 }

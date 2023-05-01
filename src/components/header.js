@@ -81,7 +81,7 @@ export default function Header() {
             }
             style={{ height: "60px", display: "flex" }}
           >
-            <NavLink to="/">
+            <NavLink style={{ display: "flex" }} to="/">
               <VisuallyHidden>Home</VisuallyHidden>
               <BrandLogo />
             </NavLink>
