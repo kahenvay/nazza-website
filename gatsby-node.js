@@ -641,6 +641,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
     }
   `)
 
+  //Brand types
   actions.createTypes(/* GraphQL */ `
     type ContentfulBrand implements Node & Brand {
       id: ID!

@@ -10,7 +10,9 @@ import {
   Subhead,
   Link,
 } from "./ui"
-import { logoListContainer, logoStyle, rounded } from "./logo-list.css"
+import { logoListContainer, logoStyle } from "./logo-list.css"
+import { GatsbyImage } from "gatsby-plugin-image"
+import LogoItem from "./logo-item"
 
 export default function LogoList(props) {
   const data = useStaticQuery(graphql`
@@ -20,6 +22,7 @@ export default function LogoList(props) {
         text
         brands {
           slug
+          id
           logo {
             id
             alt
@@ -32,27 +35,31 @@ export default function LogoList(props) {
 
   const { text, brands } = data.contentfulHomepageLogoList
 
-  const LogoItem = (image) => {
-    // console.log(image)
-    // console.log(props)
-    // console.log(props.rounded)
+  // const [containerImageSrc, setContainerImageSrc] = React.useState("")
 
-    if (!image) return null
+  // React.useEffect(() => {
+  //   setContainerImageSrc(containerImageSrc)
+  // }, [containerImageSrc])
 
-    return (
-      <Logo
-        alt={image.alt}
-        image={image.gatsbyImageData}
-        size="medium"
-        className={`${props.rounded ? rounded : ""}`}
-        imgStyle={props.rounded ? { width: "70%", margin: "auto" } : ""}
-      />
-    )
-  }
+  // const handleMouseEnter = (id) => {
+  //   console.log(id)
+  //   setContainerImageSrc(id)
+  // }
+
+  // const handleMouseLeave = () => {
+  //   setContainerImageSrc("")
+  // }
+
+  // const dynamicBackground = () => {
+  //   return
+  // }
 
   return (
     <Section paddingY={4}>
       {/* <Space size={4} /> */}
+      {
+        // props.background ?? <GatsbyImage image={}/>
+      }
       <Container width="narrow" className={logoListContainer}>
         <Subhead style={{ textAlign: "center" }}> Our Brands </Subhead>
         <Space size={4} />
@@ -64,12 +71,19 @@ export default function LogoList(props) {
         <Space size={5} />
         <FlexList gap={4} variant="center" alignItems="stretch">
           {brands.map((brand) => {
-            console.log(brand)
             return (
               brand.logo && (
-                <li className={`${logoStyle} `} key={brand.logo.id}>
-                  <Link style={{ display: "flex" }} to={`${brand.slug}`}>
-                    <LogoItem {...brand.logo} />
+                <li
+                  className={`${logoStyle} `}
+                  key={brand.logo.id}
+                  // onMouseEnter={handleMouseEnter(brand.logo.id)}
+                  // onMouseLeave={handleMouseLeave}
+                >
+                  <Link
+                    style={{ display: "flex" }}
+                    to={`/brands/${brand.slug}`}
+                  >
+                    <LogoItem {...brand.logo} rounded={true} />
                   </Link>
                 </li>
               )
