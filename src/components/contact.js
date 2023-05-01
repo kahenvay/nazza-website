@@ -1,6 +1,6 @@
 import * as React from "react"
 import { graphql, useStaticQuery } from "gatsby"
-import { Box, Container, Flex, Section, Space } from "./ui"
+import { Box, Container, Flex, Link, Section, Space } from "./ui"
 import Address from "./address"
 import NameAndAddress from "./name-and-address"
 import Form from "./form"
@@ -52,8 +52,13 @@ export default function Contact() {
           </Flex>
         </Container>
         <Space size={4} />
-        {/* <StaticImage src="../images/static-map-belgium.png" /> */}
       </Section>
+      <Link
+        target="_blank"
+        href="https://www.google.com/maps/place/Chau.+de+Waterloo+1006,+1180+Uccle,+Belgium/@50.8009555,4.3717523,17z/data=!3m1!4b1!4m6!3m5!1s0x47c3c51f3a2012db:0x9899e34bac24c1a4!8m2!3d50.8009555!4d4.3743272!16s%2Fg%2F11csmv3lvv"
+      >
+        <StaticImage src="../images/static-map-long.jpeg" />
+      </Link>
     </div>
   )
 }
