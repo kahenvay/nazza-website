@@ -21,3 +21,12 @@ export const gridImage = style({
         },
     },
 })
+
+export const brandBack = style({
+    opacity:0,
+    transition:"opacity 1s ease-in-out"
+})
+
+export const showBack = style({
+    opacity:1
+})

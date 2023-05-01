@@ -6,7 +6,7 @@ import LogoList from "../../components/logo-list"
 export default function Brands(props) {
   return (
     <Layout style={{ overflowX: "hidden" }}>
-      <LogoList rounded={true} />
+      <LogoList rounded={true} dynamicBackground={true} />
     </Layout>
   )
 }

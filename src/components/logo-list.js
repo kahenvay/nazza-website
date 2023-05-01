@@ -11,8 +11,10 @@ import {
   Link,
 } from "./ui"
 import { logoListContainer, logoStyle } from "./logo-list.css"
-import { GatsbyImage } from "gatsby-plugin-image"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import LogoItem from "./logo-item"
+import { absoluteChild, absoluteParent } from "./ui.css"
+import { brandBack, show, showBack } from "./brand.css"
 
 export default function LogoList(props) {
   const data = useStaticQuery(graphql`
@@ -23,6 +25,11 @@ export default function LogoList(props) {
         brands {
           slug
           id
+          image {
+            id
+            alt
+            gatsbyImageData
+          }
           logo {
             id
             alt
@@ -35,32 +42,58 @@ export default function LogoList(props) {
 
   const { text, brands } = data.contentfulHomepageLogoList
 
-  // const [containerImageSrc, setContainerImageSrc] = React.useState("")
+  const [containerImageSrc, setContainerImageSrc] = React.useState("")
+  const [containerImage, setContainerImage] = React.useState("")
 
-  // React.useEffect(() => {
-  //   setContainerImageSrc(containerImageSrc)
-  // }, [containerImageSrc])
+  React.useEffect(() => {
+    // setContainerImageSrc(containerImageSrc)
+    // console.log(containerImageSrc)
 
-  // const handleMouseEnter = (id) => {
-  //   console.log(id)
-  //   setContainerImageSrc(id)
-  // }
+    const brand = brands.find((obj) => obj.id === containerImageSrc)
+    console.log(brand)
+    if (brand) {
+      setContainerImage(brand.image)
+    }
+    // else {
+    //   setContainerImage("")
+    // }
+  }, [containerImageSrc])
 
-  // const handleMouseLeave = () => {
-  //   setContainerImageSrc("")
-  // }
+  const handleMouseEnter = (id) => {
+    // console.log(id)
+    setContainerImageSrc(id)
+  }
 
-  // const dynamicBackground = () => {
-  //   return
-  // }
+  const handleMouseLeave = () => {
+    console.log("mouseout")
+    setContainerImageSrc("")
+    setContainerImage("")
+  }
+
+  const dynamicBackground = () => {
+    return
+  }
 
   return (
-    <Section paddingY={4}>
+    <Section paddingY={5} className={absoluteParent}>
       {/* <Space size={4} /> */}
-      {
-        // props.background ?? <GatsbyImage image={}/>
-      }
-      <Container width="narrow" className={logoListContainer}>
+      {props.dynamicBackground && (
+        <GatsbyImage
+          alt={containerImage.alt}
+          image={getImage(containerImage.gatsbyImageData)}
+          className={absoluteChild}
+          // className={`${brandBack} ${absoluteChild}  ${
+          //   containerImage ? showBack : ""
+          // }`}
+        />
+      )}
+      <Container
+        width="narrow"
+        className={logoListContainer}
+        style={
+          props.dynamicBackground && { background: "rgba(255,255,255,0.6)" }
+        }
+      >
         <Subhead style={{ textAlign: "center" }}> Our Brands </Subhead>
         <Space size={4} />
         {text && (
@@ -76,8 +109,8 @@ export default function LogoList(props) {
                 <li
                   className={`${logoStyle} `}
                   key={brand.logo.id}
-                  // onMouseEnter={handleMouseEnter(brand.logo.id)}
-                  // onMouseLeave={handleMouseLeave}
+                  onMouseEnter={() => handleMouseEnter(brand.id)}
+                  onMouseLeave={handleMouseLeave}
                 >
                   <Link
                     style={{ display: "flex" }}
