@@ -82,6 +82,7 @@ export default function LogoList(props) {
           alt={containerImage.alt}
           image={getImage(containerImage.gatsbyImageData)}
           className={absoluteChild}
+          style={{ position: "absolute" }}
           // className={`${brandBack} ${absoluteChild}  ${
           //   containerImage ? showBack : ""
           // }`}
