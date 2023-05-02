@@ -30,6 +30,7 @@ export default function Contact() {
         <StaticImage
           src="../images/hanger.jpg"
           className={absoluteChild}
+          style={{ position: "absolute" }}
           alt=""
         />
         <Space size={4} />
