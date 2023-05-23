@@ -23,6 +23,7 @@ export const logoListContainer = style({
   export const rounded = style({
     border:"1px solid black",
     borderRadius:"100%",
+    backgroundColor:'#fff'
     // height: "100%"
   })
 

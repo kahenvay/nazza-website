@@ -1,20 +1,11 @@
 import * as React from "react"
 import { graphql, useStaticQuery } from "gatsby"
-import {
-  Space,
-  Container,
-  Section,
-  FlexList,
-  Text,
-  Logo,
-  Subhead,
-  Link,
-} from "./ui"
+import { Space, Container, Section, FlexList, Text, Subhead, Link } from "./ui"
 import { logoListContainer, logoStyle } from "./logo-list.css"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import LogoItem from "./logo-item"
 import { absoluteChild, absoluteParent } from "./ui.css"
-import { brandBack, show, showBack } from "./brand.css"
+// import { brandBack, show, showBack } from "./brand.css"
 
 export default function LogoList(props) {
   const data = useStaticQuery(graphql`
@@ -68,10 +59,6 @@ export default function LogoList(props) {
     console.log("mouseout")
     setContainerImageSrc("")
     setContainerImage("")
-  }
-
-  const dynamicBackground = () => {
-    return
   }
 
   return (

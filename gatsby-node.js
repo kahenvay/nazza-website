@@ -357,6 +357,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       slug: String!
       title: String
       description: String
+      link: String
       image: HomepageImage
       logo: HomepageImage
       html: String!
@@ -648,6 +649,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       slug: String!
       title: String
       description: String
+      link: String
       image: HomepageImage @link(from: "image___NODE")
       logo: HomepageImage @link(from: "logo___NODE")
       images: [HomepageImage] @link(from: "images___NODE")
