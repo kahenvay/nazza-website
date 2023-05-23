@@ -14,7 +14,7 @@ import {
 export default function HomepageCta(props) {
   return (
     <Container width="fullbleed">
-      <Section padding={5} radius="large" background="primary">
+      <Section padding={2} radius="large" background="primary">
         <Heading center>
           {props.kicker && <Kicker center>{props.kicker}</Kicker>}
           {props.heading}

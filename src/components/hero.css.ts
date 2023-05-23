@@ -42,7 +42,7 @@ export const heroText = style({
     "@media": {
         [media.small]: {
             position:"relative",
-            paddingBottom: theme.space[4],
+            // paddingBottom: theme.space[4],
             transform: "translateX(-50%)"
         }
     }

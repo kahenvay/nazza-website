@@ -75,7 +75,7 @@ export default function LogoList(props) {
   }
 
   return (
-    <Section paddingY={5} className={absoluteParent}>
+    <Section paddingY={2} className={absoluteParent}>
       {/* <Space size={4} /> */}
       {props.dynamicBackground && (
         <GatsbyImage
@@ -89,6 +89,7 @@ export default function LogoList(props) {
         />
       )}
       <Container
+        paddingY={2}
         width="narrow"
         className={logoListContainer}
         style={

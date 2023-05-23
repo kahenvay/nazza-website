@@ -15,7 +15,7 @@ export function Base({
   return <Component className={cx(..._cx, className)} {...props} />
 }
 
-export function Container({ width = "normal", ...props }) {
+export function Container({ paddingY, width = "normal", ...props }) {
   return <Base cx={[styles.containers[width]]} {...props} />
 }
 

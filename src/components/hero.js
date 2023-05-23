@@ -30,7 +30,8 @@ export default function Hero(props) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setisScrolledTop(window.scrollY > 250)
+      // setisScrolledTop(window.scrollY > 250)
+      setisScrolledTop(window.scrollY > 150)
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
@@ -48,10 +49,11 @@ export default function Hero(props) {
         </Box>
         <Box
           width="half"
-          padding={5}
-          background="white"
+          padding={4}
+          // background="white"
           className={`${heroText} ${isScrolledTop ? heroTextHidden : ""}`}
           style={{
+            backgroundColor: "rgba(255,255,255,0.8)",
             transition:
               "transform 0.2s ease-in-out, opacity 0.2s ease-in-out, width 0.2s ease-in-out",
           }}
@@ -63,7 +65,7 @@ export default function Hero(props) {
             </Heading>
             <Subhead as="h2">{props.subhead}</Subhead>
             <Text as="p">{props.text}</Text>
-            <ButtonList links={props.links} />
+            <ButtonList marginY={0} links={props.links} />
           </Container>
         </Box>
       </Flex>
