@@ -61,6 +61,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
     },
   })
 
+  // ahh htlm is getting a value of a field called body
   actions.createFieldExtension({
     name: "richText",
     extend(options) {
@@ -363,6 +364,15 @@ exports.createSchemaCustomization = async ({ actions }) => {
       html: String!
       images: [HomepageImage]
     }
+
+    interface Member implements Node {
+      id: ID!
+      image: HomepageImage @link(from: "image___NODE")
+      name: String
+      phone: String
+      email: String
+      html: String
+    }
   `)
 
   // CMS-specific types for Homepage
@@ -653,6 +663,19 @@ exports.createSchemaCustomization = async ({ actions }) => {
       image: HomepageImage @link(from: "image___NODE")
       logo: HomepageImage @link(from: "logo___NODE")
       images: [HomepageImage] @link(from: "images___NODE")
+      html: String! @richText
+    }
+  `)
+
+  //Member types
+  // ahh htlm is getting a value of a field called body
+  actions.createTypes(/* GraphQL */ `
+    type ContentfulMember implements Node & Member {
+      id: ID!
+      image: HomepageImage @link(from: "image___NODE")
+      name: String
+      phone: String
+      email: String
       html: String! @richText
     }
   `)
