@@ -20,7 +20,7 @@ export default function Brand(props) {
 
     console.log(brand.images)
 
-    const image = brand.images.find((obj) => obj.id === containerImageSrc)
+    const image = brand.images?.find((obj) => obj.id === containerImageSrc)
     console.log(image)
     if (image) {
       setContainerImage(image)
