@@ -62,7 +62,7 @@ export default function LogoList(props) {
   }
 
   return (
-    <Section paddingY={2} className={absoluteParent}>
+    <Section paddingY={0} className={absoluteParent}>
       {/* <Space size={4} /> */}
       {props.dynamicBackground && (
         <GatsbyImage
