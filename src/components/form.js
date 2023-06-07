@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import axios from "axios"
 import * as qs from "./qs"
-import { feedbackWrapShow, form, submit, submitWrapper } from "./form.css"
+import { feedbackWrapShow, form, submitWhite, submitWrapper } from "./form.css"
 import { Space } from "./ui"
 import InputGroup from "./InputGroup"
 import useIsClient from "./useIsClient"
@@ -86,11 +86,8 @@ const Form = () => {
           name="message"
         />
         <Space size={2} />
-        <div
-          style={{ position: "relative", maxWidth: "200px", width: "100%" }}
-          className={submitWrapper}
-        >
-          <input className={`${submit}`} type="submit" value="Send" />
+        <div className={submitWrapper}>
+          <input className={`${submitWhite}`} type="submit" value="Send" />
         </div>
       </form>
     </div>

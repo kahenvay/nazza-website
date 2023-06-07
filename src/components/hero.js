@@ -6,14 +6,12 @@ import {
   heroImageFull,
   heroText,
   heroTextHidden,
-  hideOverflowX,
   tooBigFlex,
 } from "./hero.css"
 import ImageSlider from "./imageSlider"
 
 import {
   Box,
-  ButtonList,
   Container,
   Flex,
   Heading,
@@ -22,6 +20,7 @@ import {
   Subhead,
   Text,
 } from "./ui"
+import { submitBlack, submitWrapper } from "./form.css"
 
 export default function Hero(props) {
   // to reformat, maybe could use js media query instead?
@@ -65,7 +64,10 @@ export default function Hero(props) {
             </Heading>
             <Subhead as="h2">{props.subhead}</Subhead>
             <Text as="p">{props.text}</Text>
-            <ButtonList marginY={0} links={props.links} />
+            {/* <ButtonList marginY={0} links={props.links} /> */}
+            <div className={submitWrapper}>
+              <button className={`${submitBlack}`}>Read More</button>
+            </div>
           </Container>
         </Box>
       </Flex>

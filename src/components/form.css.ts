@@ -25,7 +25,7 @@ const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
             returnObj = {
                 selectors: {
                     "&::before": {
-                        ...beforeAndAfter(height,"#fff"),
+                        ...beforeAndAfter(height,colors.primary),
                         left:"0%",
                         top:top,
                         bottom:bottom
@@ -34,7 +34,7 @@ const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
                         width:"50%"
                        },
                     "&::after": {
-                        ...beforeAndAfter(height,"#fff"),
+                        ...beforeAndAfter(height,colors.primary),
                         right:"0%",
                         top:top,
                         bottom:bottom
@@ -72,6 +72,19 @@ const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
             break;
     }
     return returnObj
+}
+
+const submit = () => {
+    return {
+        fontSize: theme.fontSizes[2],
+        padding: `${theme.space[3]} ${theme.space[4]}`,
+        maxWidth: "200px",
+        width:"100%",
+        zIndex: "1",
+        // position: "relative",
+        backgroundColor: "transparent",
+        cursor:"pointer",
+    }
 }
 
 export const form = style({
@@ -134,23 +147,30 @@ export const spanHighlight = style({
     width: "100%",
 })
 
-export const submit = style({
-    fontSize: theme.fontSizes[2],
-    padding: `${theme.space[2]} ${theme.space[3]}`,
-    maxWidth: "200px",
-    width:"100%",
-    zIndex: "1",
+
+
+export const submitWhite = style({
+    ...submit(),
     position: "relative",
-    backgroundColor: "transparent",
-    // color:"#000",
     color:"#fff",
     border:"2px solid #fff",
-    // border:"none",
-    cursor:"pointer",
+    
+    // selectors:{
+    //     '&:hover':{
+    //         color:"#000"
+    //     }
+    // }
+})
+
+export const submitBlack = style({
+    ...submit(),
+    position: "relative",
+    color:"#000",
+    border:"2px solid #000",
+    
     selectors:{
         '&:hover':{
-            // color:colors.muted,
-            color:"#000"
+            color:"#fff"
         }
     }
 })
@@ -161,5 +181,6 @@ export const feedbackWrapShow = style({
 }) 
 
 export const submitWrapper = style({
-    ...pseudoBeforeAfterEffect(0,0,"100%", "hover")
+    ...pseudoBeforeAfterEffect(0,0,"100%", "hover"),
+    position: "relative", maxWidth: "200px", width: "100%" 
 })
