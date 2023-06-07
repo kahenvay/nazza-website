@@ -28,6 +28,9 @@ import {
   square,
 } from "./ui.css"
 
+import { Script } from "gatsby"
+import Whatsapp from "./whatsapp"
+
 const socialMedia = {
   TWITTER: {
     url: "https://twitter.com",
@@ -196,6 +199,7 @@ export default function Footer() {
         </Flex>
       </Container>
       <Space size={0} />
+      <Whatsapp />
     </Box>
   )
 }
