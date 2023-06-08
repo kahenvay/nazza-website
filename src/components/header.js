@@ -57,7 +57,7 @@ export default function Header() {
     <header className={header}>
       <Container className={desktopHeaderNavWrapper}>
         <Flex variant="spaceBetween">
-          <NavLink to="/" style={{ height: "82px" }}>
+          <NavLink to="/home" style={{ height: "82px" }}>
             <VisuallyHidden>Home</VisuallyHidden>
             <BrandLogo />
           </NavLink>

@@ -16,6 +16,7 @@ import {
   Flex,
   Heading,
   Kicker,
+  NavLink,
   Section,
   Subhead,
   Text,
@@ -66,7 +67,13 @@ export default function Hero(props) {
             <Text as="p">{props.text}</Text>
             {/* <ButtonList marginY={0} links={props.links} /> */}
             <div className={submitWrapper}>
-              <button className={`${submitBlack}`}>Read More</button>
+              <NavLink
+                style={{ display: "block", textAlign: "center", zIndex: 100 }}
+                to="/about"
+                className={`${submitBlack}`}
+              >
+                Read More
+              </NavLink>
             </div>
           </Container>
         </Box>

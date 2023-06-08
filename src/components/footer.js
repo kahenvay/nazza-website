@@ -126,7 +126,7 @@ export default function Footer() {
         <Flex responsive>
           <Flex className={evenlySpacedFlexChild}>
             <div>
-              <NavLink to="/">
+              <NavLink to="/home">
                 <VisuallyHidden>Home</VisuallyHidden>
                 <BrandLogo />
               </NavLink>

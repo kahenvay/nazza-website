@@ -155,11 +155,11 @@ export const submitWhite = style({
     color:"#fff",
     border:"2px solid #fff",
     
-    // selectors:{
-    //     '&:hover':{
-    //         color:"#000"
-    //     }
-    // }
+    selectors:{
+        '&:hover':{
+            color:"#fff"
+        }
+    }
 })
 
 export const submitBlack = style({
