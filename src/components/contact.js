@@ -60,7 +60,7 @@ export default function Contact() {
       >
         <StaticImage
           alt="map of europe with belgium highlighted and a pin where nazza agency is located"
-          src="../images/static-map-long-think-belgium.jpg"
+          src="../images/static-map-long-think-belgium-v2.jpg"
         />
       </Link>
     </div>
