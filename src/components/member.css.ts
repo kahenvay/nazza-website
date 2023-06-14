@@ -5,6 +5,7 @@ export const member = style({
     width:"30%",
     "@media": {
         [maxMedia.small]: {
+            width:"100%"
         },
       },
   })

@@ -78,7 +78,7 @@ export const block = style ({
            width:"250px"
         },
         [maxMedia.small]: {
-            width: "calc(100vw - 191px)"
+            width: "calc(100vw - 91px)"
          },
     },
     
