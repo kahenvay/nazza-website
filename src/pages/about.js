@@ -2,9 +2,9 @@ import * as React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import Layout from "../components/layout"
 import SEOHead from "../components/head"
-import { Box, Container, Flex, Space, Subhead } from "../components/ui"
+import { Container, Space } from "../components/ui"
 import Team from "../components/team"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import Timline from "../components/timeline"
 
 export default function About(props) {
   const data = useStaticQuery(graphql`
@@ -29,7 +29,7 @@ export default function About(props) {
     console.log(aboutPage, props) || (
       <Layout>
         <Container>
-          <Space size={5} />
+          {/* <Space size={5} />
           <Subhead style={{ textAlign: "center" }}> About </Subhead>
           <Space size={4} />
           <Flex gap={4} variant="responsive">
@@ -46,7 +46,8 @@ export default function About(props) {
                 }}
               />
             </Box>
-          </Flex>
+          </Flex> */}
+          <Timline />
           <Space size={4} />
           <Team />
           <Space size={5} />

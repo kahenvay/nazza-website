@@ -300,6 +300,13 @@ exports.createSchemaCustomization = async ({ actions }) => {
       html: String
     }
 
+    interface TimelineBlock implements Node {
+      id: ID!
+      title: String
+      time: String
+      html: String
+    }
+
     interface Page implements Node {
       id: ID!
       slug: String!
@@ -583,6 +590,15 @@ exports.createSchemaCustomization = async ({ actions }) => {
       title: String
       description: String
       image: HomepageImage @link(from: "image___NODE")
+      html: String! @richText
+    }
+  `)
+
+  actions.createTypes(/* GraphQL */ `
+    type ContentfulTimelineBlock implements Node & TimelineBlock {
+      id: ID!
+      title: String
+      time: String
       html: String! @richText
     }
   `)
