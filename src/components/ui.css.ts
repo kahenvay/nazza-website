@@ -168,11 +168,6 @@ export const flexVariants: Record<FlexVariants, string> = styleVariants({
     width: "100%",
     flexWrap: "wrap",
     justifyContent: "center",
-    "@media": {
-      [maxMedia.small]: {
-        flexDirection: "column",
-      },
-    },
   },
   responsive: {
     flexDirection: "column",
