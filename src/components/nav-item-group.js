@@ -24,6 +24,20 @@ export default function NavItemGroup({ name, navItems }) {
     }
   }, [isOpen])
 
+  const handleMouseEnter = React.useCallback(() => {
+    // console.log("louse enter")
+    setIsOpen(true)
+    setPopupVisible(true)
+  }, [isOpen])
+
+  const handleMouseLeave = React.useCallback(() => {
+    console.log("louse meave")
+    // if (isSmallScreen()) {
+    //   setIsOpen(false)
+    // }
+    // setPopupVisible(false)
+  }, [isOpen])
+
   React.useEffect(() => {
     // crude implementation of animating the popup without a library
     const popupBox = document.querySelector(`[data-id="${name}-popup-box"]`)
@@ -71,9 +85,11 @@ export default function NavItemGroup({ name, navItems }) {
     >
       <NavButtonLink
         onClick={onGroupButtonClick}
+        onMouseEnter={() => handleMouseEnter()}
+        onMouseLeave={handleMouseLeave}
         className={styles.navGroupTitle}
       >
-        <Flex gap={1} className={styles.navGroupTitleInner}>
+        <Flex gap={2} className={styles.navGroupTitleInner}>
           {name}
           <Caret direction={isOpen ? "up" : "down"} />
         </Flex>

@@ -43,7 +43,7 @@ const navLinkListWrapperBase = style({
       top: "calc(100% + 20px)",
       left: "50%",
       transform: "translateX(-50%)",
-      borderRadius: theme.radii.large,
+      // borderRadius: theme.radii.large,
       minWidth: theme.sizes.navGroupBoxMin,
       maxWidth: theme.sizes.navGroupBoxMax,
       boxShadow: theme.shadows.large,
@@ -122,7 +122,7 @@ export const navLinkListLink = style([
         color: "inherit",
         fontSize: theme.fontSizes[2],
         fontWeight: theme.fontWeights.bold,
-        borderRadius: theme.radii.button,
+        // borderRadius: theme.radii.button,
         ":hover": {
           background: theme.colors.muted,
           color: "inherit",
