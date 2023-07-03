@@ -326,6 +326,8 @@ exports.createSchemaCustomization = async ({ actions }) => {
       image: HomepageImage
       logo: HomepageImage
       html: String!
+      topImage: HomepageImage
+      featuredVideo: String
       images: [HomepageImage]
     }
 
@@ -568,6 +570,8 @@ exports.createSchemaCustomization = async ({ actions }) => {
       link: String
       image: HomepageImage @link(from: "image___NODE")
       logo: HomepageImage @link(from: "logo___NODE")
+      topImage: HomepageImage @link(from: "image___NODE")
+      featuredVideo: String
       images: [HomepageImage] @link(from: "images___NODE")
       html: String! @richText
     }

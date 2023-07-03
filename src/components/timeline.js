@@ -36,9 +36,12 @@ export default function Timline(props) {
   return (
     <section>
       <ul className={timeline}>
-        {timeLineBlocks.map((block, index) => {
-          return <TimlineBlock index={index} key={index} {...block} />
-        })}
+        {timeLineBlocks
+          .slice(0)
+          .reverse()
+          .map((block, index) => {
+            return <TimlineBlock index={index} key={index} {...block} />
+          })}
       </ul>
     </section>
   )

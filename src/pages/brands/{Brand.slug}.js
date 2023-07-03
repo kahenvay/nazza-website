@@ -1,7 +1,7 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import Layout from "../../components/layout"
-import { Container, Box, Heading, List } from "../../components/ui"
+import { Container, Box, Heading, List, Flex, Space } from "../../components/ui"
 import SEOHead from "../../components/head"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import { brandImages, gridImage } from "../../components/brand.css"
@@ -51,47 +51,65 @@ export default function Brand(props) {
             image={getImage(brand.image.gatsbyImageData)}
           />
         ))}
-      <Box paddingY={5}>
-        <Container width="narrow">
-          <Heading as="h1">{brand?.title}</Heading>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: brand?.html,
-            }}
-          />
-        </Container>
-      </Box>
+      <Space size={4} />
       <Container>
-        <List className={brandImages}>
-          {brand?.images &&
-            brand.images.map((image) => {
-              return (
-                <li
-                  key={image.id}
-                  onMouseEnter={() => handleMouseEnter(image.id)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <GatsbyImage
-                    alt={image.alt}
-                    image={getImage(image.gatsbyImageData)}
-                    className={gridImage}
-                  />
-                </li>
-              )
-            })}
-        </List>
+        <Flex gap={4} variant="responsive">
+          <Box width="half">
+            {/* <Heading as="h1">{brand?.title}</Heading> */}
+            {brand?.logo && (
+              <Flex variant="center">
+                <GatsbyImage
+                  alt={brand.logo.alt}
+                  image={getImage(brand.logo.gatsbyImageData)}
+                />
+              </Flex>
+            )}
+            <div
+              dangerouslySetInnerHTML={{
+                __html: brand?.html,
+              }}
+            />
+          </Box>
+          <Box width="half">
+            {brand?.topImage && (
+              <GatsbyImage
+                alt={brand.topImage.alt}
+                image={getImage(brand.topImage.gatsbyImageData)}
+              />
+            )}
+            <Space size={4} />
+            <List className={brandImages}>
+              {brand?.images &&
+                brand.images.map((image) => {
+                  return (
+                    <li
+                      key={image.id}
+                      onMouseEnter={() => handleMouseEnter(image.id)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <GatsbyImage
+                        alt={image.alt}
+                        image={getImage(image.gatsbyImageData)}
+                        className={gridImage}
+                      />
+                    </li>
+                  )
+                })}
+            </List>
 
-        <Modal>
-          <GatsbyImage
-            alt={containerImage.alt}
-            image={getImage(containerImage.gatsbyImageData)}
-            // className={absoluteChild}
-            // style={{ position: "absolute" }}
-            // className={`${brandBack} ${absoluteChild}  ${
-            //   containerImage ? showBack : ""
-            // }`}
-          />
-        </Modal>
+            <Modal>
+              <GatsbyImage
+                alt={containerImage.alt}
+                image={getImage(containerImage.gatsbyImageData)}
+                // className={absoluteChild}
+                // style={{ position: "absolute" }}
+                // className={`${brandBack} ${absoluteChild}  ${
+                //   containerImage ? showBack : ""
+                // }`}
+              />
+            </Modal>
+          </Box>
+        </Flex>
       </Container>
       <Box paddingY={5} style={{ textAlign: "center" }}>
         <a href={brand.link}>{brand.link}</a>
@@ -111,12 +129,25 @@ export const query = graphql`
       slug
       description
       link
+      logo {
+        id
+        alt
+        url
+        gatsbyImageData
+      }
       image {
         id
         alt
         url
         gatsbyImageData
       }
+      topImage {
+        id
+        alt
+        url
+        gatsbyImageData
+      }
+      featuredVideo
       images {
         id
         alt
