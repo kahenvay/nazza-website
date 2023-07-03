@@ -12,6 +12,12 @@ export const header = style({
 })
 
 export const brandLogo = style({
+  transition: "all 0.2s ease-in-out",
+  padding:"5px",
+  ":hover": {
+    color: "#fff",
+    backgroundColor:"#000"
+  },
   "@media": {
     [media.small]: {
       width:"200px"

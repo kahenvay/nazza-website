@@ -39,6 +39,7 @@ export default function Header() {
             }
             ... on NavItemGroup {
               name
+              topLink
               navItems {
                 id
                 href
@@ -68,7 +69,7 @@ export default function Header() {
   }, [isOpen])
 
   return (
-    console.log(data) || (
+    console.log("header data", data) || (
       <header className={header}>
         <Container className={desktopHeaderNavWrapper}>
           <Flex variant="spaceBetween">
@@ -80,11 +81,12 @@ export default function Header() {
               <FlexList gap={4}>
                 {navItems &&
                   navItems.map((navItem) => (
-                    <li key={navItem.id}>
+                    <li key={navItem.id} style={{ textTransform: "uppercase" }}>
                       {navItem.navItemType === "Group" ? (
                         <NavItemGroup
                           name={navItem.name}
                           navItems={navItem.navItems}
+                          topLink={navItem.topLink}
                         />
                       ) : (
                         <NavLink to={navItem.href}>{navItem.text}</NavLink>

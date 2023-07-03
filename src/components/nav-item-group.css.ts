@@ -24,6 +24,7 @@ export const navGroupTitle = style([
 ])
 
 export const navGroupTitleInner = style({
+  textTransform: "uppercase",
   "@media": {
     [media.small]: {
       alignItems: "baseline",
@@ -35,6 +36,7 @@ const navLinkListWrapperBase = style({
   position: "relative",
   whiteSpace: "nowrap",
   width: "fit-content",
+  
   "@media": {
     [media.small]: {
       position: "absolute",

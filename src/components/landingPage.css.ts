@@ -3,7 +3,7 @@ import { style } from "@vanilla-extract/css"
 export const video = style({
   objectFit: "cover",
   width: "100vw",
-  height: "100vw",
+  height: "100vh",
   })
 
 export const button = style({

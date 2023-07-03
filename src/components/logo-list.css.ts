@@ -4,7 +4,7 @@ import { maxMedia } from "./ui.css"
 
 export const logoListContainer = style({
     background: "white",
-    zIndex: 1,
+    zIndex: 0,
     position: "relative",
     padding: theme.space[5],
     "@media": {

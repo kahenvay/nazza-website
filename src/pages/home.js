@@ -31,13 +31,6 @@ export const Head = (props) => {
 export const query = graphql`
   {
     homepage {
-      id
-      title
-      description
-      image {
-        id
-        url
-      }
       blocks: content {
         id
         blocktype

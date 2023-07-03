@@ -111,6 +111,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       id: ID!
       navItemType: String
       name: String
+      topLink: String
       navItems: [NavItem]
     }
 
@@ -129,7 +130,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       subhead: String
       image: HomepageImage
       images: [HomepageImage]
-      text: String
+      html: String
       links: [HomepageLink]
     }
 
@@ -244,7 +245,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
     interface Homepage implements Node {
       id: ID!
       title: String
-      description: String
+
       image: HomepageImage
       content: [HomepageBlock]
     }
@@ -361,6 +362,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       id: ID!
       navItemType: String @navItemType(name: "Group")
       name: String
+      topLink: String
       navItems: [NavItem] @link(from: "navItems___NODE")
     }
 
@@ -382,7 +384,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       subhead: String
       image: HomepageImage @link(from: "image___NODE")
       images: [HomepageImage] @link(from: "images___NODE")
-      text: String
+      html: String! @richText
       links: [HomepageLink] @link(from: "links___NODE")
     }
 
@@ -503,7 +505,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
     type ContentfulHomepage implements Node & Homepage @dontInfer {
       id: ID!
       title: String
-      description: String
+
       image: HomepageImage @link(from: "image___NODE")
       content: [HomepageBlock] @link(from: "content___NODE")
     }
