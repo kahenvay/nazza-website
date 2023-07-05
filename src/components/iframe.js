@@ -26,7 +26,7 @@ export default function Iframe(props) {
   return (
     console.log("src", props.src) || (
       <iframe
-        src={convertToEmbedURL(props.src)}
+        src={props.src && convertToEmbedURL(props.src)}
         title={`Some title`}
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         frameBorder="0"
