@@ -30,3 +30,28 @@ export const brandBack = style({
 export const showBack = style({
     opacity:1
 })
+
+export const brandExtrasUl = style({
+    paddingLeft:0
+})
+
+export const brandExtrasLi = style({
+    listStyle:"none"
+})
+
+export const brandExtrasAnchor = style({
+    display: "flex",
+    alignItems: "center",
+    textDecoration: "none",
+    transition:"color 0.2s ease-in-out",
+    ':hover':{
+        // color:theme.colors.active,
+        // opacity: 0.6
+        color:"#000"
+    }
+})
+
+export const brandExtrasSVG = style({
+    width:"14px",
+    marginRight:"10px"
+})

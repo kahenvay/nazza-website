@@ -177,6 +177,15 @@ export const flexVariants: Record<FlexVariants, string> = styleVariants({
       },
     },
   },
+  startResponsive: {
+    flexDirection: "column",
+    alignItems:"flex-start",
+    "@media": {
+      [media.small]: {
+        flexDirection: "row",
+      },
+    },
+  },
 })
 
 

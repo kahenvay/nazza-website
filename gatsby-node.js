@@ -321,14 +321,15 @@ exports.createSchemaCustomization = async ({ actions }) => {
       id: ID!
       slug: String!
       title: String
-      description: String
-      link: String
       image: HomepageImage
       logo: HomepageImage
       html: String!
       topImage: HomepageImage
       featuredVideo: String
       images: [HomepageImage]
+      website: String
+      lookbook: HomepageImage
+      b2b: String
     }
 
     interface Member implements Node {
@@ -566,14 +567,15 @@ exports.createSchemaCustomization = async ({ actions }) => {
       id: ID!
       slug: String!
       title: String
-      description: String
-      link: String
       image: HomepageImage @link(from: "image___NODE")
       logo: HomepageImage @link(from: "logo___NODE")
       topImage: HomepageImage @link(from: "image___NODE")
       featuredVideo: String
       images: [HomepageImage] @link(from: "images___NODE")
       html: String! @richText
+      website: String
+      lookbook: HomepageImage @link(from: "image___NODE")
+      b2b: String
     }
   `)
 

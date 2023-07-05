@@ -7,6 +7,9 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import { brandImages, gridImage } from "../../components/brand.css"
 
 import Modal from "../../components/modal"
+import Iframe from "../../components/iframe"
+import { absoluteChild, absoluteParent } from "../../components/ui.css"
+import BrandExtras from "../../components/brand-extras"
 
 export default function Brand(props) {
   const { brand } = props.data
@@ -53,21 +56,31 @@ export default function Brand(props) {
         ))}
       <Space size={4} />
       <Container>
-        <Flex gap={4} variant="responsive">
+        <Flex gap={4} variant="startResponsive">
           <Box width="half">
             {/* <Heading as="h1">{brand?.title}</Heading> */}
             {brand?.logo && (
-              <Flex variant="center">
-                <GatsbyImage
-                  alt={brand.logo.alt}
-                  image={getImage(brand.logo.gatsbyImageData)}
-                />
-              </Flex>
+              <div>
+                <Space size={5} />
+                <Flex variant="center">
+                  <GatsbyImage
+                    alt={brand.logo.alt}
+                    image={getImage(brand.logo.gatsbyImageData)}
+                  />
+                </Flex>
+              </div>
             )}
+            <Space size={5} />
             <div
               dangerouslySetInnerHTML={{
                 __html: brand?.html,
               }}
+            />
+            <Space size={5} />
+            <BrandExtras
+              website={brand?.website}
+              b2b={brand?.b2b}
+              lookbook={brand?.lookbook}
             />
           </Box>
           <Box width="half">
@@ -77,6 +90,10 @@ export default function Brand(props) {
                 image={getImage(brand.topImage.gatsbyImageData)}
               />
             )}
+            <Space size={4} />
+            <div className={absoluteParent} style={{ paddingBottom: "56.25%" }}>
+              <Iframe className={absoluteChild} src={brand?.featuredVideo} />
+            </div>
             <Space size={4} />
             <List className={brandImages}>
               {brand?.images &&
@@ -127,8 +144,11 @@ export const query = graphql`
       id
       title
       slug
-      description
-      link
+      website
+      b2b
+      lookbook {
+        url
+      }
       logo {
         id
         alt
