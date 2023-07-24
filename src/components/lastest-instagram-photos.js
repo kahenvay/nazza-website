@@ -38,10 +38,20 @@ export default function InstaLatestsPhotos() {
               href={node.permalink}
               target="_blank"
               rel="noreferrer"
-              style={{ position: "relative", height: "100%", display: "block" }}
+              style={{
+                position: "relative",
+                height: "0",
+                display: "block",
+                paddingBottom: "100%",
+              }}
             >
               <img
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  position: "absolute",
+                }}
                 src={node.media_url}
                 alt={`Insta image, caption: ${node.caption}`}
               />
