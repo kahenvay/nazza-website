@@ -1,5 +1,76 @@
+exports.onCreateWebpackConfig = ({ plugins, actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      fallback: {
+        // assert: require.resolve("assert/"),
+        // crypto: require.resolve("crypto-browserify"),
+        // http: require.resolve("stream-http"),
+        // https: require.resolve("https-browserify"),
+        // os: require.resolve("os-browserify/browser"),
+        // stream: require.resolve("stream-browserify"),
+        // path: require.resolve("path-browserify"),
+        // // process: require.resolve("process/browser"),
+        // process: require.resolve("process"),
+        crypto: require.resolve("crypto-browserify"),
+        stream: require.resolve("stream-browserify"),
+        assert: require.resolve("assert"),
+        http: require.resolve("stream-http"),
+        https: require.resolve("https-browserify"),
+        os: require.resolve("os-browserify"),
+        url: require.resolve("url"),
+        zlib: require.resolve("browserify-zlib"),
+        fs: require.resolve("browserify-fs"),
+        process: require.resolve("process"),
+        // process: require.resolve("process/browser"),
+        // "process/browser": require.resolve("process/browser"),
+        buffer: require.resolve("buffer"),
+        net: require.resolve("net"),
+        dotenv: require.resolve("dotenv-webpack"),
+      },
+      // alias: {
+      //   process: "process/browser",
+      // },
+      // plugins: [
+      //   new webpack.ProvidePlugin({
+      //     process: "process/browser",
+      //   }),
+      // ],
+      // plugins: [
+      //   plugins.define({
+      //     process: "process/browser",
+      //   }),
+      // ],
+    },
+    // plugins: [
+    //   new webpack.ProvidePlugin({
+    //     process: "process/browser",
+    //   }),
+    // ],
+    plugins: [
+      plugins.define({
+        process: "process/browser",
+      }),
+    ],
+  })
+}
+
+// exports.onCreateWebpackConfig = ({ actions }) => {
+//   actions.setWebpackConfig({
+//     resolve: {
+//       fallback: {
+//         os: require.resolve("crypto-browserify"),
+//       },
+//     },
+//   })
+// }
+
 const { documentToHtmlString } = require("@contentful/rich-text-html-renderer")
 const { getGatsbyImageResolver } = require("gatsby-plugin-image/graphql-utils")
+const getInstagramPhotos = require("./src/api/api")
+
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
 
 exports.createSchemaCustomization = async ({ actions }) => {
   actions.createFieldExtension({
@@ -621,5 +692,33 @@ exports.createPages = ({ actions }) => {
   createSlice({
     id: "footer",
     component: require.resolve("./src/components/footer.js"),
+  })
+}
+
+exports.sourceNodes = async ({
+  actions,
+  createNodeId,
+  createContentDigest,
+}) => {
+  const { createNode } = actions
+  const instagramPhotos = await getInstagramPhotos(
+    process.env.INSTA_ACCESS_TOKEN
+  )
+  console.log(instagramPhotos)
+  instagramPhotos.forEach((photo) => {
+    const nodeContent = JSON.stringify(photo)
+    const nodeMeta = {
+      id: createNodeId(`instagram-photo-${photo.id}`),
+      parent: null,
+      children: [],
+      internal: {
+        type: `InstagramPhoto`,
+        mediaType: `text/json`,
+        content: nodeContent,
+        contentDigest: createContentDigest(photo),
+      },
+    }
+    const node = Object.assign({}, photo, nodeMeta)
+    createNode(node)
   })
 }

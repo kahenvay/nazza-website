@@ -1,5 +1,5 @@
 // support for .env, .env.development, and .env.production
-require("dotenv").config()
+
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
@@ -16,7 +16,7 @@ module.exports = {
     {
       resolve: "gatsby-source-contentful",
       options: {
-        downloadLocal: true,
+        downloadLocal: false,
         spaceId: process.env.GATSBY_CONTENTFUL_SPACE_ID,
         accessToken: process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN,
         host: process.env.CONTENTFUL_HOST,
@@ -41,6 +41,18 @@ module.exports = {
         background_color: "#ffe491",
         theme_color: "#004ca3",
         icon: "src/favicon.png",
+      },
+    },
+    {
+      resolve: `gatsby-source-instagram`,
+      options: {
+        username: `nazza_agency`,
+        access_token: process.env.INSTA_ACCESS_TOKEN,
+        instagram_id: "1022681471981458",
+        hashtags: {
+          enabled: true,
+          commentDepth: 10,
+        },
       },
     },
   ],

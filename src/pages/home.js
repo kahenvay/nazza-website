@@ -6,6 +6,8 @@ import Fallback from "../components/fallback"
 import SEOHead from "../components/head"
 import Contact from "../components/contact"
 
+import InstaLatestsPhotos from "../components/lastest-instagram-photos"
+
 export default function Homepage(props) {
   const { homepage } = props.data
 
@@ -18,6 +20,7 @@ export default function Homepage(props) {
           // console.log(sections[blocktype])
           return <Component key={id} {...componentProps} />
         })}
+        <InstaLatestsPhotos />
         <Contact />
       </div>
     </Layout>
