@@ -27,6 +27,7 @@ export default function InstaLatestsPhotos() {
 
         gridTemplateColumns: "repeat(auto-fill, minmax(16rem, 1fr))",
         gridGap: "1rem",
+        padding: "0 2rem",
       }}
     >
       {data.allInstagramPhoto.nodes.map((node) => {
