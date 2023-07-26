@@ -14,7 +14,7 @@ const LogoItem = React.memo((props) => {
       <Logo
         alt={props.alt}
         image={props.gatsbyImageData}
-        size="medium"
+        size="large"
         className={`${props.rounded ? rounded : ""}`}
         imgStyle={props.rounded ? { width: "70%", margin: "auto" } : ""}
       />

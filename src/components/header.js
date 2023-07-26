@@ -68,11 +68,29 @@ export default function Header() {
     }
   }, [isOpen])
 
+  const [mouseOverHeader, setMouseOverHeader] = React.useState(false)
+  const [diffHeaderAnchorHobered, setdiffHeaderAnchorHobered] =
+    React.useState(false)
+
+  // React.useEffect(()=>{
+
+  // }, [mouseOverHeader])
+
   return (
     console.log("header data", data) || (
       <header className={header}>
         <Container className={desktopHeaderNavWrapper}>
-          <Flex variant="spaceBetween">
+          <Flex
+            variant="spaceBetween"
+            onMouseEnter={() => {
+              setMouseOverHeader(true)
+              // console.log("mouseOverHeader", mouseOverHeader)
+            }}
+            onMouseLeave={() => {
+              setMouseOverHeader(false)
+              // console.log("mouseOverHeader", mouseOverHeader)
+            }}
+          >
             <NavLink to="/home" style={{ height: "82px" }}>
               <VisuallyHidden>Home</VisuallyHidden>
               <BrandLogo />
@@ -84,12 +102,24 @@ export default function Header() {
                     <li key={navItem.id} style={{ textTransform: "uppercase" }}>
                       {navItem.navItemType === "Group" ? (
                         <NavItemGroup
+                          mouseOverHeader={mouseOverHeader}
                           name={navItem.name}
                           navItems={navItem.navItems}
                           topLink={navItem.topLink}
+                          diffHeaderAnchorHobered={diffHeaderAnchorHobered}
                         />
                       ) : (
-                        <NavLink to={navItem.href}>{navItem.text}</NavLink>
+                        <NavLink
+                          onMouseEnter={() => {
+                            setdiffHeaderAnchorHobered(true)
+                          }}
+                          onMouseLeave={() => {
+                            setdiffHeaderAnchorHobered(false)
+                          }}
+                          to={navItem.href}
+                        >
+                          {navItem.text}
+                        </NavLink>
                       )}
                     </li>
                   ))}

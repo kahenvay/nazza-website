@@ -56,12 +56,11 @@ export default function Brand(props) {
         ))}
       <Space size={4} />
       <Container>
-        <Flex gap={4} variant="startResponsive">
+        <Flex gap={4} variant="horizontalAlignedCenter">
           <Box width="half">
             {/* <Heading as="h1">{brand?.title}</Heading> */}
             {brand?.logo && (
               <div>
-                <Space size={5} />
                 <Flex variant="center">
                   <GatsbyImage
                     alt={brand.logo.alt}
@@ -70,7 +69,21 @@ export default function Brand(props) {
                 </Flex>
               </div>
             )}
-            <Space size={5} />
+          </Box>
+          <Box width="half">
+            {brand?.topImage && (
+              <GatsbyImage
+                alt={brand.topImage.alt}
+                image={getImage(brand.topImage.gatsbyImageData)}
+              />
+            )}
+          </Box>
+        </Flex>
+      </Container>
+      <Space size={5} />
+      <Container>
+        <Flex gap={4} variant="startResponsive">
+          <Box width="half">
             <div
               dangerouslySetInnerHTML={{
                 __html: brand?.html,
@@ -84,13 +97,6 @@ export default function Brand(props) {
             />
           </Box>
           <Box width="half">
-            {brand?.topImage && (
-              <GatsbyImage
-                alt={brand.topImage.alt}
-                image={getImage(brand.topImage.gatsbyImageData)}
-              />
-            )}
-            <Space size={4} />
             <div className={absoluteParent} style={{ paddingBottom: "56.25%" }}>
               <Iframe className={absoluteChild} src={brand?.featuredVideo} />
             </div>

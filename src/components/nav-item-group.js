@@ -5,9 +5,16 @@ import Caret from "./caret"
 import * as styles from "./nav-item-group.css"
 import { media } from "./ui.css"
 
-export default function NavItemGroup({ name, topLink, navItems }) {
+export default function NavItemGroup({
+  name,
+  topLink,
+  navItems,
+  mouseOverHeader,
+  diffHeaderAnchorHobered,
+}) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [popupVisible, setPopupVisible] = React.useState(false)
+  const [mouseOverPopup, setMouseOverPopup] = React.useState(false)
   const isSmallScreen = () => {
     return !window.matchMedia(media.small).matches
   }
@@ -19,12 +26,14 @@ export default function NavItemGroup({ name, topLink, navItems }) {
     if (!isOpen) {
       setIsOpen(true)
       setPopupVisible(true)
+      console.log("set open")
     } else {
       // ensures that sub-menu closes when no animation is available
-      if (isSmallScreen()) {
-        setIsOpen(false)
-      }
+      // if (isSmallScreen()) {
+      setIsOpen(false)
+      // }
       setPopupVisible(false)
+      console.log("set !open")
     }
   }, [isOpen])
 
@@ -34,13 +43,16 @@ export default function NavItemGroup({ name, topLink, navItems }) {
     setPopupVisible(true)
   }, [isOpen])
 
-  const handleMouseLeave = React.useCallback(() => {
-    console.log("louse meave")
-    // if (isSmallScreen()) {
-    //   setIsOpen(false)
-    // }
-    // setPopupVisible(false)
-  }, [isOpen])
+  const handleMouseLeave = React.useCallback(
+    (e) => {
+      console.log("louse meave", e)
+      // if (isSmallScreen()) {
+      //   setIsOpen(false)
+      // }
+      // setPopupVisible(false)
+    },
+    [isOpen]
+  )
 
   React.useEffect(() => {
     // crude implementation of animating the popup without a library
@@ -80,6 +92,49 @@ export default function NavItemGroup({ name, topLink, navItems }) {
     }
   }, [name, isOpen, onGroupButtonClick])
 
+  // const maybeClosePopup = () => {
+  //   if (mouseOverPopup == true && mouseOverHeader == true) {
+  //     setIsOpen(false)
+  //     setPopupVisible(false)
+  //   }
+  // }
+
+  const handlePopupMouseEnter = () => {
+    setMouseOverPopup(true)
+
+    // console.log("mouseOverPopup", mouseOverPopup)
+    // console.log("mouseOverHeader", mouseOverHeader)
+  }
+
+  const handlePopupMouseLeave = () => {
+    setMouseOverPopup(false)
+
+    // console.log("mouseOverPopup", mouseOverPopup)
+    // console.log("mouseOverHeader", mouseOverHeader)
+
+    // maybeClosePopup()
+    if (mouseOverPopup == true && mouseOverHeader == true) {
+      setIsOpen(false)
+      setPopupVisible(false)
+    }
+  }
+
+  React.useEffect(() => {
+    // console.log("mouseOverHeader triggering in hcild")
+    // console.log("mouseOverPopup", mouseOverPopup)
+    // console.log("mouseOverHeader", mouseOverHeader)
+    // maybeClosePopup()
+    if (mouseOverPopup == false && mouseOverHeader == false) {
+      setIsOpen(false)
+      setPopupVisible(false)
+    }
+  }, [mouseOverHeader])
+
+  React.useEffect(() => {
+    setIsOpen(false)
+    setPopupVisible(false)
+  }, [diffHeaderAnchorHobered])
+
   return (
     console.log("topLink", topLink) || (
       <Flex
@@ -89,10 +144,10 @@ export default function NavItemGroup({ name, topLink, navItems }) {
         className={styles.navGroupWrapper}
       >
         <NavLink
-          // onClick={onGroupButtonClick}
+          onClick={onGroupButtonClick}
           to={topLink}
           onMouseEnter={() => handleMouseEnter()}
-          onMouseLeave={handleMouseLeave}
+          onMouseLeaver={() => handleMouseLeave()}
           className={styles.navGroupTitle}
         >
           <Flex gap={2} className={styles.navGroupTitleInner}>
@@ -106,6 +161,8 @@ export default function NavItemGroup({ name, topLink, navItems }) {
             className={
               styles.navLinkListWrapper[popupVisible ? "opened" : "closed"]
             }
+            onMouseEnter={() => handlePopupMouseEnter()}
+            onMouseLeave={() => handlePopupMouseLeave()}
           >
             <FlexList
               variant="columnStart"

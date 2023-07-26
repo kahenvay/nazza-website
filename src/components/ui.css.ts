@@ -186,6 +186,14 @@ export const flexVariants: Record<FlexVariants, string> = styleVariants({
       },
     },
   },
+  horizontalAlignedCenter:{
+
+    "@media": {
+      [maxMedia.small]: {
+        flexDirection: "column",
+      },
+    },
+  }
 })
 
 
@@ -667,7 +675,7 @@ export const avatar = style({
   borderRadius: theme.radii.circle,
 })
 
-export type LogoSizes = "small" | "medium"
+export type LogoSizes = "small" | "medium" | "large"
 
 export const logos: Record<LogoSizes, string> = styleVariants({
   small: {
@@ -679,6 +687,10 @@ export const logos: Record<LogoSizes, string> = styleVariants({
     width:"128px",
     height:"128px"
   },
+  large:{
+    width:"201px",
+    height:"201px"
+  }
 })
 
 export type IconSizes = "small" | "medium" | "large"

@@ -10,7 +10,7 @@ export const instaList = style({
 
     gridTemplateColumns: "repeat(auto-fill, minmax(16rem, 1fr))",
     gridGap: "1rem",
-    padding: "0 2rem",
+    padding: "0 4rem",
     
 
   })

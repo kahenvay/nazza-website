@@ -42,7 +42,7 @@ export default function Hero(props) {
       <Flex gap={0} variant="responsive" className={tooBigFlex}>
         <Box
           width="half"
-          className={isScrolledTop ? heroImageFull : heroImageDefault}
+          className={heroImageDefault}
           style={{ transition: "transform 0.2s ease-out" }}
         >
           <ImageSlider images={props.images} />
