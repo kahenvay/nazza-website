@@ -10,6 +10,7 @@ import Modal from "../../components/modal"
 import Iframe from "../../components/iframe"
 import { absoluteChild, absoluteParent } from "../../components/ui.css"
 import BrandExtras from "../../components/brand-extras"
+import Socials from "../../components/socials"
 
 export default function Brand(props) {
   const { brand } = props.data
@@ -72,10 +73,12 @@ export default function Brand(props) {
           </Box>
           <Box width="half">
             {brand?.topImage && (
-              <GatsbyImage
-                alt={brand.topImage.alt}
-                image={getImage(brand.topImage.gatsbyImageData)}
-              />
+              <a href={brand?.website}>
+                <GatsbyImage
+                  alt={brand.topImage.alt}
+                  image={getImage(brand.topImage.gatsbyImageData)}
+                />
+              </a>
             )}
           </Box>
         </Flex>
@@ -97,10 +100,22 @@ export default function Brand(props) {
             />
           </Box>
           <Box width="half">
-            <div className={absoluteParent} style={{ paddingBottom: "56.25%" }}>
-              <Iframe className={absoluteChild} src={brand?.featuredVideo} />
-            </div>
-            <Space size={4} />
+            <Space size={3} />
+            {brand?.featuredVideo && (
+              <div>
+                <div
+                  className={absoluteParent}
+                  style={{ paddingBottom: "56.25%" }}
+                >
+                  <Iframe
+                    className={absoluteChild}
+                    src={brand?.featuredVideo}
+                  />
+                </div>
+                <Space size={4} />
+              </div>
+            )}
+
             <List className={brandImages}>
               {brand?.images &&
                 brand.images.map((image) => {
@@ -110,15 +125,19 @@ export default function Brand(props) {
                       onMouseEnter={() => handleMouseEnter(image.id)}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <GatsbyImage
-                        alt={image.alt}
-                        image={getImage(image.gatsbyImageData)}
-                        className={gridImage}
-                      />
+                      <a href={brand?.website}>
+                        <GatsbyImage
+                          alt={image.alt}
+                          image={getImage(image.gatsbyImageData)}
+                          className={gridImage}
+                        />
+                      </a>
                     </li>
                   )
                 })}
             </List>
+            <Space size={4} />
+            <Socials socials={brand.socials} />
 
             <Modal>
               <GatsbyImage
@@ -181,6 +200,10 @@ export const query = graphql`
         gatsbyImageData
       }
       html
+      socials {
+        icon
+        link
+      }
     }
   }
 `

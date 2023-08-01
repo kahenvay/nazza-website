@@ -401,6 +401,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       website: String
       lookbook: HomepageImage
       b2b: String
+      socials: [SocialMedia]
     }
 
     interface Member implements Node {
@@ -410,6 +411,13 @@ exports.createSchemaCustomization = async ({ actions }) => {
       phone: String
       email: String
       html: String
+    }
+
+    interface SocialMedia implements Node {
+      id: ID!
+      name: String
+      link: String
+      icon: String
     }
   `)
 
@@ -647,6 +655,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       website: String
       lookbook: HomepageImage @link(from: "image___NODE")
       b2b: String
+      socials: [SocialMedia] @link(from: "socials___NODE")
     }
   `)
 
@@ -660,6 +669,15 @@ exports.createSchemaCustomization = async ({ actions }) => {
       phone: String
       email: String
       html: String! @richText
+    }
+  `)
+
+  actions.createTypes(/* GraphQL */ `
+    type ContentfulSocialMedia implements Node & SocialMedia @dontInfer {
+      id: ID!
+      name: String
+      link: String
+      icon: String
     }
   `)
 

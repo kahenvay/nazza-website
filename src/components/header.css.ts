@@ -33,7 +33,7 @@ export const desktopHeaderNavWrapper = style({
     [media.small]: {
       display: "block",
       paddingTop: theme.space[4],
-      fontSize: theme.fontSizes[4],
+      fontSize: theme.fontSizes[3],
 
       paddingBottom: theme.space[4],
       
