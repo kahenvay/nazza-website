@@ -47,7 +47,7 @@ module.exports = {
       resolve: `gatsby-source-instagram`,
       options: {
         username: `nazza_agency`,
-        access_token: process.env.INSTA_ACCESS_TOKEN,
+        access_token: process.env.GATSBY_INSTA_ACCESS_TOKEN,
         instagram_id: "1022681471981458",
         hashtags: {
           enabled: true,

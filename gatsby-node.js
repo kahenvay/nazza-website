@@ -720,7 +720,7 @@ exports.sourceNodes = async ({
 }) => {
   const { createNode } = actions
   const instagramPhotos = await getInstagramPhotos(
-    process.env.INSTA_ACCESS_TOKEN
+    process.env.GATSBY_INSTA_ACCESS_TOKEN
   )
   console.log(instagramPhotos)
   instagramPhotos.forEach((photo) => {
