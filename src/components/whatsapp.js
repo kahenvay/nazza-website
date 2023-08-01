@@ -7,7 +7,7 @@ import { StaticImage } from "gatsby-plugin-image"
 export default function Whatsapp(props) {
   return (
     <a
-      href="https://wa.me/351912883734?text=Hi%20there!"
+      href="https://wa.me/0032472820333?text=Hi%20there!"
       target="_blank"
       style={{
         position: "fixed",
