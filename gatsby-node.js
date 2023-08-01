@@ -1,58 +1,58 @@
-exports.onCreateWebpackConfig = ({ plugins, actions }) => {
-  actions.setWebpackConfig({
-    resolve: {
-      fallback: {
-        // assert: require.resolve("assert/"),
-        // crypto: require.resolve("crypto-browserify"),
-        // http: require.resolve("stream-http"),
-        // https: require.resolve("https-browserify"),
-        // os: require.resolve("os-browserify/browser"),
-        // stream: require.resolve("stream-browserify"),
-        // path: require.resolve("path-browserify"),
-        // // process: require.resolve("process/browser"),
-        // process: require.resolve("process"),
-        crypto: require.resolve("crypto-browserify"),
-        stream: require.resolve("stream-browserify"),
-        assert: require.resolve("assert"),
-        http: require.resolve("stream-http"),
-        https: require.resolve("https-browserify"),
-        os: require.resolve("os-browserify"),
-        url: require.resolve("url"),
-        zlib: require.resolve("browserify-zlib"),
-        fs: require.resolve("browserify-fs"),
-        process: require.resolve("process"),
-        // process: require.resolve("process/browser"),
-        // "process/browser": require.resolve("process/browser"),
-        buffer: require.resolve("buffer"),
-        net: require.resolve("net"),
-        dotenv: require.resolve("dotenv-webpack"),
-      },
-      // alias: {
-      //   process: "process/browser",
-      // },
-      // plugins: [
-      //   new webpack.ProvidePlugin({
-      //     process: "process/browser",
-      //   }),
-      // ],
-      // plugins: [
-      //   plugins.define({
-      //     process: "process/browser",
-      //   }),
-      // ],
-    },
-    // plugins: [
-    //   new webpack.ProvidePlugin({
-    //     process: "process/browser",
-    //   }),
-    // ],
-    plugins: [
-      plugins.define({
-        process: "process/browser",
-      }),
-    ],
-  })
-}
+// exports.onCreateWebpackConfig = ({ plugins, actions }) => {
+//   actions.setWebpackConfig({
+//     resolve: {
+//       fallback: {
+//         // assert: require.resolve("assert/"),
+//         // crypto: require.resolve("crypto-browserify"),
+//         // http: require.resolve("stream-http"),
+//         // https: require.resolve("https-browserify"),
+//         // os: require.resolve("os-browserify/browser"),
+//         // stream: require.resolve("stream-browserify"),
+//         // path: require.resolve("path-browserify"),
+//         // // process: require.resolve("process/browser"),
+//         // process: require.resolve("process"),
+//         crypto: require.resolve("crypto-browserify"),
+//         stream: require.resolve("stream-browserify"),
+//         assert: require.resolve("assert"),
+//         http: require.resolve("stream-http"),
+//         https: require.resolve("https-browserify"),
+//         os: require.resolve("os-browserify"),
+//         url: require.resolve("url"),
+//         zlib: require.resolve("browserify-zlib"),
+//         fs: require.resolve("browserify-fs"),
+//         process: require.resolve("process"),
+//         // process: require.resolve("process/browser"),
+//         // "process/browser": require.resolve("process/browser"),
+//         buffer: require.resolve("buffer"),
+//         net: require.resolve("net"),
+//         dotenv: require.resolve("dotenv-webpack"),
+//       },
+//       // alias: {
+//       //   process: "process/browser",
+//       // },
+//       // plugins: [
+//       //   new webpack.ProvidePlugin({
+//       //     process: "process/browser",
+//       //   }),
+//       // ],
+//       // plugins: [
+//       //   plugins.define({
+//       //     process: "process/browser",
+//       //   }),
+//       // ],
+//     },
+//     // plugins: [
+//     //   new webpack.ProvidePlugin({
+//     //     process: "process/browser",
+//     //   }),
+//     // ],
+//     plugins: [
+//       plugins.define({
+//         process: "process/browser",
+//       }),
+//     ],
+//   })
+// }
 
 // exports.onCreateWebpackConfig = ({ actions }) => {
 //   actions.setWebpackConfig({
