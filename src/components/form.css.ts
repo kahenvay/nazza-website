@@ -175,6 +175,19 @@ export const submitBlack = style({
     }
 })
 
+export const submitBlackAlt = style({
+    ...submit(),
+    position: "relative",
+    color:"#000",
+    border:"2px solid #fff",
+    // background:'#fff',
+    selectors:{
+        '&:hover':{
+            color:"#fff"
+        }
+    }
+})
+
 export const feedbackWrapShow = style({
     visibility:"visible",
     opacity:1

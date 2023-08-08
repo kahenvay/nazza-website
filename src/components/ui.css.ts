@@ -177,6 +177,15 @@ export const flexVariants: Record<FlexVariants, string> = styleVariants({
       },
     },
   },
+  stretchResponsive: {
+    alignItems: "stretch",
+    flexDirection: "column",
+    "@media": {
+      [media.small]: {
+        flexDirection: "row",
+      },
+    },
+  },
   startResponsive: {
     flexDirection: "column",
     alignItems:"flex-start",
@@ -528,6 +537,7 @@ export const navlink = style({
   transitionProperty: "color",
   transitionDuration: "0.2s",
   transitionTimingFunction: "ease-in-out",
+  fontWeight: "500",
   ":hover": {
     color: theme.colors.active,
   },

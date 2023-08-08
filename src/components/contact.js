@@ -6,7 +6,7 @@ import NameAndAddress from "./name-and-address"
 import Form from "./form"
 import { StaticImage } from "gatsby-plugin-image"
 import { absoluteChild, absoluteParent, colorWhite } from "./ui.css"
-import { contactContainer } from "./contact.css"
+import { contactText } from "./contact.css"
 
 export default function Contact() {
   const data = useStaticQuery(graphql`
@@ -28,21 +28,21 @@ export default function Contact() {
     <div>
       <Section padding={3} background="muted" className={absoluteParent}>
         <StaticImage
-          src="../images/hanger-3.jpeg"
+          src="../images/hanger-4.jpg"
           className={absoluteChild}
           style={{ position: "absolute" }}
           alt=""
         />
         <Space size={4} />
         <Container className={absoluteParent}>
-          <Flex gap={4} variant="responsive">
+          <Flex gap={4} variant="stretchResponsive">
             <Box width="half">
               <Form />
             </Box>
             <Box
               width="half"
               style={{ textAlign: "center" }}
-              className={colorWhite}
+              className={`${colorWhite} ${contactText}`}
             >
               <NameAndAddress name={abdelName} number={abdelPhone} />
               <Space size={1} />

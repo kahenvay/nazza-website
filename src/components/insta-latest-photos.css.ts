@@ -9,8 +9,9 @@ export const instaList = style({
     // gridAutoRows: "minmax(100px, auto)",
 
     gridTemplateColumns: "repeat(auto-fill, minmax(16rem, 1fr))",
-    gridGap: "1rem",
-    padding: "0 4rem",
+    // gridGap: "1rem",
+    gridGap: "0rem",
+    padding: "0"
     
 
   })
@@ -37,10 +38,24 @@ export const instaLink = style({
             ...absFill(),
             opacity:0,
             transition: "opacity 0.3s ease-in-out",
-            background:"rgba(0,0,0,0.3)",
+            background:"rgba(0,0,0,0.5)",
+            zIndex:1,
+        },
+        '&:after':{
+            position: "absolute",
+            content:'',
+            ...absFill(),
+            opacity:0,
+            transition: "opacity 0.3s ease-in-out",
+            backgroundImage: 'url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>\')',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
             zIndex:1,
         },
         '&:hover:before':{
+            opacity:1
+        },
+        '&:hover:after':{
             opacity:1
         }
     }

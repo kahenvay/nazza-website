@@ -30,6 +30,7 @@ import {
 
 import { Script } from "gatsby"
 import Whatsapp from "./whatsapp"
+import { StaticImage } from "gatsby-plugin-image"
 
 const socialMedia = {
   TWITTER: {
@@ -153,7 +154,11 @@ export default function Footer() {
           </Flex>
           <Space size={2} />
           <Flex variant="center" className={evenlySpacedFlexChild}>
-            <div className={square}></div>
+            <StaticImage
+              src="../images/qrzach.png"
+              alt="Zachary Zechnini Contact QR Code"
+              width="150px"
+            />
           </Flex>
           <Space size={2} />
           <Flex
