@@ -6,8 +6,9 @@ import {
   instaLink,
   instaList,
   background,
+  instaTitle,
 } from "./insta-latest-photos.css"
-import { Box, Container, Space } from "./ui"
+import { Box, Container, Space, Subhead } from "./ui"
 
 export default function InstaLatestsPhotos() {
   const data = useStaticQuery(graphql`
@@ -24,15 +25,24 @@ export default function InstaLatestsPhotos() {
 
   return (
     <Box>
+      <Space size={5} />
       <Container>
-        <h2>
-          <a href="https://www.instagram.com/nazza_agency/" target="_blank">
-            @nazza_agency
+        <Subhead>
+          <a
+            className={instaTitle}
+            href="https://www.instagram.com/nazza_agency/"
+            target="_blank"
+          >
+            @NAZZA_AGENCY
           </a>
-        </h2>
+        </Subhead>
+        <Space size={4} />
         <ul className={instaList}>
-          {data.allInstagramPhoto.nodes.map((node) => {
+          {data.allInstagramPhoto.nodes.map((node, index) => {
             console.log("node", node) // Separate log statement
+            if (index >= 8) {
+              return
+            }
             return (
               // Make sure to return the JSX
               <li key={node.permalink} style={{ position: "relative" }}>

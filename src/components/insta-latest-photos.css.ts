@@ -11,7 +11,8 @@ export const instaList = style({
     gridTemplateColumns: "repeat(auto-fill, minmax(16rem, 1fr))",
     // gridGap: "1rem",
     gridGap: "0rem",
-    padding: "0"
+    padding: "0",
+    boxShadow: "0px 0px 25px rgba(0,0,0,0.3)"
     
 
   })
@@ -71,6 +72,12 @@ export const instaImage= style({
     objectFit: "cover",
     position: "absolute",
     
+})
+
+export const instaTitle = style({
+    color:'#000',
+    display:'block',
+    textAlign:'center'
 })
 
 // export const background= style({

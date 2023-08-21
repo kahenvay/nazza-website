@@ -15,36 +15,36 @@ import Socials from "../../components/socials"
 export default function Brand(props) {
   const { brand } = props.data
 
-  const [containerImageSrc, setContainerImageSrc] = React.useState("")
-  const [containerImage, setContainerImage] = React.useState("")
+  // const [containerImageSrc, setContainerImageSrc] = React.useState("")
+  // const [containerImage, setContainerImage] = React.useState("")
 
-  React.useEffect(() => {
-    setContainerImageSrc(containerImageSrc)
-    console.log(containerImageSrc)
+  // React.useEffect(() => {
+  //   setContainerImageSrc(containerImageSrc)
+  //   console.log(containerImageSrc)
 
-    console.log(brand.images)
+  //   console.log(brand.images)
 
-    const image = brand.images?.find((obj) => obj.id === containerImageSrc)
-    console.log(image)
-    if (image) {
-      setContainerImage(image)
-    }
-    console.log(containerImage)
-    // else {
-    //   setContainerImage("")
-    // }
-  }, [containerImageSrc])
+  //   const image = brand.images?.find((obj) => obj.id === containerImageSrc)
+  //   console.log(image)
+  //   if (image) {
+  //     setContainerImage(image)
+  //   }
+  //   console.log(containerImage)
+  //   // else {
+  //   //   setContainerImage("")
+  //   // }
+  // }, [containerImageSrc])
 
-  const handleMouseEnter = (id) => {
-    // console.log(id)
-    setContainerImageSrc(id)
-  }
+  // const handleMouseEnter = (id) => {
+  //   // console.log(id)
+  //   setContainerImageSrc(id)
+  // }
 
-  const handleMouseLeave = () => {
-    console.log("mouseout")
-    setContainerImageSrc("")
-    setContainerImage("")
-  }
+  // const handleMouseLeave = () => {
+  //   console.log("mouseout")
+  //   setContainerImageSrc("")
+  //   setContainerImage("")
+  // }
 
   return (
     <Layout>
@@ -120,11 +120,7 @@ export default function Brand(props) {
               {brand?.images &&
                 brand.images.map((image) => {
                   return (
-                    <li
-                      key={image.id}
-                      onMouseEnter={() => handleMouseEnter(image.id)}
-                      onMouseLeave={handleMouseLeave}
-                    >
+                    <li key={image.id}>
                       <a href={brand?.website}>
                         <GatsbyImage
                           alt={image.alt}
@@ -139,7 +135,7 @@ export default function Brand(props) {
             <Space size={4} />
             <Socials socials={brand.socials} />
 
-            <Modal>
+            {/* <Modal>
               <GatsbyImage
                 alt={containerImage.alt}
                 image={getImage(containerImage.gatsbyImageData)}
@@ -149,7 +145,7 @@ export default function Brand(props) {
                 //   containerImage ? showBack : ""
                 // }`}
               />
-            </Modal>
+            </Modal> */}
           </Box>
         </Flex>
       </Container>
