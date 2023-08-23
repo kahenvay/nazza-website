@@ -377,6 +377,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       title: String
       time: String
       html: String
+      image: HomepageImage @link(from: "image___NODE")
     }
 
     interface Page implements Node {
@@ -697,6 +698,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       title: String
       time: String
       html: String! @richText
+      image: HomepageImage @link(from: "image___NODE")
     }
   `)
 }

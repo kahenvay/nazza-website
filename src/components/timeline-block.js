@@ -1,16 +1,24 @@
 import React, { useRef, useEffect, useState } from "react"
 import {
-  block,
   listItem,
   even,
   odd,
   listItemInView,
   blockInView,
+  evenIcon,
+  oddIcon,
+  iconBlock,
+  textBlock,
+  image,
 } from "./timeline-block.css"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 export default function TimlineBlock(props) {
-  const { time, title, html, id } = props
+  const { time, title, html, id, image } = props
   const evenOrOdd = props.index % 2 ? even : odd
+  const evenOrOddAlt = evenOrOdd === even ? odd : even
+  const evenOrOddIcon = evenOrOdd === even ? oddIcon : evenIcon
+
   const myRef = useRef()
   const [myElementIsVisible, updateMyElementIsVisible] = useState()
 
@@ -31,7 +39,7 @@ export default function TimlineBlock(props) {
       className={`${listItem} ${myElementIsVisible ? listItemInView : ""}`}
     >
       <div
-        className={` ${block} ${evenOrOdd} ${
+        className={` ${textBlock} ${evenOrOdd} ${
           myElementIsVisible ? blockInView : ""
         }`}
       >
@@ -42,6 +50,21 @@ export default function TimlineBlock(props) {
             __html: html,
           }}
         />
+      </div>
+      <div
+        className={` ${iconBlock} ${evenOrOddAlt} ${evenOrOddIcon} ${
+          myElementIsVisible ? blockInView : ""
+        }`}
+      >
+        {image && image.gatsbyImageData ? (
+          <GatsbyImage
+            className={image}
+            alt={image.alt}
+            image={getImage(image.gatsbyImageData)}
+          />
+        ) : (
+          image && <img src={image.url} alt={image.alt} />
+        )}
       </div>
     </li>
   )

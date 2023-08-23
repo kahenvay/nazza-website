@@ -7,6 +7,24 @@ export const maxMedia = {
     medium: `screen and (max-width: 600px)`,
   }
 
+
+const block = () => {
+    return {
+        position: "relative",
+        bottom: "0",
+       
+
+        visibility: "hidden",
+        opacity: 0,
+        transition: "all 0.5s ease-in-out",
+
+       
+        
+    }
+}
+
+ 
+
 export const listItem = style({
     listStyleType: "none",
     position: "relative",
@@ -52,16 +70,11 @@ export const listItemInView = style({
 //     background: #f45b69;
 //   }
 
-export const block = style ({
-    position: "relative",
-    bottom: "0",
+export const textBlock = style ({
+    ...block(),
     width: "400px",
     padding: "15px",
     background: "#f5f5f5",
-
-    visibility: "hidden",
-    opacity: 0,
-    transition: "all 0.5s ease-in-out",
 
     selectors: {
         '&:before': {
@@ -99,6 +112,10 @@ export const odd = style({
     },
 })
 
+export const oddIcon = style({
+    left: "45px",
+})
+
 export const even = style({
     left: "-439px",
 
@@ -127,6 +144,18 @@ export const even = style({
     },
 })
 
+export const iconBlock = style({
+    ...block(),
+    
+    width: "64px",
+    height: "64px",
+    top: "-64px",
+})
+
+export const evenIcon = style({
+    left: "-100px",
+})
+
 export const blockInView = style({
     transform: "none",
     visibility: "visible",
@@ -145,4 +174,11 @@ export const time = style({
     fontSize: "1.2rem",
     fontWeight: "bold",
     marginBottom: "8px",
+})
+
+export const  image = style({
+    objectFit:'contain',
+    width:'100%',
+    height:'100%',
+    objectPosition:'bottom',
 })
