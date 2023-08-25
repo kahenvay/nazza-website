@@ -3,12 +3,6 @@ import { Logo } from "./ui"
 import { rounded } from "./logo-list.css"
 
 const LogoItem = React.memo((props) => {
-  // console.log(image)
-  // console.log(props)
-  // console.log(props.rounded)
-
-  //   if (!props) return null
-
   return (
     console.log(props) || (
       <Logo

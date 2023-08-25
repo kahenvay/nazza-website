@@ -17,7 +17,6 @@ export default function Homepage(props) {
         {homepage.blocks.map((block) => {
           const { id, blocktype, ...componentProps } = block
           const Component = sections[blocktype] || Fallback
-          // console.log(sections[blocktype])
           return <Component key={id} {...componentProps} />
         })}
         <InstaLatestsPhotos />
@@ -42,32 +41,3 @@ export const query = graphql`
     }
   }
 `
-
-// export const query = graphql`
-//   {
-//     homepage {
-//       id
-//       title
-//       description
-//       image {
-//         id
-//         url
-//       }
-//       blocks: content {
-//         id
-//         blocktype
-//         ...HomepageHeroContent
-//         ...HomepageLogoListContent
-//       }
-//     }
-//   }
-// `
-
-// ...HomepageHeroContent
-// ...HomepageFeatureListContent
-// ...HomepageCtaContent
-// ...HomepageLogoListContent
-// ...HomepageTestimonialListContent
-// ...HomepageBenefitListContent
-// ...HomepageStatListContent
-// ...HomepageProductListContent

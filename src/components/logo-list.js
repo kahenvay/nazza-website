@@ -5,7 +5,6 @@ import { logoListContainer, logoStyle } from "./logo-list.css"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import LogoItem from "./logo-item"
 import { absoluteChild, absoluteParent } from "./ui.css"
-// import { brandBack, show, showBack } from "./brand.css"
 
 export default function LogoList(props) {
   const data = useStaticQuery(graphql`
@@ -37,18 +36,13 @@ export default function LogoList(props) {
   const [containerImage, setContainerImage] = React.useState("")
 
   React.useEffect(() => {
-    // setContainerImageSrc(containerImageSrc)
-    // console.log(containerImageSrc)
-
     const brand = brands.find((obj) => obj.id === containerImageSrc)
-    console.log(brand)
+
     if (brand) {
+      console.log(brand)
       setContainerImage(brand.image)
     }
-    // else {
-    //   setContainerImage("")
-    // }
-  }, [containerImageSrc])
+  }, [containerImageSrc, brands])
 
   const handleMouseEnter = (id) => {
     // console.log(id)
@@ -116,47 +110,3 @@ export default function LogoList(props) {
     </Section>
   )
 }
-
-// return (
-//   <Section paddingY={4}>
-//     {/* <Space size={4} /> */}
-//     <Container width="narrow" className={logoListContainer}>
-//       <Subhead style={{ textAlign: "center" }}> Our Brands </Subhead>
-//       <Space size={4} />
-//       {text && (
-//         <Text center variant="lead">
-//           {text}
-//         </Text>
-//       )}
-//       <Space size={5} />
-//       <FlexList gap={4} variant="center" alignItems="stretch">
-//         {logos.map(
-//           (logo) =>
-//             logo.image && (
-//               <li className={`${logoStyle} `} key={logo.id}>
-//                 <LogoItem {...logo.image} />
-//               </li>
-//             )
-//         )}
-//       </FlexList>
-//     </Container>
-//   </Section>
-// )
-// }
-
-// export const query = graphql`
-//   fragment HomepageLogoListContent on HomepageLogoList {
-//     id
-
-//     text
-//     logos {
-//       id
-//       alt
-//       image {
-//         id
-//         gatsbyImageData
-//         alt
-//       }
-//     }
-//   }
-// `

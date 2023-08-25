@@ -1,6 +1,6 @@
 import * as React from "react"
 import backVid from "../videos/nazza-background-video.mp4"
-import { submitBlack, submitWhite, submitWrapper } from "../components/form.css"
+import { submitWhite, submitWrapper } from "../components/form.css"
 import { button, pageWrap, video } from "../components/landingPage.css"
 import { NavLink } from "../components/ui"
 

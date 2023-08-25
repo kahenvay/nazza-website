@@ -21,6 +21,7 @@ export default function ImageSlider(props) {
   return (
     <div className={absoluteParent} style={{ paddingBottom: "50%" }}>
       {props.images.map((image, index) => {
+        console.log(image.alt)
         return (
           image && (
             <GatsbyImage

@@ -1,14 +1,11 @@
 import * as React from "react"
-import { graphql, useStaticQuery } from "gatsby"
-import Member from "../components/member"
-import { FlexList, Space, Subhead } from "./ui"
-import { StaticImage } from "gatsby-plugin-image"
 
 export default function Whatsapp(props) {
   return (
     <a
       href="https://wa.me/0032472820333?text=Hi%20there!"
       target="_blank"
+      rel="noreferrer"
       style={{
         position: "fixed",
         bottom: "50px",

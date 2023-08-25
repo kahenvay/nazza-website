@@ -1,6 +1,6 @@
 import * as React from "react"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
-import { Box, Flex, FlexList, NavButtonLink, NavLink } from "./ui"
+import { Box, Flex, FlexList, NavLink } from "./ui"
 import Caret from "./caret"
 import * as styles from "./nav-item-group.css"
 import { media } from "./ui.css"
@@ -20,7 +20,6 @@ export default function NavItemGroup({
   }
 
   //TODO Surely a better way... maybe conditionally render Link item, or rewrite how NavGroups works totally
-  const toLink = () => {}
 
   const onGroupButtonClick = React.useCallback(() => {
     if (!isOpen) {
@@ -38,21 +37,9 @@ export default function NavItemGroup({
   }, [isOpen])
 
   const handleMouseEnter = React.useCallback(() => {
-    // console.log("louse enter")
     setIsOpen(true)
     setPopupVisible(true)
-  }, [isOpen])
-
-  const handleMouseLeave = React.useCallback(
-    (e) => {
-      console.log("louse meave", e)
-      // if (isSmallScreen()) {
-      //   setIsOpen(false)
-      // }
-      // setPopupVisible(false)
-    },
-    [isOpen]
-  )
+  }, [])
 
   React.useEffect(() => {
     // crude implementation of animating the popup without a library
@@ -92,43 +79,25 @@ export default function NavItemGroup({
     }
   }, [name, isOpen, onGroupButtonClick])
 
-  // const maybeClosePopup = () => {
-  //   if (mouseOverPopup == true && mouseOverHeader == true) {
-  //     setIsOpen(false)
-  //     setPopupVisible(false)
-  //   }
-  // }
-
   const handlePopupMouseEnter = () => {
     setMouseOverPopup(true)
-
-    // console.log("mouseOverPopup", mouseOverPopup)
-    // console.log("mouseOverHeader", mouseOverHeader)
   }
 
   const handlePopupMouseLeave = () => {
     setMouseOverPopup(false)
 
-    // console.log("mouseOverPopup", mouseOverPopup)
-    // console.log("mouseOverHeader", mouseOverHeader)
-
-    // maybeClosePopup()
-    if (mouseOverPopup == true && mouseOverHeader == true) {
+    if (mouseOverPopup === true && mouseOverHeader === true) {
       setIsOpen(false)
       setPopupVisible(false)
     }
   }
 
   React.useEffect(() => {
-    // console.log("mouseOverHeader triggering in hcild")
-    // console.log("mouseOverPopup", mouseOverPopup)
-    // console.log("mouseOverHeader", mouseOverHeader)
-    // maybeClosePopup()
-    if (mouseOverPopup == false && mouseOverHeader == false) {
+    if (mouseOverPopup === false && mouseOverHeader === false) {
       setIsOpen(false)
       setPopupVisible(false)
     }
-  }, [mouseOverHeader])
+  }, [mouseOverHeader, mouseOverPopup])
 
   React.useEffect(() => {
     setIsOpen(false)
@@ -147,7 +116,6 @@ export default function NavItemGroup({
           onClick={onGroupButtonClick}
           to={topLink}
           onMouseEnter={() => handleMouseEnter()}
-          onMouseLeaver={() => handleMouseLeave()}
           className={styles.navGroupTitle}
         >
           <Flex gap={2} className={styles.navGroupTitleInner}>

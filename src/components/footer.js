@@ -25,10 +25,8 @@ import {
   atSmallFlexAlignCenter,
   atSmallTextAlignCenter,
   evenlySpacedFlexChild,
-  square,
 } from "./ui.css"
 
-import { Script } from "gatsby"
 import Whatsapp from "./whatsapp"
 import { StaticImage } from "gatsby-plugin-image"
 

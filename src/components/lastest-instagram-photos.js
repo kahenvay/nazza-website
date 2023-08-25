@@ -5,7 +5,6 @@ import {
   instaImage,
   instaLink,
   instaList,
-  background,
   instaTitle,
   instaListItem,
 } from "./insta-latest-photos.css"
@@ -34,6 +33,7 @@ export default function InstaLatestsPhotos() {
             className={instaTitle}
             href="https://www.instagram.com/nazza_agency/"
             target="_blank"
+            rel="noreferrer"
           >
             <StaticImage
               style={{ maxWidth: "300px", marginRight: "20px" }}
@@ -46,25 +46,25 @@ export default function InstaLatestsPhotos() {
         <ul className={instaList}>
           {data.allInstagramPhoto.nodes.map((node, index) => {
             console.log("node", node) // Separate log statement
-            if (index >= 8) {
-              return
-            }
+
             return (
-              // Make sure to return the JSX
-              <li key={node.permalink} className={instaListItem}>
-                <a
-                  href={node.permalink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={instaLink}
-                >
-                  <img
-                    className={instaImage}
-                    src={node.media_url}
-                    alt={`Insta image, caption: ${node.caption}`}
-                  />
-                </a>
-              </li>
+              index < 8 && (
+                // Make sure to return the JSX
+                <li key={node.permalink} className={instaListItem}>
+                  <a
+                    href={node.permalink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={instaLink}
+                  >
+                    <img
+                      className={instaImage}
+                      src={node.media_url}
+                      alt={`Insta post, caption: ${node.caption}`}
+                    />
+                  </a>
+                </li>
+              )
             )
           })}
         </ul>

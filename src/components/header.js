@@ -22,7 +22,6 @@ import {
 
 import NavItemGroup from "./nav-item-group"
 import BrandLogo from "./brand-logo-2"
-import { hideOverflowX } from "./hero.css"
 
 export default function Header() {
   const data = useStaticQuery(graphql`

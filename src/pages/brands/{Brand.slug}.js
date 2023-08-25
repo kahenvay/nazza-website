@@ -1,12 +1,11 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import Layout from "../../components/layout"
-import { Container, Box, Heading, List, Flex, Space } from "../../components/ui"
+import { Container, Box, List, Flex, Space } from "../../components/ui"
 import SEOHead from "../../components/head"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import { brandImages, gridImage } from "../../components/brand.css"
 
-import Modal from "../../components/modal"
 import Iframe from "../../components/iframe"
 import { absoluteChild, absoluteParent } from "../../components/ui.css"
 import BrandExtras from "../../components/brand-extras"
@@ -14,37 +13,6 @@ import Socials from "../../components/socials"
 
 export default function Brand(props) {
   const { brand } = props.data
-
-  // const [containerImageSrc, setContainerImageSrc] = React.useState("")
-  // const [containerImage, setContainerImage] = React.useState("")
-
-  // React.useEffect(() => {
-  //   setContainerImageSrc(containerImageSrc)
-  //   console.log(containerImageSrc)
-
-  //   console.log(brand.images)
-
-  //   const image = brand.images?.find((obj) => obj.id === containerImageSrc)
-  //   console.log(image)
-  //   if (image) {
-  //     setContainerImage(image)
-  //   }
-  //   console.log(containerImage)
-  //   // else {
-  //   //   setContainerImage("")
-  //   // }
-  // }, [containerImageSrc])
-
-  // const handleMouseEnter = (id) => {
-  //   // console.log(id)
-  //   setContainerImageSrc(id)
-  // }
-
-  // const handleMouseLeave = () => {
-  //   console.log("mouseout")
-  //   setContainerImageSrc("")
-  //   setContainerImage("")
-  // }
 
   return (
     <Layout>

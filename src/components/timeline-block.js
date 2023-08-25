@@ -9,12 +9,11 @@ import {
   oddIcon,
   iconBlock,
   textBlock,
-  image,
 } from "./timeline-block.css"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 export default function TimlineBlock(props) {
-  const { time, title, html, id, image } = props
+  const { time, title, html, image } = props
   const evenOrOdd = props.index % 2 ? even : odd
   const evenOrOddAlt = evenOrOdd === even ? odd : even
   const evenOrOddIcon = evenOrOdd === even ? oddIcon : evenIcon

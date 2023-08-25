@@ -2,8 +2,6 @@ import React from "react"
 import { inputGroup, label, labelAndInput, textInput } from "./form.css"
 
 class InputGroup extends React.Component {
-  // export default function InputGroup({ inputType, labelTitle, name }) {
-
   constructor(props) {
     super(props)
     this.name = props.name

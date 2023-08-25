@@ -29,24 +29,6 @@ export default function About(props) {
     console.log(aboutPage, props) || (
       <Layout>
         <Container>
-          {/* <Space size={5} />
-          <Subhead style={{ textAlign: "center" }}> About </Subhead>
-          <Space size={4} />
-          <Flex gap={4} variant="responsive">
-            <Box width="half">
-              <GatsbyImage
-                alt={aboutPage.image.alt}
-                image={getImage(aboutPage.image.gatsbyImageData)}
-              />
-            </Box>
-            <Box width="half">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: aboutPage.html,
-                }}
-              />
-            </Box>
-          </Flex> */}
           <Timline />
           <Space size={4} />
           <Team />

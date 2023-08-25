@@ -28,7 +28,7 @@ export default function Contact() {
     <div>
       <Section padding={3} background="muted" className={absoluteParent}>
         <StaticImage
-          src="../images/hanger-4.jpg"
+          src="../images/hanger.jpg"
           className={absoluteChild}
           style={{ position: "absolute" }}
           alt=""

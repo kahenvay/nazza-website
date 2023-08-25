@@ -3,7 +3,6 @@ import * as React from "react"
 import { useState, useEffect } from "react"
 import {
   heroImageDefault,
-  heroImageFull,
   heroText,
   heroTextHidden,
   tooBigFlex,
@@ -86,26 +85,6 @@ export default function Hero(props) {
     </Section>
   )
 }
-
-// export const query = graphql`
-//   fragment HomepageHeroContent on HomepageHero {
-//     id
-//     kicker
-//     h1: heading
-//     subhead
-//     text
-//     links {
-//       id
-//       href
-//       text
-//     }
-//     image {
-//       id
-//       gatsbyImageData
-//       alt
-//     }
-//   }
-// `
 
 export const query = graphql`
   fragment HomepageHeroContent on HomepageHero {
