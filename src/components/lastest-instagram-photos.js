@@ -7,6 +7,7 @@ import {
   instaList,
   background,
   instaTitle,
+  instaListItem,
 } from "./insta-latest-photos.css"
 import { Box, Container, Space, Subhead } from "./ui"
 
@@ -32,8 +33,9 @@ export default function InstaLatestsPhotos() {
             className={instaTitle}
             href="https://www.instagram.com/nazza_agency/"
             target="_blank"
+            style={{ textDecoration: "none" }}
           >
-            @NAZZA_AGENCY
+            <span style={{ textDecoration: "underline" }}>@NAZZA_AGENCY</span>
           </a>
         </Subhead>
         <Space size={4} />
@@ -45,7 +47,7 @@ export default function InstaLatestsPhotos() {
             }
             return (
               // Make sure to return the JSX
-              <li key={node.permalink} style={{ position: "relative" }}>
+              <li key={node.permalink} className={instaListItem}>
                 <a
                   href={node.permalink}
                   target="_blank"

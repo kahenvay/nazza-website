@@ -1,21 +1,34 @@
 import { style } from "@vanilla-extract/css"
+import { media } from "./ui.css"
 
 export const instaList = style({
     
-    display: "grid",
-    // gridTemplateColumns: "repeat(4, 1fr)",
-    // gap: "10px",
+    // display: "grid",
+    // gridTemplateColumns: "repeat(auto-fill, minmax(14rem, 1fr))",
+    // gridGap: "0rem",
     listStyle: "none",
-    // gridAutoRows: "minmax(100px, auto)",
-
-    gridTemplateColumns: "repeat(auto-fill, minmax(16rem, 1fr))",
-    // gridGap: "1rem",
-    gridGap: "0rem",
+    display:'flex',
+    flexWrap:'wrap',
     padding: "0",
-    boxShadow: "0px 0px 25px rgba(0,0,0,0.3)"
-    
+    boxShadow: "0px 0px 25px rgba(0,0,0,0.3)",
+    // width: '80%', ->
+    margin: 'auto',
 
   })
+
+    export const instaListItem = style({
+        position:'relative',
+        width:'100%',
+        "@media": {
+            
+            [media.small]: { 
+                width:'50%',
+            },
+            [media.medium]: { 
+                width:'25%',
+            },
+        }
+    })
 
   const absFill = () => {
     return {

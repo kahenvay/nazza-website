@@ -153,7 +153,8 @@ export default function Footer() {
             </div>
           </Flex>
           <Space size={2} />
-          <Flex variant="center" className={evenlySpacedFlexChild}>
+          <Flex variant="column" className={evenlySpacedFlexChild}>
+            <p style={{ margin: 0 }}>Scan and add contact!</p>
             <StaticImage
               src="../images/qrzach.png"
               alt="Zachary Zechnini Contact QR Code"
