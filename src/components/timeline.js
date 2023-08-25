@@ -43,8 +43,7 @@ export default function Timline(props) {
     <section>
       <ul className={timeline}>
         {timeLineBlocks
-          .slice(0)
-          .reverse()
+          .sort((a, b) => a.time - b.time)
           .map((block, index) => {
             return <TimlineBlock index={index} key={index} {...block} />
           })}

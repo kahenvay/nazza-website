@@ -10,6 +10,7 @@ import {
   instaListItem,
 } from "./insta-latest-photos.css"
 import { Box, Container, Space, Subhead } from "./ui"
+import { StaticImage } from "gatsby-plugin-image"
 
 export default function InstaLatestsPhotos() {
   const data = useStaticQuery(graphql`
@@ -33,8 +34,11 @@ export default function InstaLatestsPhotos() {
             className={instaTitle}
             href="https://www.instagram.com/nazza_agency/"
             target="_blank"
-            style={{ textDecoration: "none" }}
           >
+            <StaticImage
+              style={{ maxWidth: "300px", marginRight: "20px" }}
+              src="../images/follow.png"
+            />
             <span style={{ textDecoration: "underline" }}>@NAZZA_AGENCY</span>
           </a>
         </Subhead>

@@ -89,8 +89,9 @@ export const instaImage= style({
 
 export const instaTitle = style({
     color:'#000',
-    display:'block',
-    textAlign:'center'
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
 })
 
 // export const background= style({
