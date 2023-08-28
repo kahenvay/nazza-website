@@ -9,19 +9,38 @@ import { absoluteChild, absoluteParent, colorWhite } from "./ui.css"
 import { contactText } from "./contact.css"
 
 export default function Contact() {
+  // const data = useStaticQuery(graphql`
+  //   query {
+  //     contentfulLayoutFooter {
+  //       zachPhone
+  //       zachName
+  //       abdelPhone
+  //       abdelName
+  //     }
+  //   }
+  // `)
+
   const data = useStaticQuery(graphql`
-    query {
-      contentfulLayoutFooter {
-        zachPhone
-        zachName
-        abdelPhone
-        abdelName
+    query TeamQuery {
+      allMember {
+        nodes {
+          name
+          phone
+          html
+          image {
+            alt
+            gatsbyImageData
+          }
+        }
       }
     }
   `)
 
-  const { zachPhone, zachName, abdelPhone, abdelName } =
-    data.contentfulLayoutFooter
+  const zach = data.allMember.nodes[0]
+  const abdel = data.allMember.nodes[0]
+
+  // const { zachPhone, zachName, abdelPhone, abdelName } =
+  //   data.contentfulLayoutFooter
 
   return (
     // console.log("events", props, eventTitle) || (
@@ -44,9 +63,9 @@ export default function Contact() {
               style={{ textAlign: "center" }}
               className={`${colorWhite} ${contactText}`}
             >
-              <NameAndAddress name={abdelName} number={abdelPhone} />
+              <NameAndAddress name={abdel.name} number={abdel.phone} />
               <Space size={1} />
-              <NameAndAddress name={zachName} number={zachPhone} />
+              <NameAndAddress name={zach.name} number={zach.phone} />
               <Space size={1} />
               <Address />
             </Box>
