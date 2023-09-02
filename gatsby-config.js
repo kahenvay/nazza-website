@@ -43,17 +43,17 @@ module.exports = {
         icon: "src/favicon.png",
       },
     },
-    {
-      resolve: `gatsby-source-instagram`,
-      options: {
-        username: `nazza_agency`,
-        access_token: process.env.GATSBY_INSTA_ACCESS_TOKEN,
-        instagram_id: "1022681471981458",
-        hashtags: {
-          enabled: true,
-          commentDepth: 10,
-        },
-      },
-    },
+    // {
+    //   resolve: `gatsby-source-instagram`,
+    //   options: {
+    //     username: `nazza_agency`,
+    //     access_token: process.env.GATSBY_INSTA_ACCESS_TOKEN,
+    //     instagram_id: "1022681471981458",
+    //     hashtags: {
+    //       enabled: true,
+    //       commentDepth: 10,
+    //     },
+    //   },
+    // },
   ],
 }

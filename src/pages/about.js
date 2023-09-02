@@ -31,8 +31,6 @@ export default function About(props) {
         <Container>
           <Timline />
           <Space size={4} />
-          <Team />
-          <Space size={5} />
         </Container>
       </Layout>
     )

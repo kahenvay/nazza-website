@@ -119,7 +119,7 @@ export default function Footer() {
   const { navItems } = data.layout.header
 
   return (
-    <Box as="footer" paddingY={4}>
+    <Box as="footer" paddingY={4} style={{ backgroundColor: "#fff8ffba" }}>
       <Space size={3} />
       <Container>
         <Flex responsive>

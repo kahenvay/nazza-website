@@ -12,7 +12,7 @@ export default function ImageSlider(props) {
       setCurrentImageIndex(
         (currentImageIndex) => (currentImageIndex + 1) % props.images.length
       )
-    }, 3000)
+    }, 6000)
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId)
