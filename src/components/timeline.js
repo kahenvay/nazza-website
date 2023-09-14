@@ -10,8 +10,12 @@ export default function Timline(props) {
         nodes {
           id
           title
+          titleFr
+          titleNl
           time
           html
+          htmlFr
+          htmlNl
           image {
             id
             alt
@@ -31,7 +35,14 @@ export default function Timline(props) {
         {timeLineBlocks
           .sort((a, b) => a.time - b.time)
           .map((block, index) => {
-            return <TimlineBlock index={index} key={index} {...block} />
+            return (
+              <TimlineBlock
+                pageContext={props.pageContext}
+                index={index}
+                key={index}
+                {...block}
+              />
+            )
           })}
       </ul>
     </section>

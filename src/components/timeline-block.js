@@ -13,7 +13,7 @@ import {
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 export default function TimlineBlock(props) {
-  const { time, title, html, image } = props
+  const { time, image } = props
   const evenOrOdd = props.index % 2 ? even : odd
   const evenOrOddAlt = evenOrOdd === even ? odd : even
   const evenOrOddIcon = evenOrOdd === even ? oddIcon : evenIcon
@@ -21,12 +21,17 @@ export default function TimlineBlock(props) {
   const myRef = useRef()
   const [myElementIsVisible, updateMyElementIsVisible] = useState()
 
+  const lang = props.pageContext?.lang || ""
+  const langForQuery =
+    props.pageContext?.lang?.charAt(0)?.toUpperCase() +
+      props.pageContext?.lang?.slice(1).toLowerCase() || ""
+
   useEffect(() => {
     // console.log("myRef", myRef.current)
     const observer = new IntersectionObserver((entries, observer) => {
       const entry = entries[0]
-      console.log("entry", entry)
-      console.log("entry.isIntersecting", entry.isIntersecting)
+      // console.log("entry", entry)
+      // console.log("entry.isIntersecting", entry.isIntersecting)
       updateMyElementIsVisible(entry.isIntersecting)
     })
     observer.observe(myRef.current)
@@ -43,10 +48,16 @@ export default function TimlineBlock(props) {
         }`}
       >
         <time>{time}</time>
-        <h4>{title}</h4>
+        <h4>
+          {props[`title${langForQuery}`]
+            ? props[`title${langForQuery}`]
+            : props[`title`]}
+        </h4>
         <div
           dangerouslySetInnerHTML={{
-            __html: html,
+            __html: props[`html${langForQuery}`]
+              ? props[`html${langForQuery}`]
+              : props[`html`],
           }}
         />
       </div>

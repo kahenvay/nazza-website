@@ -22,8 +22,9 @@ import {
 
 import NavItemGroup from "./nav-item-group"
 import BrandLogo from "./brand-logo-2"
+import LanguageSwitcher from "./language-switcher"
 
-export default function Header() {
+export default function Header(props) {
   const data = useStaticQuery(graphql`
     query {
       layout {
@@ -35,6 +36,10 @@ export default function Header() {
             ... on NavItem {
               href
               text
+              hrefFr
+              hrefNl
+              textFr
+              textNl
             }
             ... on NavItemGroup {
               name
@@ -42,7 +47,11 @@ export default function Header() {
               navItems {
                 id
                 href
+                hrefFr
+                hrefNl
                 text
+                textFr
+                textNl
                 description
                 icon {
                   alt
@@ -58,6 +67,10 @@ export default function Header() {
 
   const { navItems } = data.layout.header
   const [isOpen, setOpen] = React.useState(false)
+  const lang = props.pageContext?.lang || ""
+  const langForQuery =
+    props.pageContext?.lang?.charAt(0)?.toUpperCase() +
+      props.pageContext?.lang?.slice(1).toLowerCase() || ""
 
   React.useEffect(() => {
     if (isOpen) {
@@ -76,110 +89,112 @@ export default function Header() {
   // }, [mouseOverHeader])
 
   return (
-    console.log("header data", data) || (
-      <header className={header}>
-        <Container className={desktopHeaderNavWrapper}>
-          <Flex
-            variant="spaceBetween"
-            onMouseEnter={() => {
-              setMouseOverHeader(true)
-              // console.log("mouseOverHeader", mouseOverHeader)
-            }}
-            onMouseLeave={() => {
-              setMouseOverHeader(false)
-              // console.log("mouseOverHeader", mouseOverHeader)
-            }}
-          >
-            <NavLink to="/home" style={{ height: "82px" }}>
-              <VisuallyHidden>Home</VisuallyHidden>
-              <BrandLogo />
-            </NavLink>
-            <nav>
-              <FlexList gap={4}>
-                {navItems &&
-                  navItems.map((navItem) => (
-                    <li key={navItem.id} style={{ textTransform: "uppercase" }}>
-                      {navItem.navItemType === "Group" ? (
-                        <NavItemGroup
-                          mouseOverHeader={mouseOverHeader}
-                          name={navItem.name}
-                          navItems={navItem.navItems}
-                          topLink={navItem.topLink}
-                          diffHeaderAnchorHobered={diffHeaderAnchorHobered}
-                        />
-                      ) : (
-                        <NavLink
-                          onMouseEnter={() => {
-                            setdiffHeaderAnchorHobered(true)
-                          }}
-                          onMouseLeave={() => {
-                            setdiffHeaderAnchorHobered(false)
-                          }}
-                          to={navItem.href}
-                        >
-                          {navItem.text}
-                        </NavLink>
-                      )}
-                    </li>
-                  ))}
-              </FlexList>
-            </nav>
-          </Flex>
-        </Container>
-        <Container
-          className={mobileHeaderNavWrapper[isOpen ? "open" : "closed"]}
+    <header className={header}>
+      <Container className={desktopHeaderNavWrapper}>
+        <Flex
+          variant="spaceBetween"
+          onMouseEnter={() => {
+            setMouseOverHeader(true)
+            // console.log("mouseOverHeader", mouseOverHeader)
+          }}
+          onMouseLeave={() => {
+            setMouseOverHeader(false)
+            // console.log("mouseOverHeader", mouseOverHeader)
+          }}
         >
-          <Flex variant="spaceBetween">
-            <span
-              className={
-                mobileNavSVGColorWrapper[isOpen ? "reversed" : "primary"]
-              }
-              style={{ height: "60px", display: "flex" }}
-            >
-              <NavLink style={{ display: "flex" }} to="/">
-                <VisuallyHidden>Home</VisuallyHidden>
-                <BrandLogo />
-              </NavLink>
-            </span>
-            <Flex>
-              <Space />
-              <Nudge right={3}>
-                <InteractiveIcon
-                  title="Toggle menu"
-                  onClick={() => setOpen(!isOpen)}
-                  className={
-                    mobileNavSVGColorWrapper[isOpen ? "reversed" : "primary"]
-                  }
-                >
-                  {isOpen ? <X /> : <Menu />}
-                </InteractiveIcon>
-              </Nudge>
-            </Flex>
-          </Flex>
-        </Container>
-        {isOpen && (
-          <div className={mobileNavOverlay}>
-            <nav>
-              <FlexList responsive variant="stretch">
-                {navItems?.map((navItem) => (
-                  <li key={navItem.id}>
+          <NavLink to="/home" style={{ height: "82px" }}>
+            <VisuallyHidden>Home</VisuallyHidden>
+            <BrandLogo />
+          </NavLink>
+          <nav>
+            <FlexList gap={4}>
+              {navItems &&
+                navItems.map((navItem) => (
+                  <li key={navItem.id} style={{ textTransform: "uppercase" }}>
                     {navItem.navItemType === "Group" ? (
                       <NavItemGroup
+                        pageContext={props.pageContext}
+                        mouseOverHeader={mouseOverHeader}
                         name={navItem.name}
                         navItems={navItem.navItems}
+                        topLink={navItem.topLink}
+                        diffHeaderAnchorHobered={diffHeaderAnchorHobered}
                       />
                     ) : (
-                      <NavLink to={navItem.href} className={mobileNavLink}>
-                        {navItem.text}
+                      <NavLink
+                        onMouseEnter={() => {
+                          setdiffHeaderAnchorHobered(true)
+                        }}
+                        onMouseLeave={() => {
+                          setdiffHeaderAnchorHobered(false)
+                        }}
+                        to={
+                          lang != "" ? `/${lang}${navItem.href}` : navItem.href
+                        }
+                      >
+                        {navItem[`text${langForQuery}`]
+                          ? navItem[`text${langForQuery}`]
+                          : navItem.text}
                       </NavLink>
                     )}
                   </li>
                 ))}
-              </FlexList>
-            </nav>
-          </div>
-        )}
-      </header>
-    )
+              <LanguageSwitcher currentLang={lang == "" ? "en" : lang} />
+            </FlexList>
+          </nav>
+        </Flex>
+      </Container>
+      <Container className={mobileHeaderNavWrapper[isOpen ? "open" : "closed"]}>
+        <Flex variant="spaceBetween">
+          <span
+            className={
+              mobileNavSVGColorWrapper[isOpen ? "reversed" : "primary"]
+            }
+            style={{ height: "60px", display: "flex" }}
+          >
+            <NavLink style={{ display: "flex" }} to="/">
+              <VisuallyHidden>Home</VisuallyHidden>
+              <BrandLogo />
+            </NavLink>
+          </span>
+          <Flex>
+            <Space />
+            <Nudge right={3}>
+              <InteractiveIcon
+                title="Toggle menu"
+                onClick={() => setOpen(!isOpen)}
+                className={
+                  mobileNavSVGColorWrapper[isOpen ? "reversed" : "primary"]
+                }
+              >
+                {isOpen ? <X /> : <Menu />}
+              </InteractiveIcon>
+            </Nudge>
+          </Flex>
+        </Flex>
+      </Container>
+      {isOpen && (
+        <div className={mobileNavOverlay}>
+          <nav>
+            <FlexList responsive variant="stretch">
+              {navItems?.map((navItem) => (
+                <li key={navItem.id}>
+                  {navItem.navItemType === "Group" ? (
+                    <NavItemGroup
+                      name={navItem.name}
+                      navItems={navItem.navItems}
+                    />
+                  ) : (
+                    <NavLink to={navItem.href} className={mobileNavLink}>
+                      {navItem.text}
+                    </NavLink>
+                  )}
+                </li>
+              ))}
+            </FlexList>
+          </nav>
+        </div>
+      )}
+    </header>
   )
 }

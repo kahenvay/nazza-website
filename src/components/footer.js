@@ -77,7 +77,12 @@ const getSocialName = ({ service }) => {
   return socialMedia[service]?.name
 }
 
-export default function Footer() {
+export default function Footer(props) {
+  const lang = props.pageContext?.lang || ""
+  const langForQuery =
+    props.pageContext?.lang?.charAt(0)?.toUpperCase() +
+      props.pageContext?.lang?.slice(1).toLowerCase() || ""
+
   const data = useStaticQuery(graphql`
     query {
       layout {
@@ -108,6 +113,28 @@ export default function Footer() {
             ... on NavItem {
               href
               text
+              hrefFr
+              hrefNl
+              textFr
+              textNl
+            }
+            ... on NavItemGroup {
+              name
+              topLink
+              navItems {
+                id
+                href
+                hrefFr
+                hrefNl
+                text
+                textFr
+                textNl
+                description
+                icon {
+                  alt
+                  gatsbyImageData
+                }
+              }
             }
           }
         }
@@ -117,6 +144,66 @@ export default function Footer() {
 
   const { links, meta, socialLinks, copyright } = data.layout.footer
   const { navItems } = data.layout.header
+
+  let mainLinks, brandLinks
+
+  const footerLinks = () => {
+    return (
+      <FlexList variant="columnStart" responsive>
+        {/* First, render the main links (where navItemType is not "Group") */}
+        <FlexList
+          variant="columnStart"
+          responsive
+          className={atSmallFlexAlignCenter}
+        >
+          {navItems &&
+            navItems
+              .filter((navItem) => navItem.navItemType !== "Group")
+              .map((navItem) => (
+                <li key={navItem.id}>
+                  <NavLink
+                    to={lang !== "" ? `/${lang}${navItem.href}` : navItem.href}
+                  >
+                    {navItem[`text${langForQuery}`]
+                      ? navItem[`text${langForQuery}`]
+                      : navItem.text}
+                  </NavLink>
+                </li>
+              ))}
+        </FlexList>
+
+        {/* Then, render the group items (where navItemType is "Group") */}
+        <FlexList
+          variant="columnStart"
+          responsive
+          className={atSmallFlexAlignCenter}
+        >
+          {navItems &&
+            navItems
+              .filter((navItem) => navItem.navItemType === "Group")
+              .map(
+                (navItem) =>
+                  navItem.navItems &&
+                  navItem.navItems.map((navSubItem) => (
+                    <li key={navSubItem.id}>
+                      <NavLink
+                        to={
+                          lang !== ""
+                            ? `/${lang}${navSubItem.href}`
+                            : navSubItem.href
+                        }
+                      >
+                        {navSubItem[`text${langForQuery}`]
+                          ? navSubItem[`text${langForQuery}`]
+                          : navSubItem.text}
+                      </NavLink>
+                    </li>
+                  ))
+              )}
+        </FlexList>
+      </FlexList>
+    )
+  }
 
   return (
     <Box as="footer" paddingY={4} style={{ backgroundColor: "#fff8ffba" }}>
@@ -164,30 +251,16 @@ export default function Footer() {
             variant="justifyEnd"
             className={`${evenlySpacedFlexChild} ${atSmallTextAlignCenter}`}
           >
-            <EventList />
+            <EventList pageContext={props.pageContext} />
           </Flex>
         </Flex>
         <Space size={5} />
-        <Flex variant="start" responsive className={atSmallFlexAlignCenter}>
-          <FlexList
-            variant="start"
-            responsive
-            className={atSmallFlexAlignCenter}
-          >
-            {links &&
-              links.map((link) => (
-                <li key={link.id}>
-                  <NavLink to={link.href}>{link.text}</NavLink>
-                </li>
-              ))}
-            {navItems &&
-              navItems.map((navItem) => (
-                <li key={navItem.id}>
-                  <NavLink to={navItem.href}>{navItem.text}</NavLink>
-                </li>
-              ))}
-          </FlexList>
-
+        <Flex
+          variant="columnStart"
+          responsive
+          className={atSmallFlexAlignCenter}
+        >
+          {footerLinks()}
           <Space />
           <FlexList>
             {meta &&

@@ -3,6 +3,7 @@ import backVid from "../videos/nazza-background-video.mp4"
 import { submitWhite, submitWrapper } from "../components/form.css"
 import { button, pageWrap, video } from "../components/landingPage.css"
 import { NavLink } from "../components/ui"
+import SEOHead from "../components/head"
 
 export default function LandingPage(props) {
   return (
@@ -26,4 +27,19 @@ export default function LandingPage(props) {
       </div>
     </div>
   )
+}
+
+export const Head = (props) => {
+  // const { homepage } = props.data
+  const lang = props.pageContext?.lang || ""
+  let description =
+    "An exclusive agency specialized in the distribution of high quality clothing brands and accessories for men, women & kids. Discover the new collections:"
+  if (lang === "fr")
+    description =
+      "Une agence exclusive spécialisée dans la distribution de marques de vêtements et d'accessoires de haute qualité pour hommes, femmes & enfants. Découvrez les nouvelles collections :"
+  if (lang === "nl")
+    description =
+      "Een exclusief agentschap gespecialiseerd in de distributie van hoogwaardige kledingmerken en accessoires voor mannen, vrouwen & kinderen. Ontdek de nieuwe collecties:"
+
+  return <SEOHead title={"Nazza Agency"} description={description} image={""} />
 }

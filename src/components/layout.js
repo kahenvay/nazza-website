@@ -2,12 +2,12 @@ import * as React from "react"
 import "../styles.css"
 import { Slice } from "gatsby"
 
-const Layout = ({ children }) => {
+const Layout = ({ children, pageContext }) => {
   return (
     <>
-      <Slice alias="header" />
+      <Slice pageContext={pageContext} alias="header" />
       {children}
-      <Slice alias="footer" />
+      <Slice pageContext={pageContext} alias="footer" />
     </>
   )
 }

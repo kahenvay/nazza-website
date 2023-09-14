@@ -30,16 +30,20 @@ export default function LogoList(props) {
     }
   `)
 
-  const { text, brands } = data.contentfulHomepageLogoList
+  const { brands } = data.contentfulHomepageLogoList
 
   const [containerImageSrc, setContainerImageSrc] = React.useState("")
   const [containerImage, setContainerImage] = React.useState("")
+
+  const lang = props.pageContext?.lang || ""
+  const langForQuery =
+    props.pageContext?.lang?.charAt(0)?.toUpperCase() +
+      props.pageContext?.lang?.slice(1).toLowerCase() || ""
 
   React.useEffect(() => {
     const brand = brands.find((obj) => obj.id === containerImageSrc)
 
     if (brand) {
-      console.log(brand)
       setContainerImage(brand.image)
     }
   }, [containerImageSrc, brands])
@@ -50,7 +54,6 @@ export default function LogoList(props) {
   }
 
   const handleMouseLeave = () => {
-    console.log("mouseout")
     setContainerImageSrc("")
     setContainerImage("")
   }
@@ -77,13 +80,21 @@ export default function LogoList(props) {
           props.dynamicBackground && { background: "rgba(255,255,255,0.6)" }
         }
       >
-        <Subhead style={{ textAlign: "center" }}> Our Brands </Subhead>
+        <Subhead style={{ textAlign: "center" }}>
+          {lang === "" && "Our Brands"}
+          {lang === "fr" && "Nos marques"}
+          {lang === "nl" && "Onze merken"}
+        </Subhead>
         <Space size={4} />
-        {text && (
-          <Text center variant="lead">
-            {text}
-          </Text>
-        )}
+        <Text center variant="lead">
+          {lang === "" &&
+            "Discover our carefully curated selection of premium clothing brands."}
+          {lang === "fr" &&
+            "Découvrez notre sélection soigneusement choisie de marques de vêtements haut de gamme."}
+          {lang === "nl" &&
+            "Ontdek onze zorgvuldig geselecteerde collectie van premium kledingmerken."}
+        </Text>
+
         <Space size={5} />
         <FlexList gap={4} variant="center" alignItems="stretch">
           {brands.map((brand) => {
@@ -97,7 +108,11 @@ export default function LogoList(props) {
                 >
                   <Link
                     style={{ display: "flex" }}
-                    to={`/brands/${brand.slug}`}
+                    to={
+                      lang != ""
+                        ? `/${lang}/brands/${brand.slug}`
+                        : `/brands/${brand.slug}`
+                    }
                   >
                     <LogoItem {...brand.logo} rounded={true} />
                   </Link>

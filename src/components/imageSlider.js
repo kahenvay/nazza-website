@@ -5,23 +5,27 @@ import { activeImage, slideImage } from "./imageSlider.css"
 
 export default function ImageSlider(props) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const imagesLength = props.images ? props.images.length : 0
 
   useEffect(() => {
+    if (!props.images || props.images.length === 0) {
+      return
+    }
     // Set an interval to change the current image every second
     const intervalId = setInterval(() => {
       setCurrentImageIndex(
-        (currentImageIndex) => (currentImageIndex + 1) % props.images.length
+        (currentImageIndex) => (currentImageIndex + 1) % imagesLength
       )
     }, 6000)
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId)
-  }, [props.images.length])
+  }, [imagesLength])
 
   return (
     <div className={absoluteParent} style={{ paddingBottom: "50%" }}>
       {props.images.map((image, index) => {
-        console.log(image.alt)
+        // console.log(image.alt)
         return (
           image && (
             <GatsbyImage

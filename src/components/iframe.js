@@ -15,16 +15,14 @@ export default function Iframe(props) {
   }
 
   return (
-    console.log("src", props.src) || (
-      <iframe
-        src={props.src && convertToEmbedURL(props.src)}
-        title={`Some title`}
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        webkitallowfullscreen="true"
-        mozallowfullscreen="true"
-        allowFullScreen
-        className={props.className}
-      />
-    )
+    <iframe
+      src={props.src && convertToEmbedURL(props.src)}
+      title={`Some title`}
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      webkitallowfullscreen="true"
+      mozallowfullscreen="true"
+      allowFullScreen
+      className={props.className}
+    />
   )
 }
