@@ -19,5 +19,5 @@ export const Head = (props) => {
   // const { homepage } = props.data
   const lang = props.pageContext?.lang || ""
 
-  return <SEOHead title={"Nazza Agency | About"} image={""} />
+  return <SEOHead title={"Nazza Agency | About"} />
 }

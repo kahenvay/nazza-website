@@ -24,7 +24,9 @@ export default function Head({ title, description, image }) {
           <meta
             property="og:image"
             content={
-              image == "../nazza-logo-long.svg" || ""
+              image == "../nazza-logo-long.svg" ||
+              image == "" ||
+              image == undefined
                 ? "../nazza-logo-long.svg"
                 : image.url
             }
@@ -39,7 +41,9 @@ export default function Head({ title, description, image }) {
           <meta
             name="twitter:image"
             content={
-              image == "../nazza-logo-long.svg" || ""
+              image == "../nazza-logo-long.svg" ||
+              image == "" ||
+              image == undefined
                 ? "../nazza-logo-long.svg"
                 : image.url
             }
