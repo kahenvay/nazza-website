@@ -24,11 +24,14 @@ import EventList from "./events"
 import {
   atSmallFlexAlignCenter,
   atSmallTextAlignCenter,
+  atXLFlexAlignCenter,
+  atXLcol,
   evenlySpacedFlexChild,
 } from "./ui.css"
 
 import Whatsapp from "./whatsapp"
 import { StaticImage } from "gatsby-plugin-image"
+import { footyRes } from "./footer.css"
 
 const socialMedia = {
   TWITTER: {
@@ -149,7 +152,7 @@ export default function Footer(props) {
 
   const footerLinks = () => {
     return (
-      <FlexList variant="columnStart" responsive>
+      <FlexList className={footyRes}>
         {/* First, render the main links (where navItemType is not "Group") */}
         <FlexList
           variant="columnStart"
@@ -255,11 +258,7 @@ export default function Footer(props) {
           </Flex>
         </Flex>
         <Space size={5} />
-        <Flex
-          variant="columnStart"
-          responsive
-          className={atSmallFlexAlignCenter}
-        >
+        <Flex className={`${atSmallFlexAlignCenter} ${atXLcol}`}>
           {footerLinks()}
           <Space />
           <FlexList>

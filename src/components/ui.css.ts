@@ -22,6 +22,7 @@ export const maxMedia = {
   small: `screen and (max-width: ${maxBreakpoints[0]})`,
   medium: `screen and (max-width: ${maxBreakpoints[1]})`,
   large: `screen and (max-width: ${maxBreakpoints[2]})`,
+  xLarge: `screen and (max-width: 1199px)`,
 }
 
 export const square = style({
@@ -99,13 +100,33 @@ export const flex = style({
   alignItems: "center",
 })
 
+export const atXLFlexAlignCenter = style({
+  "@media": {
+    [maxMedia.xLarge]: {
+      alignItems: "center",
+      width:"100%"
+    },
+  },
+})
+
 export const atSmallFlexAlignCenter = style({
   "@media": {
     [maxMedia.small]: {
       alignItems: "center",
+      width:"100%"
     },
   },
 })
+
+export const atXLcol = style({
+  "@media": {
+    [maxMedia.xLarge]: {
+      flexDirection:"column"
+    },
+  },
+})
+
+
 
 export const atSmallTextAlignCenter = style({
   "@media": {

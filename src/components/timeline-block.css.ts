@@ -150,6 +150,11 @@ export const iconBlock = style({
     width: "64px",
     height: "64px",
     top: "-64px",
+    "@media": {
+        [maxMedia.small]: {
+            top:"25px"
+         },
+    },
 })
 
 export const evenIcon = style({

@@ -12,26 +12,23 @@ export default function Homepage(props) {
   const { homepage } = props.data
 
   return (
-    console.log("home props", props) || (
-      <Layout pageContext={props.pageContext}>
-        <div style={{ overflowX: "hidden" }}>
-          {homepage.blocks.map((block) => {
-            console.log("homepage block", block)
-            const { id, blocktype, ...componentProps } = block
-            const Component = sections[blocktype] || Fallback
-            return (
-              <Component
-                pageContext={props.pageContext}
-                key={id}
-                {...componentProps}
-              />
-            )
-          })}
-          <InstaLatestsPhotos />
-          <Contact pageContext={props.pageContext} />
-        </div>
-      </Layout>
-    )
+    <Layout pageContext={props.pageContext}>
+      <div style={{ overflowX: "hidden" }}>
+        {homepage.blocks.map((block) => {
+          const { id, blocktype, ...componentProps } = block
+          const Component = sections[blocktype] || Fallback
+          return (
+            <Component
+              pageContext={props.pageContext}
+              key={id}
+              {...componentProps}
+            />
+          )
+        })}
+        <InstaLatestsPhotos />
+        <Contact pageContext={props.pageContext} />
+      </div>
+    </Layout>
   )
 }
 

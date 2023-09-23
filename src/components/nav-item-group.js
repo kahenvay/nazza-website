@@ -20,7 +20,8 @@ export default function NavItemGroup({
     return !window.matchMedia(media.small).matches
   }
 
-  const lang = pageContext?.lang || ""
+  let lang = pageContext?.lang || ""
+  lang = lang == "en" ? "" : lang
   const langForQuery =
     pageContext?.lang?.charAt(0)?.toUpperCase() +
       pageContext?.lang?.slice(1).toLowerCase() || ""

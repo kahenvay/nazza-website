@@ -67,7 +67,8 @@ export default function Header(props) {
 
   const { navItems } = data.layout.header
   const [isOpen, setOpen] = React.useState(false)
-  const lang = props.pageContext?.lang || ""
+  let lang = props.pageContext?.lang || ""
+  lang = lang == "en" ? "" : lang
   const langForQuery =
     props.pageContext?.lang?.charAt(0)?.toUpperCase() +
       props.pageContext?.lang?.slice(1).toLowerCase() || ""

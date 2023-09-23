@@ -35,7 +35,8 @@ export default function LogoList(props) {
   const [containerImageSrc, setContainerImageSrc] = React.useState("")
   const [containerImage, setContainerImage] = React.useState("")
 
-  const lang = props.pageContext?.lang || ""
+  let lang = props.pageContext?.lang || ""
+  lang = lang == "en" ? "" : lang
   const langForQuery =
     props.pageContext?.lang?.charAt(0)?.toUpperCase() +
       props.pageContext?.lang?.slice(1).toLowerCase() || ""
@@ -63,7 +64,7 @@ export default function LogoList(props) {
       {/* <Space size={4} /> */}
       {props.dynamicBackground && (
         <GatsbyImage
-          alt={containerImage.alt}
+          alt={containerImage.alt ? containerImage.alt : ""}
           image={getImage(containerImage.gatsbyImageData)}
           className={absoluteChild}
           style={{ position: "absolute" }}
@@ -109,7 +110,7 @@ export default function LogoList(props) {
                   <Link
                     style={{ display: "flex" }}
                     to={
-                      lang != ""
+                      lang
                         ? `/${lang}/brands/${brand.slug}`
                         : `/brands/${brand.slug}`
                     }
