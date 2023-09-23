@@ -6,39 +6,35 @@ import Team from "../components/team"
 import SEOHead from "../components/head"
 
 export default function TeamPage(props) {
-  const members = props.data.allMember.nodes
+  // const members = props.data.allMember.nodes
   return (
     console.log("team page props", props) || (
       <Layout pageContext={props.pageContext} style={{ overflowX: "hidden" }}>
         <Container>
-          {members && (
-            <Team members={members} pageContext={props.pageContext} />
-          )}
-          {!members &&
-            "Loading members, if this takes too long, please try again later"}
+          <Team pageContext={props.pageContext} />
         </Container>
       </Layout>
     )
   )
 }
 
-export const pageQuery = graphql`
-  query TeamQuery {
-    allMember {
-      nodes {
-        name
-        phone
-        html
-        htmlFr
-        htmlNl
-        image {
-          alt
-          gatsbyImageData
-        }
-      }
-    }
-  }
-`
+// export const pageQuery = graphql`
+//   query TeamQuery {
+//     allMember {
+//       nodes {
+//         name
+//         phone
+//         html
+//         htmlFr
+//         htmlNl
+//         image {
+//           alt
+//           gatsbyImageData
+//         }
+//       }
+//     }
+//   }
+// `
 
 export const Head = (props) => {
   // const { homepage } = props.data
