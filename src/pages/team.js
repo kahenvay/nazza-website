@@ -6,7 +6,7 @@ import Team from "../components/team"
 import SEOHead from "../components/head"
 
 export default function TeamPage(props) {
-  const members = props.data?.allMember?.nodes
+  const members = props.data.allMember.nodes
   return (
     console.log("team page props", props) || (
       <Layout pageContext={props.pageContext} style={{ overflowX: "hidden" }}>

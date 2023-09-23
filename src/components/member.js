@@ -14,7 +14,10 @@ const Member = (props) => {
   return (
     console.log("member props", props) || (
       <div className={member}>
-        <GatsbyImage alt={image.alt} image={getImage(image.gatsbyImageData)} />
+        <GatsbyImage
+          alt={image.alt ? image.alt : ""}
+          image={getImage(image.gatsbyImageData)}
+        />
         <div className="info">
           <p style={{ marginBottom: "5px" }}>
             <strong>{name}</strong>
