@@ -24,7 +24,7 @@ export default function Brand(props) {
       <Layout pageContext={props.pageContext}>
         {brand?.image && (
           <GatsbyImage
-            alt={brand.image.alt}
+            alt={brand.image.alt ? brand.image.alt : ""}
             image={getImage(brand.image.gatsbyImageData)}
           />
         )}
@@ -37,7 +37,7 @@ export default function Brand(props) {
                 <div>
                   <Flex variant="center">
                     <GatsbyImage
-                      alt={brand.logo.alt}
+                      alt={brand.logo.alt ? brand.logo.alt : ""}
                       image={getImage(brand.logo.gatsbyImageData)}
                     />
                   </Flex>
@@ -48,7 +48,7 @@ export default function Brand(props) {
               {brand?.topImage && (
                 <a href={brand?.website}>
                   <GatsbyImage
-                    alt={brand.topImage.alt}
+                    alt={brand.topImage.alt ? brand.topImage.alt : ""}
                     image={getImage(brand.topImage.gatsbyImageData)}
                   />
                 </a>
@@ -119,7 +119,7 @@ export default function Brand(props) {
                       <li key={image.id}>
                         <a href={brand?.website}>
                           <GatsbyImage
-                            alt={image.alt}
+                            alt={image.alt ? image.alt : ""}
                             image={getImage(image.gatsbyImageData)}
                             className={gridImage}
                           />

@@ -69,11 +69,11 @@ export default function TimlineBlock(props) {
         {image && image.gatsbyImageData ? (
           <GatsbyImage
             className={image}
-            alt={image.alt}
+            alt={image.alt ? image.alt : ""}
             image={getImage(image.gatsbyImageData)}
           />
         ) : (
-          image && <img src={image.url} alt={image.alt} />
+          image && <img src={image.url} alt={image.alt ? image.alt : ""} />
         )}
       </div>
     </li>

@@ -230,14 +230,18 @@ export function Blockquote(props) {
 
 export function Avatar({ alt, image }) {
   return (
-    <GatsbyImage alt={alt} image={getImage(image)} className={styles.avatar} />
+    <GatsbyImage
+      alt={alt ? alt : ""}
+      image={getImage(image)}
+      className={styles.avatar}
+    />
   )
 }
 
 export function Logo({ alt, image, size = "small", className, imgStyle }) {
   return (
     <GatsbyImage
-      alt={alt}
+      alt={alt ? alt : ""}
       image={getImage(image)}
       className={`${styles.logos[size]} ${className}`}
       objectFit="contain"
@@ -249,7 +253,7 @@ export function Logo({ alt, image, size = "small", className, imgStyle }) {
 export function Icon({ alt, image, size = "medium" }) {
   return (
     <GatsbyImage
-      alt={alt}
+      alt={alt ? alt : ""}
       image={getImage(image)}
       className={styles.icons[size]}
     />

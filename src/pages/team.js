@@ -1,4 +1,4 @@
-import { graphql, useStaticQuery } from "gatsby"
+import { graphql } from "gatsby"
 import React from "react"
 import Layout from "../components/layout"
 import { Container } from "../components/ui"
@@ -6,26 +6,7 @@ import Team from "../components/team"
 import SEOHead from "../components/head"
 
 export default function TeamPage(props) {
-  // const data = useStaticQuery(graphql`
-  //   query TeamQuery {
-  //     allMember {
-  //       nodes {
-  //         name
-  //         phone
-  //         html
-  //         htmlFr
-  //         htmlNl
-  //         image {
-  //           alt
-  //           gatsbyImageData
-  //         }
-  //       }
-  //     }
-  //   }
-  // `)
-
   const members = props.data?.allMember?.nodes
-  // const members = data?.allMember?.nodes
   return (
     console.log("team page props", props) || (
       <Layout pageContext={props.pageContext} style={{ overflowX: "hidden" }}>

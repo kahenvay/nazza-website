@@ -243,7 +243,7 @@ export default function Footer(props) {
             <StaticImage
               src="../images/qrzach.png"
               alt="Zachary Zechnini Contact QR Code"
-              width="150px"
+              width={150}
             />
           </Flex>
           <Space size={2} />

@@ -37,24 +37,22 @@ const LanguageSwitcher = ({ currentLang }) => {
   }
 
   return (
-    console.log("lang currentLang", currentLang) || (
-      <div>
-        {Object.keys(languages).map((lang) => {
-          if (lang !== currentLang) {
-            return (
-              <span
-                key={lang}
-                style={{ cursor: "pointer", margin: "0 5px" }}
-                onClick={() => handleClick(lang)}
-              >
-                {languages[lang].flag}
-              </span>
-            )
-          }
-          return null
-        })}
-      </div>
-    )
+    <div>
+      {Object.keys(languages).map((lang) => {
+        if (lang !== currentLang) {
+          return (
+            <span
+              key={lang}
+              style={{ cursor: "pointer", margin: "0 5px" }}
+              onClick={() => handleClick(lang)}
+            >
+              {languages[lang].flag}
+            </span>
+          )
+        }
+        return null
+      })}
+    </div>
   )
 }
 
