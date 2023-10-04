@@ -6,26 +6,38 @@ import { NavLink } from "../components/ui"
 import SEOHead from "../components/head"
 
 export default function LandingPage(props) {
+  const [isVideoLoaded, setVideoLoaded] = React.useState(false)
+
+  const handleVideoLoad = () => {
+    setVideoLoaded(true)
+  }
+
   return (
-    <div className={pageWrap}>
-      <video
-        className={video}
-        src={backVid}
-        autoPlay
-        loop
-        muted
-        playsInline
-      ></video>
-      <div className={`${submitWrapper} ${button}`}>
-        <NavLink
-          style={{ display: "block", textAlign: "center", zIndex: 100 }}
-          to="/home"
-          className={`${submitWhite}`}
-        >
-          Enter
-        </NavLink>
+    console.log("welcome to the nazza landing page") || (
+      <div className={pageWrap}>
+        <video
+          className={video}
+          src={backVid}
+          autoPlay
+          loop
+          muted
+          playsInline
+          onLoadedData={handleVideoLoad}
+        ></video>
+
+        {isVideoLoaded && (
+          <div className={`${submitWrapper} ${button}`}>
+            <NavLink
+              style={{ display: "block", textAlign: "center", zIndex: 100 }}
+              to="/home"
+              className={`${submitWhite}`}
+            >
+              Enter
+            </NavLink>
+          </div>
+        )}
       </div>
-    </div>
+    )
   )
 }
 
