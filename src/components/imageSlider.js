@@ -30,7 +30,7 @@ export default function ImageSlider(props) {
           image && (
             <GatsbyImage
               key={image.id}
-              alt={image.alt}
+              alt={image.alt ? image.alt : ""}
               image={getImage(image.gatsbyImageData)}
               className={`${absoluteChild} ${slideImage} ${
                 index === currentImageIndex ? activeImage : ""
