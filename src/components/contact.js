@@ -37,7 +37,7 @@ export default function Contact() {
   `)
 
   const zach = data.allMember.nodes[0]
-  const abdel = data.allMember.nodes[0]
+  const abdel = data.allMember.nodes[1]
 
   // const { zachPhone, zachName, abdelPhone, abdelName } =
   //   data.contentfulLayoutFooter
