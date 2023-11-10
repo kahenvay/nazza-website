@@ -1,17 +1,21 @@
 import React from "react"
 import { navigate } from "gatsby"
+import { langStyle } from "./language.css"
 
 const languages = {
   en: {
-    flag: "🇬🇧",
+    // flag: "🇬🇧",
+    flag: "EN",
     prefix: "",
   },
   fr: {
-    flag: "🇫🇷",
+    // flag: "🇫🇷",
+    flag: "FR",
     prefix: "/fr",
   },
   nl: {
-    flag: "🇳🇱",
+    // flag: "🇳🇱",
+    flag: "NL",
     prefix: "/nl",
   },
 }
@@ -41,13 +45,16 @@ const LanguageSwitcher = ({ currentLang }) => {
       {Object.keys(languages).map((lang) => {
         if (lang !== currentLang) {
           return (
-            <span
+            <a
+              className={langStyle}
+              href="#"
+              ariaLabel={`Change language to ${lang}`}
               key={lang}
               style={{ cursor: "pointer", margin: "0 5px" }}
               onClick={() => handleClick(lang)}
             >
               {languages[lang].flag}
-            </span>
+            </a>
           )
         }
         return null

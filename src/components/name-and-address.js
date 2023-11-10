@@ -7,7 +7,7 @@ export default function NameAndAddress(props) {
     <div>
       <Text>
         <p className={noMarginTopBottom}>{props.name}</p>
-        <Link href={`tel:${props.number.replaceAll(" ", "")}`} target="_blank">
+        <Link href={`tel:${props.number?.replaceAll(" ", "")}`} target="_blank">
           {props.number}
         </Link>
       </Text>

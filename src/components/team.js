@@ -6,7 +6,7 @@ import { FlexList, Space, Subhead } from "./ui"
 export default function Team(props) {
   const data = useStaticQuery(graphql`
     query TeamQuery {
-      allMember {
+      allTeam {
         nodes {
           name
           phone
@@ -20,8 +20,8 @@ export default function Team(props) {
     }
   `)
 
-  const zach = data.allMember.nodes[0]
-  const abdel = data.allMember.nodes[1]
+  const zach = data.allTeam.nodes[0]
+  const abdel = data.allTeam.nodes[1]
 
   return (
     <div>

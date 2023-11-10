@@ -22,7 +22,7 @@ export default function Contact() {
 
   const data = useStaticQuery(graphql`
     query TeamQuery {
-      allMember {
+      allTeam {
         nodes {
           name
           phone
@@ -36,52 +36,53 @@ export default function Contact() {
     }
   `)
 
-  const zach = data.allMember.nodes[0]
-  const abdel = data.allMember.nodes[1]
+  const zach = data.allTeam.nodes[0]
+  const abdel = data.allTeam.nodes[1]
 
   // const { zachPhone, zachName, abdelPhone, abdelName } =
   //   data.contentfulLayoutFooter
 
   return (
-    // console.log("events", props, eventTitle) || (
-    <div>
-      <Section padding={3} background="muted" className={absoluteParent}>
-        <StaticImage
-          src="../images/hanger.jpg"
-          className={absoluteChild}
-          style={{ position: "absolute" }}
-          alt=""
-        />
-        <Space size={4} />
-        <Container className={absoluteParent}>
-          <Flex gap={4} variant="stretchResponsive">
-            <Box width="half">
-              <Form />
-            </Box>
-            <Box
-              width="half"
-              style={{ textAlign: "center" }}
-              className={`${colorWhite} ${contactText}`}
-            >
-              <NameAndAddress name={abdel.name} number={abdel.phone} />
-              <Space size={1} />
-              <NameAndAddress name={zach.name} number={zach.phone} />
-              <Space size={1} />
-              <Address />
-            </Box>
-          </Flex>
-        </Container>
-        <Space size={4} />
-      </Section>
-      <Link
-        target="_blank"
-        href="https://www.google.com/maps/place/Chau.+de+Waterloo+1006,+1180+Uccle,+Belgium/@50.8009555,4.3717523,17z/data=!3m1!4b1!4m6!3m5!1s0x47c3c51f3a2012db:0x9899e34bac24c1a4!8m2!3d50.8009555!4d4.3743272!16s%2Fg%2F11csmv3lvv"
-      >
-        <StaticImage
-          alt="map of europe with belgium highlighted and a pin where nazza agency is located"
-          src="../images/static-map-long-think-belgium-v2.jpg"
-        />
-      </Link>
-    </div>
+    console.log("data", data) || (
+      <div>
+        <Section padding={3} background="muted" className={absoluteParent}>
+          <StaticImage
+            src="../images/hanger.jpg"
+            className={absoluteChild}
+            style={{ position: "absolute" }}
+            alt=""
+          />
+          <Space size={4} />
+          <Container className={absoluteParent}>
+            <Flex gap={4} variant="stretchResponsive">
+              <Box width="half">
+                <Form />
+              </Box>
+              <Box
+                width="half"
+                style={{ textAlign: "center" }}
+                className={`${colorWhite} ${contactText}`}
+              >
+                <NameAndAddress name={abdel?.name} number={abdel?.phone} />
+                <Space size={1} />
+                <NameAndAddress name={zach?.name} number={zach?.phone} />
+                <Space size={1} />
+                <Address />
+              </Box>
+            </Flex>
+          </Container>
+          <Space size={4} />
+        </Section>
+        <Link
+          target="_blank"
+          href="https://www.google.com/maps/place/Chau.+de+Waterloo+1006,+1180+Uccle,+Belgium/@50.8009555,4.3717523,17z/data=!3m1!4b1!4m6!3m5!1s0x47c3c51f3a2012db:0x9899e34bac24c1a4!8m2!3d50.8009555!4d4.3743272!16s%2Fg%2F11csmv3lvv"
+        >
+          <StaticImage
+            alt="map of europe with belgium highlighted and a pin where nazza agency is located"
+            src="../images/static-map-long-think-belgium-v2.jpg"
+          />
+        </Link>
+      </div>
+    )
   )
 }

@@ -3,12 +3,16 @@ import { theme } from "../theme.css"
 // import { media, padding } from "./ui.css"
 import {colors} from "../colors.css"
 
-const beforeAndAfter = (height, color) => {
+const beforeAndAfter = (height, color, direction) => {
+    let eleWidth = "0%";
+    if (direction == "inverse"){
+        eleWidth ="50%";
+    }
     return {
         content:"",
         position: "absolute",
         display: "block",
-        width: "0",
+        width: eleWidth,
         height: height,
         backgroundColor: color,
         
@@ -18,29 +22,33 @@ const beforeAndAfter = (height, color) => {
     }
 }
 
-const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
-    let returnObj = {}
+const pseudoBeforeAfterEffect = (top,bottom,height, event, color, direction) => {
+    let returnObj = {};
+    let eleWidth = "50%";
+    if (direction == "inverse"){
+        eleWidth = "0";
+    }
     switch (event) {
         case "hover":
             returnObj = {
                 selectors: {
                     "&::before": {
-                        ...beforeAndAfter(height,colors.primary),
+                        ...beforeAndAfter(height,color, direction),
                         left:"0%",
                         top:top,
                         bottom:bottom
                        },
                        "&:hover::before": {
-                        width:"50%"
+                        width:eleWidth
                        },
                     "&::after": {
-                        ...beforeAndAfter(height,colors.primary),
+                        ...beforeAndAfter(height,color, direction),
                         right:"0%",
                         top:top,
                         bottom:bottom
                        },
                        "&:hover::after": {
-                        width:"50%"
+                        width:eleWidth
                        }
                 },
             }
@@ -49,22 +57,22 @@ const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
             returnObj = {
                 selectors: {
                     "&::before": {
-                        ...beforeAndAfter(height, colors.primary),
+                        ...beforeAndAfter(height, color, direction),
                         left:"0%",
                         top:top,
                         bottom:bottom
                        },
                        "&:focus-within::before": {
-                        width:"50%"
+                        width:eleWidth
                        },
                     "&::after": {
-                        ...beforeAndAfter(height, colors.primary),
+                        ...beforeAndAfter(height, color, direction),
                         right:"0%",
                         top:top,
                         bottom:bottom
                        },
                        "&:focus-within::after": {
-                        width:"50%"
+                        width:eleWidth
                        }
                 },
             }
@@ -77,12 +85,25 @@ const pseudoBeforeAfterEffect = (top,bottom,height, event) => {
 const submit = () => {
     return {
         fontSize: theme.fontSizes[2],
-        padding: `${theme.space[3]} ${theme.space[4]}`,
-        maxWidth: "200px",
+        padding: `${theme.space[2]} ${theme.space[3]}`,
+        maxWidth: "180px",
         width:"100%",
         zIndex: "1",
         // position: "relative",
         backgroundColor: "transparent",
+        cursor:"pointer",
+    }
+}
+
+const submitBlackBase = () => {
+    return {
+        fontSize: theme.fontSizes[2],
+        padding: `${theme.space[2]} ${theme.space[3]}`,
+        maxWidth: "180px",
+        width:"100%",
+        zIndex: "1",
+        // position: "relative",
+        backgroundColor: "#000",
         cursor:"pointer",
     }
 }
@@ -99,7 +120,7 @@ export const inputGroup = style({
   position:"relative",
   width:"100%",
   display:"flex",
-  ...pseudoBeforeAfterEffect("initial",0,"3px","focus")
+  ...pseudoBeforeAfterEffect("initial",0,"3px","focus", colors.primary, "")
 })
 
 export const labelAndInput = style({
@@ -175,6 +196,19 @@ export const submitBlack = style({
     }
 })
 
+export const submitBlackFull = style({
+    ...submit(),
+    position: "relative",
+    color:"#fff",
+    border:"2px solid #000",
+    
+    selectors:{
+        '&:hover':{
+            color:"#000"
+        }
+    }
+})
+
 export const submitBlackAlt = style({
     ...submit(),
     position: "relative",
@@ -194,6 +228,11 @@ export const feedbackWrapShow = style({
 }) 
 
 export const submitWrapper = style({
-    ...pseudoBeforeAfterEffect(0,0,"100%", "hover"),
-    position: "relative", maxWidth: "200px", width: "100%" 
+    ...pseudoBeforeAfterEffect(0,0,"100%", "hover", colors.primary, ""),
+    position: "relative", maxWidth: "180px", width: "100%" 
+})
+
+export const submitWrapperInverse = style({
+    ...pseudoBeforeAfterEffect(0,0,"100%", "hover", colors.primary, "inverse"),
+    position: "relative", maxWidth: "180px", width: "100%" 
 })

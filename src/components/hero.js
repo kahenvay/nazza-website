@@ -20,7 +20,13 @@ import {
   Subhead,
   Text,
 } from "./ui"
-import { submitBlack, submitWrapper } from "./form.css"
+import {
+  submitBlack,
+  submitBlackFull,
+  submitWrapper,
+  submitWrapperBlackFull,
+  submitWrapperInverse,
+} from "./form.css"
 
 export default function Hero(props) {
   // to reformat, maybe could use js media query instead?
@@ -78,11 +84,11 @@ export default function Hero(props) {
               />
 
               {/* <ButtonList marginY={0} links={props.links} /> */}
-              <div className={submitWrapper}>
+              <div className={submitWrapperInverse}>
                 <NavLink
                   style={{ display: "block", textAlign: "center", zIndex: 100 }}
                   to={lang ? `/${lang}/about` : "/about"}
-                  className={`${submitBlack}`}
+                  className={`${submitBlackFull}`}
                 >
                   Read More
                 </NavLink>

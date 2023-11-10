@@ -269,7 +269,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       socials: [SocialMedia]
     }
 
-    interface Member implements Node {
+    interface Team implements Node {
       id: ID!
       image: HomepageImage @link(from: "image___NODE")
       name: String
@@ -446,10 +446,10 @@ exports.createSchemaCustomization = async ({ actions }) => {
     }
   `)
 
-  //Member types
+  //Team types
   // ahh htlm is getting a value of a field called body
   actions.createTypes(/* GraphQL */ `
-    type ContentfulMember implements Node & Member {
+    type ContentfulTeam implements Node & Team {
       id: ID!
       image: HomepageImage @link(from: "image___NODE")
       name: String
