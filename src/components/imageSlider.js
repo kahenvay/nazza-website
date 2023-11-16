@@ -24,7 +24,8 @@ export default function ImageSlider(props) {
 
   return (
     <div className={absoluteParent} style={{ paddingBottom: "50%" }}>
-      {props.images?.map((image, index) => {
+      {props.images.map((image, index) => {
+        // actually I want it to crash, so not published if no images
         // console.log(image.alt)
         return (
           image && (
