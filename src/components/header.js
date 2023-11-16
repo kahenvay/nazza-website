@@ -186,8 +186,13 @@ export default function Header(props) {
                       navItems={navItem.navItems}
                     />
                   ) : (
-                    <NavLink to={navItem.href} className={mobileNavLink}>
-                      {navItem.text}
+                    <NavLink
+                      to={lang != "" ? `/${lang}${navItem.href}` : navItem.href}
+                      className={mobileNavLink}
+                    >
+                      {navItem[`text${langForQuery}`]
+                        ? navItem[`text${langForQuery}`]
+                        : navItem.text}
                     </NavLink>
                   )}
                 </li>

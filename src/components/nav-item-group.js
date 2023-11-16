@@ -118,7 +118,7 @@ export default function NavItemGroup({
     >
       <NavLink
         onClick={onGroupButtonClick}
-        to={lang ? `/${lang}${topLink}` : `${topLink}`}
+        to={isSmallScreen ? "#" : lang ? `/${lang}${topLink}` : `${topLink}`}
         onMouseEnter={() => handleMouseEnter()}
         className={styles.navGroupTitle}
       >

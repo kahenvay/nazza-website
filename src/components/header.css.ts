@@ -71,7 +71,7 @@ export const mobileNavSVGColorWrapper = styleVariants({
 export const mobileNavOverlay = style({
   position: "absolute",
   width: "100vw",
-  height: "100vh",
+  height: "115vh",
   paddingTop: theme.space[4],
   background: theme.colors.primary,
   zIndex: 1,
