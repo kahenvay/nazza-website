@@ -23,10 +23,20 @@ export default function Team(props) {
   const zach = data.allTeam.nodes[0]
   const abdel = data.allTeam.nodes[1]
 
+  const lang = props.pageContext?.lang || ""
+  // let teamTitle =
+  //   "Our Team"
+  // if (lang === "fr")
+  //   description =
+  //     "Notre Equipe"
+  // if (lang === "nl")
+  //   description =
+  //     ""
+
   return (
     <div>
       <Space size={5} />
-      <Subhead style={{ textAlign: "center" }}> Our Team </Subhead>
+      <Subhead style={{ textAlign: "center" }}> Team </Subhead>
       <Space size={4} />
       <FlexList gap={3} alignItems="start" variant="center">
         <Member pageContext={props.pageContext} teamMember={zach}></Member>
