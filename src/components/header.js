@@ -26,7 +26,7 @@ import LanguageSwitcher from "./language-switcher"
 
 export default function Header(props) {
   const data = useStaticQuery(graphql`
-    query {
+    query headerQuery {
       layout {
         header {
           id

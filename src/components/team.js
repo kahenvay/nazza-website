@@ -5,12 +5,14 @@ import { FlexList, Space, Subhead } from "./ui"
 
 export default function Team(props) {
   const data = useStaticQuery(graphql`
-    query TeamQuery {
+    query myTeamQuery {
       allTeam {
         nodes {
           name
           phone
           html
+          htmlFr
+          htmlNl
           image {
             alt
             gatsbyImageData
@@ -24,6 +26,9 @@ export default function Team(props) {
   const abdel = data.allTeam.nodes[1]
 
   const lang = props.pageContext?.lang || ""
+  const langForQuery =
+    props.pageContext?.lang?.charAt(0)?.toUpperCase() +
+      props.pageContext?.lang?.slice(1).toLowerCase() || ""
   // let teamTitle =
   //   "Our Team"
   // if (lang === "fr")

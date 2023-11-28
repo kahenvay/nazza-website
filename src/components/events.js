@@ -13,7 +13,7 @@ import { List, Text, Kicker, Space } from "./ui"
 
 export default function EventList(props) {
   const data = useStaticQuery(graphql`
-    query {
+    query eventQuery {
       contentfulLayoutFooter {
         eventLines
         eventTitle

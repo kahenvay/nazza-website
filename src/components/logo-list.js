@@ -8,7 +8,7 @@ import { absoluteChild, absoluteParent } from "./ui.css"
 
 export default function LogoList(props) {
   const data = useStaticQuery(graphql`
-    query {
+    query logoQuery {
       contentfulHomepageLogoList {
         id
         text

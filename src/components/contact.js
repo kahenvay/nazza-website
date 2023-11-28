@@ -9,24 +9,15 @@ import { absoluteChild, absoluteParent, colorWhite } from "./ui.css"
 import { contactText } from "./contact.css"
 
 export default function Contact() {
-  // const data = useStaticQuery(graphql`
-  //   query {
-  //     contentfulLayoutFooter {
-  //       zachPhone
-  //       zachName
-  //       abdelPhone
-  //       abdelName
-  //     }
-  //   }
-  // `)
-
   const data = useStaticQuery(graphql`
-    query TeamQuery {
+    query contactTeamQuery {
       allTeam {
         nodes {
           name
           phone
           html
+          htmlFr
+          htmlNl
           image {
             alt
             gatsbyImageData

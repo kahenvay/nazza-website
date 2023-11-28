@@ -1,4 +1,3 @@
-import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
 import TimlineBlock from "./timeline-block"
 import { timeline } from "./timeline.css"

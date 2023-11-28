@@ -13,7 +13,7 @@ import { StaticImage } from "gatsby-plugin-image"
 
 export default function InstaLatestsPhotos() {
   const data = useStaticQuery(graphql`
-    query {
+    query instaQuery {
       allInstagramPhoto {
         nodes {
           media_url

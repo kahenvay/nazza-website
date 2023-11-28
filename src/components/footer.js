@@ -87,7 +87,7 @@ export default function Footer(props) {
       props.pageContext?.lang?.slice(1).toLowerCase() || ""
 
   const data = useStaticQuery(graphql`
-    query {
+    query socialQuery {
       layout {
         footer {
           id
