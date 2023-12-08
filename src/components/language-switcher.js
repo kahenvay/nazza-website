@@ -1,6 +1,7 @@
 import React from "react"
 import { navigate } from "gatsby"
-import { langStyle } from "./language.css"
+import { langStyle, langWrapMobile } from "./language.css"
+import { FlexList } from "./ui"
 
 const languages = {
   en: {
@@ -41,25 +42,27 @@ const LanguageSwitcher = ({ currentLang }) => {
   }
 
   return (
-    <div>
+    <FlexList className={langWrapMobile}>
       {Object.keys(languages).map((lang) => {
         if (lang !== currentLang) {
           return (
-            <a
-              className={langStyle}
-              href="#"
-              ariaLabel={`Change language to ${lang}`}
-              key={lang}
-              style={{ cursor: "pointer", margin: "0 5px" }}
-              onClick={() => handleClick(lang)}
-            >
-              {languages[lang].flag}
-            </a>
+            <li>
+              <a
+                className={langStyle}
+                href="#"
+                ariaLabel={`Change language to ${lang}`}
+                key={lang}
+                style={{ cursor: "pointer", margin: "0 5px" }}
+                onClick={() => handleClick(lang)}
+              >
+                {languages[lang].flag}
+              </a>
+            </li>
           )
         }
         return null
       })}
-    </div>
+    </FlexList>
   )
 }
 

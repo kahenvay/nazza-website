@@ -1,6 +1,6 @@
 import { style, styleVariants } from "@vanilla-extract/css"
 import { theme } from "../theme.css"
-import { media } from "./ui.css"
+import { maxMedia, media } from "./ui.css"
 
 
 export const header = style({
@@ -8,7 +8,21 @@ export const header = style({
     [media.small]: {
     backgroundColor:"#fff"
     },
+    
   },
+})
+
+export const headerOpenMobile = style({
+"@media":{
+  [maxMedia.small]:{
+    position:"fixed",
+    zIndex:"101",
+    overflowY:"scroll",
+    top:0,
+    height:"100%",
+    backgroundColor:"#000"
+  }
+}
 })
 
 export const brandLogo = style({
@@ -69,12 +83,12 @@ export const mobileNavSVGColorWrapper = styleVariants({
 })
 
 export const mobileNavOverlay = style({
-  position: "absolute",
+  // position: "absolute",
   width: "100vw",
   height: "115vh",
   paddingTop: theme.space[4],
   background: theme.colors.primary,
-  zIndex: 101,
+  // zIndex: 101,
   "@media": {
     [media.small]: {
       display: "none",

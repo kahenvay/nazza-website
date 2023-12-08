@@ -18,6 +18,7 @@ import {
   mobileHeaderNavWrapper,
   mobileNavSVGColorWrapper,
   header,
+  headerOpenMobile,
 } from "./header.css"
 
 import NavItemGroup from "./nav-item-group"
@@ -90,7 +91,7 @@ export default function Header(props) {
   // }, [mouseOverHeader])
 
   return (
-    <header className={header}>
+    <header className={header && isOpen ? headerOpenMobile : ""}>
       <Container className={desktopHeaderNavWrapper}>
         <Flex
           variant="spaceBetween"
@@ -140,7 +141,9 @@ export default function Header(props) {
                     )}
                   </li>
                 ))}
-              <LanguageSwitcher currentLang={lang == "" ? "en" : lang} />
+              <li>
+                <LanguageSwitcher currentLang={lang == "" ? "en" : lang} />
+              </li>
             </FlexList>
           </nav>
         </Flex>
@@ -197,6 +200,10 @@ export default function Header(props) {
                   )}
                 </li>
               ))}
+
+              <li>
+                <LanguageSwitcher currentLang={lang == "" ? "en" : lang} />
+              </li>
             </FlexList>
           </nav>
         </div>
