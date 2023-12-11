@@ -19,6 +19,7 @@ export default function InstaLatestsPhotos() {
           media_url
           permalink
           caption
+          media_type
         }
       }
     }
@@ -57,11 +58,24 @@ export default function InstaLatestsPhotos() {
                     rel="noreferrer"
                     className={instaLink}
                   >
-                    <img
-                      className={instaImage}
-                      src={node.media_url}
-                      alt={`Insta post, caption: ${node.caption}`}
-                    />
+                    {node.media_type == "VIDEO" && (
+                      <video
+                        className={instaImage}
+                        src={node.media_url}
+                        alt={`Insta post, caption: ${node.caption}`}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                      ></video>
+                    )}
+                    {node.media_type != "VIDEO" && (
+                      <img
+                        className={instaImage}
+                        src={node.media_url}
+                        alt={`Insta post, caption: ${node.caption}`}
+                      />
+                    )}
                   </a>
                 </li>
               )
