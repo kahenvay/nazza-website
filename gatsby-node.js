@@ -548,8 +548,13 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
   // Static pages
-  const pages = ["home", "team", "index", "home", "contact", "about", "404"]
+  const pages = ["home", "team", "home", "contact", "about", "404"]
   const languages = ["en", "fr", "nl"]
+
+  createPage({
+    path: "/",
+    component: path.resolve(`./src/pages/index.js`),
+  })
 
   pages.forEach((page) => {
     languages.forEach((lang) => {
@@ -558,6 +563,7 @@ exports.createPages = async ({ graphql, actions }) => {
         component: path.resolve(`./src/pages/${page}.js`),
         context: { lang },
       })
+      console.log(`Creating page: ${page}`)
     })
   })
 
@@ -588,7 +594,8 @@ exports.createPages = async ({ graphql, actions }) => {
     console.error("Error querying for brands:", results, result.errors)
     return
   } else {
-    console.log("brrands result", result)
+    // console.log("brrands result", result)
+    // console.log("brrands result", result.data.allContentfulBrand.edges)
   }
 
   const brands = result.data.allContentfulBrand.edges
