@@ -516,7 +516,14 @@ exports.sourceNodes = async ({
   const instagramPhotos = await getInstagramPhotos(
     process.env.GATSBY_INSTA_ACCESS_TOKEN
   )
-  console.log("instagramPhotos", instagramPhotos)
+
+  if (!instagramPhotos || instagramPhotos.length === 0) {
+    console.error("No Instagram photos fetched")
+    return
+  }
+
+  console.log("Fetched Instagram photos:", instagramPhotos.length)
+
   instagramPhotos.forEach((photo) => {
     const nodeContent = JSON.stringify(photo)
     const nodeMeta = {

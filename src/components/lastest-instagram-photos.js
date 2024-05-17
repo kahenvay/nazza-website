@@ -25,6 +25,14 @@ export default function InstaLatestsPhotos() {
     }
   `)
 
+  if (data == null || data.allInstagramPhoto == null) {
+    return (
+      <Container>
+        <p>Error fetching instagram images</p>
+      </Container>
+    )
+  }
+
   return (
     <Box>
       <Space size={5} />
@@ -45,8 +53,10 @@ export default function InstaLatestsPhotos() {
         </Subhead>
         <Space size={4} />
         <ul className={instaList}>
-          {data.allInstagramPhoto?.nodes.map((node, index) => {
-            // console.log("node", node) // Separate log statement
+          {data.allInstagramPhoto.nodes.map((node, index) => {
+            if (node == null || node.media_url == null) {
+              return null
+            }
 
             return (
               index < 8 && (
@@ -82,11 +92,6 @@ export default function InstaLatestsPhotos() {
             )
           })}
         </ul>
-        {/* {data == null ||
-          data.allInstagramPhoto == "" ||
-          data.allInstagramPhoto == null || (
-            <p>Error fetching instagram images</p>
-          )} */}
       </Container>
       <Space size={5} />
     </Box>
