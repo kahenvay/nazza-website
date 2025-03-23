@@ -279,7 +279,12 @@ export default function Footer(props) {
       <Space size={0} />
       <Whatsapp />
       {/* https://pacs.thakaamed.com/chatbot/941d84e3-ecc3-4dad-bfdd-ef98b47be44d */}
-      <BubbleChat chatflowid="941d84e3-ecc3-4dad-bfdd-ef98b47be44d" apiHost="https://pacs.thakaamed.com" />
+      {typeof window !== "undefined" && (
+        <BubbleChat
+          chatflowid="941d84e3-ecc3-4dad-bfdd-ef98b47be44d"
+          apiHost="https://pacs.thakaamed.com"
+        />
+      )}
     </Box>
   )
 }
