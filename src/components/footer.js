@@ -32,13 +32,7 @@ import {
 import Whatsapp from "./whatsapp"
 import { StaticImage } from "gatsby-plugin-image"
 import { footyRes } from "./footer.css"
-import { BubbleChat } from "flowise-embed-react"
 
-const [isClient, setIsClient] = React.useState(false)
-
-React.useEffect(() => {
-  setIsClient(true)
-}, [])
 
 const socialMedia = {
   TWITTER: {
@@ -88,10 +82,27 @@ const getSocialName = ({ service }) => {
 }
 
 export default function Footer(props) {
+  // Dynamic state to hold BubbleChat once loaded
+  const [BubbleChatComponent, setBubbleChatComponent] =
+    React.useState(null)
+
+  // Dynamically import BubbleChat on the client side only.
+  React.useEffect(() => {
+    import("flowise-embed-react")
+      .then((module) => {
+        // Save the BubbleChat component in state.
+        setBubbleChatComponent(() => module.BubbleChat)
+      })
+      .catch((err) =>
+        console.error("Error loading BubbleChat:", err)
+      )
+  }, [])
+
   const lang = props.pageContext?.lang || ""
   const langForQuery =
     props.pageContext?.lang?.charAt(0)?.toUpperCase() +
-      props.pageContext?.lang?.slice(1).toLowerCase() || ""
+      props.pageContext?.lang?.slice(1).toLowerCase() ||
+    ""
 
   const data = useStaticQuery(graphql`
     query socialQuery {
@@ -152,15 +163,14 @@ export default function Footer(props) {
     }
   `)
 
-  const { links, meta, socialLinks, copyright } = data.layout.footer
+  const { links, meta, socialLinks, copyright } =
+    data.layout.footer
   const { navItems } = data.layout.header
-
-  let mainLinks, brandLinks
 
   const footerLinks = () => {
     return (
       <FlexList className={footyRes}>
-        {/* First, render the main links (where navItemType is not "Group") */}
+        {/* Render main links (where navItemType is not "Group") */}
         <FlexList
           variant="columnStart"
           responsive
@@ -172,7 +182,11 @@ export default function Footer(props) {
               .map((navItem) => (
                 <li key={navItem.id}>
                   <NavLink
-                    to={lang !== "" ? `/${lang}${navItem.href}` : navItem.href}
+                    to={
+                      lang !== ""
+                        ? `/${lang}${navItem.href}`
+                        : navItem.href
+                    }
                   >
                     {navItem[`text${langForQuery}`]
                       ? navItem[`text${langForQuery}`]
@@ -182,7 +196,7 @@ export default function Footer(props) {
               ))}
         </FlexList>
 
-        {/* Then, render the group items (where navItemType is "Group") */}
+        {/* Render group items (where navItemType is "Group") */}
         <FlexList
           variant="columnStart"
           responsive
@@ -216,7 +230,11 @@ export default function Footer(props) {
   }
 
   return (
-    <Box as="footer" paddingY={4} style={{ backgroundColor: "#fff8ffba" }}>
+    <Box
+      as="footer"
+      paddingY={4}
+      style={{ backgroundColor: "#fff8ffba" }}
+    >
       <Space size={3} />
       <Container>
         <Flex responsive>
@@ -248,8 +266,13 @@ export default function Footer(props) {
             </div>
           </Flex>
           <Space size={2} />
-          <Flex variant="column" className={evenlySpacedFlexChild}>
-            <p style={{ margin: 0 }}>Scan and add contact!</p>
+          <Flex
+            variant="column"
+            className={evenlySpacedFlexChild}
+          >
+            <p style={{ margin: 0 }}>
+              Scan and add contact!
+            </p>
             <StaticImage
               src="../images/qrzach.png"
               alt="Zachary Zechnini Contact QR Code"
@@ -273,19 +296,23 @@ export default function Footer(props) {
               meta.map((link) => (
                 <li key={link.id}>
                   <NavLink to={link.href}>
-                    <Text variant="small">{link.text}</Text>
+                    <Text variant="small">
+                      {link.text}
+                    </Text>
                   </NavLink>
                 </li>
               ))}
           </FlexList>
-          <Text variant="small">{copyright}</Text>
+          <Text variant="small">
+            {copyright}
+          </Text>
         </Flex>
       </Container>
       <Space size={0} />
       <Whatsapp />
-      {/* https://pacs.thakaamed.com/chatbot/941d84e3-ecc3-4dad-bfdd-ef98b47be44d */}
-      {isClient && (
-        <BubbleChat
+      {/* Render BubbleChat only after it's been dynamically loaded */}
+      {BubbleChatComponent && (
+        <BubbleChatComponent
           chatflowid="941d84e3-ecc3-4dad-bfdd-ef98b47be44d"
           apiHost="https://pacs.thakaamed.com"
         />
