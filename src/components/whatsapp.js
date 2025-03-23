@@ -8,8 +8,8 @@ export default function Whatsapp(props) {
       rel="noreferrer"
       style={{
         position: "fixed",
-        bottom: "50px",
-        right: "50px",
+        bottom: "18px",
+        right: "80px",
         zIndex: "100",
       }}
     >
