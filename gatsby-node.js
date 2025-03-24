@@ -436,7 +436,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       website: String
       websiteFr: String
       websiteNl: String
-      lookbook: HomepageImage @link(from: "image___NODE")
+      lookbook: HomepageImage @link(from: "lookbook___NODE")
       lookbookFr: HomepageImage @link(from: "image___NODE")
       lookbookNl: HomepageImage @link(from: "image___NODE")
       b2b: String
