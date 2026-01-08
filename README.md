@@ -97,13 +97,62 @@ To use Gatsby Cloud Preview with this site, see the documentation for
 ├── gatsby-config.js
 ├── gatsby-node.js
 ├── src
-│   ├── components
-│   ├── pages
-│   ├── colors.css.ts
-│   ├── styles.css.ts
-│   └── theme.css.ts
+│   ├── components
+│   ├── pages
+│   ├── colors.css.ts
+│   ├── styles.css.ts
+│   └── theme.css.ts
 └── .env.EXAMPLE
 ```
+
+## Additional Dependencies
+
+This project includes the following mapping libraries:
+- **leaflet** (1.9.3) - Interactive maps library
+- **react-leaflet** (^4.2.1) - React components for Leaflet
+- **topojson-client** (^3.1.0) - TopoJSON client library for geographic data processing
+- **gatsby-plugin-react-leaflet** - Gatsby plugin for React-Leaflet integration with SSR support
+
+### Using Leaflet Maps
+
+This project is configured with `gatsby-plugin-react-leaflet` which handles SSR (Server-Side Rendering) issues and automatically links Leaflet CSS. To use Leaflet maps in your components:
+
+1. Import the necessary components (no need to import CSS manually):
+```jsx
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+```
+
+2. Create a map component:
+```jsx
+function MyMap() {
+  return (
+    <MapContainer 
+      center={[51.505, -0.09]} 
+      zoom={13} 
+      style={{ height: '400px', width: '100%' }}
+      scrollWheelZoom={false}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={[51.505, -0.09]}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
+    </MapContainer>
+  )
+}
+```
+
+3. The plugin is already configured in `gatsby-config.js` with `linkStyles: true`, so Leaflet CSS is automatically included.
+
+**Benefits of using gatsby-plugin-react-leaflet:**
+- Handles SSR issues automatically
+- Automatically links Leaflet CSS
+- Prevents build errors related to the `window` object
+- Optimized for Gatsby's build process
 
 1. **`gatsby-config.js`**: [Gatsby config][] file that includes plugins required for this starter.
 1. **`gatsby-node.js`**: [Gatsby Node][] config file that creates an abstract data model for the homepage content.

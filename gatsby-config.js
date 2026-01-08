@@ -32,6 +32,12 @@ module.exports = {
     "gatsby-transformer-sharp",
     "gatsby-plugin-vanilla-extract",
     {
+      resolve: "gatsby-plugin-react-leaflet",
+      options: {
+        linkStyles: true, // Automatically link Leaflet CSS
+      },
+    },
+    {
       resolve: "gatsby-plugin-manifest",
       options: {
         name: "Nazza Agency",
