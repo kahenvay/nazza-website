@@ -1,7 +1,7 @@
 import { schedule } from "@netlify/functions"
 import axios from "axios"
 
-const handler = async (event, context) => {
+const refreshInstagramToken = async (event, context) => {
     const currentToken = process.env.GATSBY_INSTA_ACCESS_TOKEN
     const netlifyToken = process.env.NETLIFY_ACCESS_TOKEN
     const siteId = process.env.SITE_ID
@@ -121,4 +121,4 @@ const handler = async (event, context) => {
 }
 
 // Run every month on the 1st at 00:00 UTC
-export const handler = schedule("0 0 1 * *", handler)
+export const handler = schedule("0 0 1 * *", refreshInstagramToken)
