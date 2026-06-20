@@ -6,7 +6,9 @@ console.log("instagram-refresh function file loaded")
 const refreshInstagramToken = async (event, context) => {
     const currentToken = process.env.GATSBY_INSTA_ACCESS_TOKEN
     const netlifyToken = process.env.NETLIFY_ACCESS_TOKEN
-    const siteId = process.env.SITE_ID
+    // Netlify functions don't have access to the reserved SITE_ID automatically, so we allow CUSTOM_SITE_ID
+    const siteId = process.env.CUSTOM_SITE_ID || process.env.SITE_ID
+    const buildHook = process.env.NETLIFY_CRON_BUILD_HOOK
 
     console.log("Starting Instagram Token Refresh...")
 
@@ -25,7 +27,7 @@ const refreshInstagramToken = async (event, context) => {
         }
     }
     if (!siteId) {
-        console.error("Missing SITE_ID")
+        console.error("Missing SITE_ID or CUSTOM_SITE_ID. Please add CUSTOM_SITE_ID to your Netlify Env Vars.")
         return {
             statusCode: 500,
             body: "Missing SITE_ID",
@@ -95,15 +97,21 @@ const refreshInstagramToken = async (event, context) => {
     // 3. Trigger Build
     try {
         console.log("Triggering new build...")
-        await axios.post(
-            `https://api.netlify.com/api/v1/sites/${siteId}/builds`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${netlifyToken}`,
-                },
-            }
-        )
+        if (buildHook) {
+            console.log("Using NETLIFY_CRON_BUILD_HOOK...")
+            await axios.post(buildHook, {})
+        } else {
+            console.log("Using Netlify API with SITE_ID...")
+            await axios.post(
+                `https://api.netlify.com/api/v1/sites/${siteId}/builds`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${netlifyToken}`,
+                    },
+                }
+            )
+        }
         console.log("Build triggered successfully.")
     } catch (e) {
         console.error("Error triggering build", e.message)
@@ -125,5 +133,5 @@ const refreshInstagramToken = async (event, context) => {
 // Run every month on the 1st at 00:00 UTC
 // export const handler = schedule("0 0 1 * *", refreshInstagramToken)
 
-// Run every Monday at 3:00 AM
-export const handler = schedule("0 3 * * 1", refreshInstagramToken)
+// Run every day at 3:00 AM
+export const handler = schedule("0 3 * * *", refreshInstagramToken)
