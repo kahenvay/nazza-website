@@ -26,32 +26,29 @@ const getNetlifyHeaders = netlifyToken => ({
 })
 
 /**
- * Returns the first non-empty string from a list of possible values.
+ * Returns the first non-empty API identifier from a list of possible values.
  *
- * @param {...unknown} values - Possible string values.
- * @returns {string | undefined} First non-empty string.
+ * @param {...unknown} values - Possible API identifier values.
+ * @returns {string | undefined} First non-empty API identifier.
  */
-const getFirstString = (...values) =>
+const getFirstIdentifier = (...values) =>
     values.find(value => typeof value === "string" && value.trim())
 
 /**
  * Finds a usable Netlify account identifier in a site API response.
  *
- * Netlify API paths call this value account_id, but team slugs are commonly
- * accepted as identifiers too. Keeping both options makes the refresh job more
- * tolerant of small API response differences.
+ * Netlify API paths need an account id or slug. Display names can look useful
+ * in logs, but they are not reliable API identifiers and can cause 401s.
  *
  * @param {object} site - Netlify site response body.
  * @returns {string | undefined} Account id or slug.
  */
 const getAccountIdentifierFromSite = site =>
-    getFirstString(
+    getFirstIdentifier(
         site?.account_id,
         site?.account_slug,
-        site?.account_name,
         site?.account?.id,
-        site?.account?.slug,
-        site?.account?.name
+        site?.account?.slug
     )
 
 /**
@@ -71,7 +68,7 @@ const getSingleAccessibleAccountIdentifier = async netlifyToken => {
         return undefined
     }
 
-    return getFirstString(accounts[0]?.id, accounts[0]?.slug, accounts[0]?.name)
+    return getFirstIdentifier(accounts[0]?.id, accounts[0]?.slug)
 }
 
 /**
