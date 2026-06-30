@@ -70,34 +70,65 @@ const getFirstIdentifier = (...values) =>
     values.find(value => typeof value === "string" && value.trim())
 
 /**
- * Finds a usable Netlify account identifier in a site API response.
+ * Gets Netlify accounts available to the API token.
  *
- * Netlify API paths need an account id or slug. Display names can look useful
- * in logs, but they are not reliable API identifiers and can cause 401s.
- *
- * @param {object} site - Netlify site response body.
- * @returns {string | undefined} Account id or slug.
+ * @param {string} netlifyToken - Personal access token with access to Netlify.
+ * @returns {Promise<object[]>} Accounts visible to the token.
  */
-const getAccountIdentifierFromSite = site =>
-    getFirstIdentifier(
-        site?.account_id,
-        site?.account_slug,
-        site?.account?.id,
-        site?.account?.slug
-    )
-
-/**
- * Gets a Netlify account/team identifier available to the API token.
- *
- * @param {string} netlifyToken - Personal access token with access to the site.
- * @returns {Promise<string | undefined>} Account id or slug when exactly one account is available.
- */
-const getSingleAccessibleAccountIdentifier = async netlifyToken => {
+const getAccessibleAccounts = async netlifyToken => {
     const response = await axios.get(`${NETLIFY_API_BASE_URL}/accounts`, {
         headers: getNetlifyHeaders(netlifyToken),
     })
     const accounts = Array.isArray(response.data) ? response.data : []
     console.log(`Netlify accounts lookup returned ${accounts.length} account(s).`)
+
+    return accounts
+}
+
+/**
+ * Finds an account by slug and prefers its stable account id for API paths.
+ *
+ * @param {object[]} accounts - Accounts visible to the Netlify API token.
+ * @param {string | undefined} accountSlug - Account slug from the site response or env vars.
+ * @returns {string | undefined} Matching account id or slug.
+ */
+const getAccountIdentifierBySlug = (accounts, accountSlug) => {
+    if (!accountSlug) {
+        return undefined
+    }
+
+    const matchingAccount = accounts.find(account =>
+        getFirstIdentifier(account?.slug, account?.account_slug) === accountSlug
+    )
+
+    if (!matchingAccount) {
+        console.log(`No accessible account matched slug ${maskIdentifier(accountSlug)}.`)
+        return undefined
+    }
+
+    const accountIdentifier = getFirstIdentifier(matchingAccount.id, matchingAccount.slug)
+    console.log(
+        `Matched site account slug to accessible account id: ${maskIdentifier(accountIdentifier)} ` +
+            `(slug: ${maskIdentifier(matchingAccount.slug)}, keys: ${Object.keys(matchingAccount || {}).sort().join(", ")})`
+    )
+
+    return accountIdentifier
+}
+
+/**
+ * Gets a Netlify account/team identifier available to the API token.
+ *
+ * @param {string} netlifyToken - Personal access token with access to the site.
+ * @param {string | undefined} preferredAccountSlug - Account slug to match before using the single-account fallback.
+ * @returns {Promise<string | undefined>} Account id or slug when it can be determined.
+ */
+const getAccessibleAccountIdentifier = async (netlifyToken, preferredAccountSlug) => {
+    const accounts = await getAccessibleAccounts(netlifyToken)
+    const matchingAccountIdentifier = getAccountIdentifierBySlug(accounts, preferredAccountSlug)
+
+    if (matchingAccountIdentifier) {
+        return matchingAccountIdentifier
+    }
 
     if (accounts.length !== 1) {
         return undefined
@@ -110,6 +141,23 @@ const getSingleAccessibleAccountIdentifier = async netlifyToken => {
     )
 
     return accountIdentifier
+}
+
+/**
+ * Tries to resolve an account slug through the accounts endpoint without blocking fallback behavior.
+ *
+ * @param {string} netlifyToken - Personal access token with access to Netlify.
+ * @param {string | undefined} accountSlug - Account slug to resolve.
+ * @returns {Promise<string | undefined>} Matching account id or slug when lookup succeeds.
+ */
+const safelyResolveAccountSlug = async (netlifyToken, accountSlug) => {
+    try {
+        return await getAccessibleAccountIdentifier(netlifyToken, accountSlug)
+    } catch (error) {
+        console.error("Netlify accounts lookup failed while resolving account slug", error.message)
+        logNetlifyApiError(error)
+        return undefined
+    }
 }
 
 /**
@@ -128,7 +176,8 @@ const getNetlifyAccountId = async (siteId, netlifyToken) => {
         headers: getNetlifyHeaders(netlifyToken),
     })
     const siteKeys = Object.keys(response.data || {}).sort()
-    const siteAccountIdentifier = getAccountIdentifierFromSite(response.data)
+    const siteAccountId = getFirstIdentifier(response.data?.account_id, response.data?.account?.id)
+    const siteAccountSlug = getFirstIdentifier(response.data?.account_slug, response.data?.account?.slug)
 
     console.log(
         `Netlify site lookup succeeded. Site keys: ${siteKeys.join(", ")}. ` +
@@ -138,9 +187,21 @@ const getNetlifyAccountId = async (siteId, netlifyToken) => {
             `Nested account slug: ${maskIdentifier(response.data?.account?.slug)}.`
     )
 
-    if (siteAccountIdentifier) {
-        console.log(`Using account identifier from site lookup: ${maskIdentifier(siteAccountIdentifier)}`)
-        return siteAccountIdentifier
+    if (siteAccountId) {
+        console.log(`Using account id from site lookup: ${maskIdentifier(siteAccountId)}`)
+        return siteAccountId
+    }
+
+    if (siteAccountSlug) {
+        console.log(`Resolving site account slug through /accounts: ${maskIdentifier(siteAccountSlug)}`)
+        const accountIdentifier = await safelyResolveAccountSlug(netlifyToken, siteAccountSlug)
+
+        if (accountIdentifier) {
+            return accountIdentifier
+        }
+
+        console.log(`Falling back to site account slug: ${maskIdentifier(siteAccountSlug)}`)
+        return siteAccountSlug
     }
 
     console.log(
@@ -148,7 +209,7 @@ const getNetlifyAccountId = async (siteId, netlifyToken) => {
             `Available site keys: ${siteKeys.join(", ")}`
     )
 
-    return getSingleAccessibleAccountIdentifier(netlifyToken)
+    return getAccessibleAccountIdentifier(netlifyToken)
 }
 
 /**
@@ -191,6 +252,41 @@ const updateInstagramTokenEnvVar = async ({
 }
 
 /**
+ * Resolves the configured or inferred account identifier to the best API path value.
+ *
+ * Account ids are preferred over slugs for Netlify's environment-variable API.
+ * If only a slug is configured, we try to translate it through /accounts first.
+ *
+ * @param {object} params - Parameters needed to resolve the account identifier.
+ * @param {string | undefined} params.accountIdEnv - Configured Netlify account id.
+ * @param {string | undefined} params.accountSlugEnv - Configured Netlify account slug.
+ * @param {string} params.netlifyToken - Personal access token with access to Netlify.
+ * @param {string} params.siteId - Netlify site id.
+ * @returns {Promise<string | undefined>} Account id or slug for Netlify API paths.
+ */
+const getNetlifyAccountIdentifier = async ({
+    accountIdEnv,
+    accountSlugEnv,
+    netlifyToken,
+    siteId,
+}) => {
+    if (accountIdEnv) {
+        console.log(`Using configured Netlify account id: ${maskIdentifier(accountIdEnv)}`)
+        return accountIdEnv
+    }
+
+    if (accountSlugEnv) {
+        console.log(`Resolving configured Netlify account slug through /accounts: ${maskIdentifier(accountSlugEnv)}`)
+        return (await safelyResolveAccountSlug(netlifyToken, accountSlugEnv)) || accountSlugEnv
+    }
+
+    const accountIdentifier = await getNetlifyAccountId(siteId, netlifyToken)
+    console.log(`Using inferred Netlify account identifier: ${maskIdentifier(accountIdentifier)}`)
+
+    return accountIdentifier
+}
+
+/**
  * Refreshes the Instagram long-lived token, stores it back in Netlify, and starts a rebuild.
  *
  * @returns {Promise<Response>} Response describing the scheduled function result.
@@ -203,7 +299,6 @@ const refreshInstagramToken = async () => {
     const accountIdEnv = getEnvVar("NETLIFY_ACCOUNT_ID")
     const accountSlugEnv = getEnvVar("NETLIFY_ACCOUNT_SLUG")
     const siteId = customSiteId || reservedSiteId
-    const configuredAccountId = accountIdEnv || accountSlugEnv
     const buildHook = getEnvVar("NETLIFY_CRON_BUILD_HOOK")
 
     console.log("Starting Instagram Token Refresh...")
@@ -258,17 +353,16 @@ const refreshInstagramToken = async () => {
 
     try {
         console.log("Updating Netlify Environment Variable...")
-        const accountId = configuredAccountId || (await getNetlifyAccountId(siteId, netlifyToken))
+        const accountId = await getNetlifyAccountIdentifier({
+            accountIdEnv,
+            accountSlugEnv,
+            netlifyToken,
+            siteId,
+        })
 
         if (!accountId) {
             throw new Error("Could not determine Netlify account id. Set NETLIFY_ACCOUNT_ID or NETLIFY_ACCOUNT_SLUG.")
         }
-
-        console.log(
-            configuredAccountId
-                ? `Using configured Netlify account identifier: ${maskIdentifier(accountId)}`
-                : `Using inferred Netlify account identifier: ${maskIdentifier(accountId)}`
-        )
 
         await updateInstagramTokenEnvVar({
             accountId,
