@@ -26,6 +26,41 @@ const getNetlifyHeaders = netlifyToken => ({
 })
 
 /**
+ * Masks an identifier so logs can show whether values match without exposing the full value.
+ *
+ * @param {string | undefined} value - Identifier to mask.
+ * @returns {string} Masked identifier for logs.
+ */
+const maskIdentifier = value => {
+    if (!value) {
+        return "missing"
+    }
+
+    if (value.length <= 8) {
+        return `${value.slice(0, 2)}...${value.slice(-2)}`
+    }
+
+    return `${value.slice(0, 4)}...${value.slice(-4)}`
+}
+
+/**
+ * Logs a compact set of response details from failed Netlify API requests.
+ *
+ * @param {unknown} error - Error thrown by axios.
+ * @returns {void}
+ */
+const logNetlifyApiError = error => {
+    if (!error?.response) {
+        return
+    }
+
+    const { status, statusText, data, headers } = error.response
+    console.error("Netlify API status:", status, statusText)
+    console.error("Netlify API response:", data)
+    console.error("Netlify API request id:", headers?.["x-nf-request-id"] || headers?.["x-request-id"] || "missing")
+}
+
+/**
  * Returns the first non-empty API identifier from a list of possible values.
  *
  * @param {...unknown} values - Possible API identifier values.
@@ -62,13 +97,19 @@ const getSingleAccessibleAccountIdentifier = async netlifyToken => {
         headers: getNetlifyHeaders(netlifyToken),
     })
     const accounts = Array.isArray(response.data) ? response.data : []
+    console.log(`Netlify accounts lookup returned ${accounts.length} account(s).`)
 
     if (accounts.length !== 1) {
-        console.log(`Netlify account fallback found ${accounts.length} accessible accounts.`)
         return undefined
     }
 
-    return getFirstIdentifier(accounts[0]?.id, accounts[0]?.slug)
+    const accountIdentifier = getFirstIdentifier(accounts[0]?.id, accounts[0]?.slug)
+    console.log(
+        `Using single accessible Netlify account fallback: ${maskIdentifier(accountIdentifier)} ` +
+            `(keys: ${Object.keys(accounts[0] || {}).sort().join(", ")})`
+    )
+
+    return accountIdentifier
 }
 
 /**
@@ -86,15 +127,25 @@ const getNetlifyAccountId = async (siteId, netlifyToken) => {
     const response = await axios.get(`${NETLIFY_API_BASE_URL}/sites/${siteId}`, {
         headers: getNetlifyHeaders(netlifyToken),
     })
+    const siteKeys = Object.keys(response.data || {}).sort()
     const siteAccountIdentifier = getAccountIdentifierFromSite(response.data)
 
+    console.log(
+        `Netlify site lookup succeeded. Site keys: ${siteKeys.join(", ")}. ` +
+            `Candidate account id: ${maskIdentifier(response.data?.account_id)}. ` +
+            `Candidate account slug: ${maskIdentifier(response.data?.account_slug)}. ` +
+            `Nested account id: ${maskIdentifier(response.data?.account?.id)}. ` +
+            `Nested account slug: ${maskIdentifier(response.data?.account?.slug)}.`
+    )
+
     if (siteAccountIdentifier) {
+        console.log(`Using account identifier from site lookup: ${maskIdentifier(siteAccountIdentifier)}`)
         return siteAccountIdentifier
     }
 
     console.log(
         "Netlify site response did not include account_id/account_slug. " +
-            `Available site keys: ${Object.keys(response.data || {}).sort().join(", ")}`
+            `Available site keys: ${siteKeys.join(", ")}`
     )
 
     return getSingleAccessibleAccountIdentifier(netlifyToken)
@@ -119,6 +170,11 @@ const updateInstagramTokenEnvVar = async ({
     netlifyToken,
     instagramToken,
 }) => {
+    console.log(
+        `Netlify env update request: PATCH /accounts/${maskIdentifier(accountId)}/env/${INSTAGRAM_TOKEN_KEY} ` +
+            `with site_id=${maskIdentifier(siteId)} and context=all.`
+    )
+
     await axios.patch(
         `${NETLIFY_API_BASE_URL}/accounts/${accountId}/env/${INSTAGRAM_TOKEN_KEY}`,
         {
@@ -142,11 +198,26 @@ const updateInstagramTokenEnvVar = async ({
 const refreshInstagramToken = async () => {
     const currentToken = getEnvVar(INSTAGRAM_TOKEN_KEY)
     const netlifyToken = getEnvVar("NETLIFY_ACCESS_TOKEN")
-    const siteId = getEnvVar("CUSTOM_SITE_ID") || getEnvVar("SITE_ID")
-    const configuredAccountId = getEnvVar("NETLIFY_ACCOUNT_ID") || getEnvVar("NETLIFY_ACCOUNT_SLUG")
+    const customSiteId = getEnvVar("CUSTOM_SITE_ID")
+    const reservedSiteId = getEnvVar("SITE_ID")
+    const accountIdEnv = getEnvVar("NETLIFY_ACCOUNT_ID")
+    const accountSlugEnv = getEnvVar("NETLIFY_ACCOUNT_SLUG")
+    const siteId = customSiteId || reservedSiteId
+    const configuredAccountId = accountIdEnv || accountSlugEnv
     const buildHook = getEnvVar("NETLIFY_CRON_BUILD_HOOK")
 
     console.log("Starting Instagram Token Refresh...")
+    console.log(
+        "Runtime env debug: " +
+            `instagram token present=${Boolean(currentToken)}, ` +
+            `netlify token present=${Boolean(netlifyToken)}, ` +
+            `custom site id present=${Boolean(customSiteId)}, ` +
+            `reserved site id present=${Boolean(reservedSiteId)}, ` +
+            `selected site id=${maskIdentifier(siteId)}, ` +
+            `account id env present=${Boolean(accountIdEnv)}, ` +
+            `account slug env present=${Boolean(accountSlugEnv)}, ` +
+            `build hook present=${Boolean(buildHook)}.`
+    )
 
     if (!currentToken) {
         console.error("Missing GATSBY_INSTA_ACCESS_TOKEN")
@@ -193,6 +264,12 @@ const refreshInstagramToken = async () => {
             throw new Error("Could not determine Netlify account id. Set NETLIFY_ACCOUNT_ID or NETLIFY_ACCOUNT_SLUG.")
         }
 
+        console.log(
+            configuredAccountId
+                ? `Using configured Netlify account identifier: ${maskIdentifier(accountId)}`
+                : `Using inferred Netlify account identifier: ${maskIdentifier(accountId)}`
+        )
+
         await updateInstagramTokenEnvVar({
             accountId,
             siteId,
@@ -202,9 +279,7 @@ const refreshInstagramToken = async () => {
         console.log("Netlify Environment Variable updated.")
     } catch (e) {
         console.error("Error updating Netlify Env Var", e.message)
-        if (e.response) {
-            console.error("Netlify API response:", e.response.data)
-        }
+        logNetlifyApiError(e)
         return new Response("Error updating Netlify Env Var", { status: 500 })
     }
 
