@@ -1,10 +1,18 @@
-import { schedule } from "@netlify/functions"
 import axios from "axios"
 
 console.log("instagram-refresh function file loaded")
 
 const NETLIFY_API_BASE_URL = "https://api.netlify.com/api/v1"
 const INSTAGRAM_TOKEN_KEY = "GATSBY_INSTA_ACCESS_TOKEN"
+
+/**
+ * Reads an environment variable from Netlify's runtime helper when available,
+ * falling back to process.env for local builds and older function runtimes.
+ *
+ * @param {string} key - Environment variable name.
+ * @returns {string | undefined} Environment variable value.
+ */
+const getEnvVar = key => globalThis.Netlify?.env?.get?.(key) || process.env[key]
 
 /**
  * Builds the Netlify API authorization headers used by authenticated requests.
@@ -73,43 +81,32 @@ const updateInstagramTokenEnvVar = async ({
 /**
  * Refreshes the Instagram long-lived token, stores it back in Netlify, and starts a rebuild.
  *
- * @param {object} event - Netlify scheduled function event.
- * @param {object} context - Netlify function runtime context.
- * @returns {Promise<{statusCode: number, body: string}>} HTTP-style result for the function run.
+ * @returns {Promise<Response>} Response describing the scheduled function result.
  */
-const refreshInstagramToken = async (event, context) => {
-    const currentToken = process.env[INSTAGRAM_TOKEN_KEY]
-    const netlifyToken = process.env.NETLIFY_ACCESS_TOKEN
-    // Netlify functions don't have access to the reserved SITE_ID automatically, so we allow CUSTOM_SITE_ID
-    const siteId = process.env.CUSTOM_SITE_ID || process.env.SITE_ID
-    const configuredAccountId = process.env.NETLIFY_ACCOUNT_ID
-    const buildHook = process.env.NETLIFY_CRON_BUILD_HOOK
+const refreshInstagramToken = async () => {
+    const currentToken = getEnvVar(INSTAGRAM_TOKEN_KEY)
+    const netlifyToken = getEnvVar("NETLIFY_ACCESS_TOKEN")
+    const siteId = getEnvVar("CUSTOM_SITE_ID") || getEnvVar("SITE_ID")
+    const configuredAccountId = getEnvVar("NETLIFY_ACCOUNT_ID")
+    const buildHook = getEnvVar("NETLIFY_CRON_BUILD_HOOK")
 
     console.log("Starting Instagram Token Refresh...")
 
     if (!currentToken) {
         console.error("Missing GATSBY_INSTA_ACCESS_TOKEN")
-        return {
-            statusCode: 500,
-            body: "Missing GATSBY_INSTA_ACCESS_TOKEN",
-        }
-    }
-    if (!netlifyToken) {
-        console.error("Missing NETLIFY_ACCESS_TOKEN")
-        return {
-            statusCode: 500,
-            body: "Missing NETLIFY_ACCESS_TOKEN",
-        }
-    }
-    if (!siteId) {
-        console.error("Missing SITE_ID or CUSTOM_SITE_ID. Please add CUSTOM_SITE_ID to your Netlify Env Vars.")
-        return {
-            statusCode: 500,
-            body: "Missing SITE_ID",
-        }
+        return new Response("Missing GATSBY_INSTA_ACCESS_TOKEN", { status: 500 })
     }
 
-    // 1. Refresh Instagram Token
+    if (!netlifyToken) {
+        console.error("Missing NETLIFY_ACCESS_TOKEN")
+        return new Response("Missing NETLIFY_ACCESS_TOKEN", { status: 500 })
+    }
+
+    if (!siteId) {
+        console.error("Missing SITE_ID or CUSTOM_SITE_ID. Please add CUSTOM_SITE_ID to your Netlify Env Vars.")
+        return new Response("Missing SITE_ID", { status: 500 })
+    }
+
     let newToken
     try {
         console.log("Refreshing Instagram token...")
@@ -129,13 +126,9 @@ const refreshInstagramToken = async (event, context) => {
         if (e.response) {
             console.error("Instagram API response:", e.response.data)
         }
-        return {
-            statusCode: 500,
-            body: "Error refreshing Instagram token",
-        }
+        return new Response("Error refreshing Instagram token", { status: 500 })
     }
 
-    // 2. Update Netlify Env Var
     try {
         console.log("Updating Netlify Environment Variable...")
         const accountId = configuredAccountId || (await getNetlifyAccountId(siteId, netlifyToken))
@@ -156,13 +149,9 @@ const refreshInstagramToken = async (event, context) => {
         if (e.response) {
             console.error("Netlify API response:", e.response.data)
         }
-        return {
-            statusCode: 500,
-            body: "Error updating Netlify Env Var",
-        }
+        return new Response("Error updating Netlify Env Var", { status: 500 })
     }
 
-    // 3. Trigger Build
     try {
         console.log("Triggering new build...")
         if (buildHook) {
@@ -171,7 +160,7 @@ const refreshInstagramToken = async (event, context) => {
         } else {
             console.log("Using Netlify API with SITE_ID...")
             await axios.post(
-                `https://api.netlify.com/api/v1/sites/${siteId}/builds`,
+                `${NETLIFY_API_BASE_URL}/sites/${siteId}/builds`,
                 {},
                 {
                     headers: {
@@ -186,20 +175,14 @@ const refreshInstagramToken = async (event, context) => {
         if (e.response) {
             console.error("Netlify API response:", e.response.data)
         }
-        return {
-            statusCode: 500,
-            body: "Error triggering build",
-        }
+        return new Response("Error triggering build", { status: 500 })
     }
 
-    return {
-        statusCode: 200,
-        body: "Success",
-    }
+    return new Response("Success", { status: 200 })
 }
 
-// Run every month on the 1st at 00:00 UTC
-// export const handler = schedule("0 0 1 * *", refreshInstagramToken)
+export default refreshInstagramToken
 
-// Run every day at 3:00 AM
-export const handler = schedule("0 3 * * *", refreshInstagramToken)
+export const config = {
+    schedule: "0 3 * * *",
+}
