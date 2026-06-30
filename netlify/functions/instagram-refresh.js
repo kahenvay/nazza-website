@@ -4,6 +4,7 @@ console.log("instagram-refresh function file loaded")
 
 const NETLIFY_API_BASE_URL = "https://api.netlify.com/api/v1"
 const INSTAGRAM_TOKEN_KEY = "GATSBY_INSTA_ACCESS_TOKEN"
+const DEFAULT_NETLIFY_ENV_CONTEXT = "production"
 
 /**
  * Reads an environment variable from Netlify's runtime helper when available,
@@ -13,6 +14,17 @@ const INSTAGRAM_TOKEN_KEY = "GATSBY_INSTA_ACCESS_TOKEN"
  * @returns {string | undefined} Environment variable value.
  */
 const getEnvVar = key => globalThis.Netlify?.env?.get?.(key) || process.env[key]
+
+/**
+ * Gets the Netlify deploy context to update for the refreshed token.
+ *
+ * Netlify rejects "all" for this account env-var value endpoint, so production
+ * is the safe default for the scheduled refresh and production rebuild flow.
+ *
+ * @returns {string} Netlify deploy context to update.
+ */
+const getNetlifyEnvContext = () =>
+    getEnvVar("NETLIFY_ENV_CONTEXT") || getEnvVar("CONTEXT") || DEFAULT_NETLIFY_ENV_CONTEXT
 
 /**
  * Builds the Netlify API authorization headers used by authenticated requests.
@@ -223,6 +235,7 @@ const getNetlifyAccountId = async (siteId, netlifyToken) => {
  * @param {string} params.siteId - Netlify site id.
  * @param {string} params.netlifyToken - Personal access token with env-var write access.
  * @param {string} params.instagramToken - Refreshed Instagram access token.
+ * @param {string} params.context - Netlify deploy context to update.
  * @returns {Promise<void>} Resolves when Netlify accepts the update.
  */
 const updateInstagramTokenEnvVar = async ({
@@ -230,16 +243,17 @@ const updateInstagramTokenEnvVar = async ({
     siteId,
     netlifyToken,
     instagramToken,
+    context,
 }) => {
     console.log(
         `Netlify env update request: PATCH /accounts/${maskIdentifier(accountId)}/env/${INSTAGRAM_TOKEN_KEY} ` +
-            `with site_id=${maskIdentifier(siteId)} and context=all.`
+            `with site_id=${maskIdentifier(siteId)} and context=${context}.`
     )
 
     await axios.patch(
         `${NETLIFY_API_BASE_URL}/accounts/${accountId}/env/${INSTAGRAM_TOKEN_KEY}`,
         {
-            context: "all",
+            context,
             value: instagramToken,
         },
         {
@@ -300,6 +314,7 @@ const refreshInstagramToken = async () => {
     const accountSlugEnv = getEnvVar("NETLIFY_ACCOUNT_SLUG")
     const siteId = customSiteId || reservedSiteId
     const buildHook = getEnvVar("NETLIFY_CRON_BUILD_HOOK")
+    const netlifyEnvContext = getNetlifyEnvContext()
 
     console.log("Starting Instagram Token Refresh...")
     console.log(
@@ -311,7 +326,8 @@ const refreshInstagramToken = async () => {
             `selected site id=${maskIdentifier(siteId)}, ` +
             `account id env present=${Boolean(accountIdEnv)}, ` +
             `account slug env present=${Boolean(accountSlugEnv)}, ` +
-            `build hook present=${Boolean(buildHook)}.`
+            `build hook present=${Boolean(buildHook)}, ` +
+            `netlify env context=${netlifyEnvContext}.`
     )
 
     if (!currentToken) {
@@ -369,6 +385,7 @@ const refreshInstagramToken = async () => {
             siteId,
             netlifyToken,
             instagramToken: newToken,
+            context: netlifyEnvContext,
         })
         console.log("Netlify Environment Variable updated.")
     } catch (e) {
