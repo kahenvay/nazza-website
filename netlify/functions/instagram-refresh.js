@@ -3,11 +3,86 @@ import axios from "axios"
 
 console.log("instagram-refresh function file loaded")
 
+const NETLIFY_API_BASE_URL = "https://api.netlify.com/api/v1"
+const INSTAGRAM_TOKEN_KEY = "GATSBY_INSTA_ACCESS_TOKEN"
+
+/**
+ * Builds the Netlify API authorization headers used by authenticated requests.
+ *
+ * @param {string} netlifyToken - Personal access token with access to the site.
+ * @returns {{ Authorization: string, "Content-Type": string }} Headers for Netlify API JSON requests.
+ */
+const getNetlifyHeaders = netlifyToken => ({
+    Authorization: `Bearer ${netlifyToken}`,
+    "Content-Type": "application/json",
+})
+
+/**
+ * Gets the Netlify account/team id that owns a site.
+ *
+ * Netlify's environment-variable API is account-scoped, even when updating a
+ * site-level variable. We keep NETLIFY_ACCOUNT_ID optional by deriving it from
+ * the site record when it is not configured.
+ *
+ * @param {string} siteId - Netlify site id.
+ * @param {string} netlifyToken - Personal access token with access to the site.
+ * @returns {Promise<string>} Account/team id for the site.
+ */
+const getNetlifyAccountId = async (siteId, netlifyToken) => {
+    const response = await axios.get(`${NETLIFY_API_BASE_URL}/sites/${siteId}`, {
+        headers: getNetlifyHeaders(netlifyToken),
+    })
+
+    return response.data.account_id
+}
+
+/**
+ * Updates the site-level Instagram token in Netlify environment variables.
+ *
+ * The env-var endpoint is account-based. Passing site_id in the query tells
+ * Netlify to update the variable for this site rather than for the whole team.
+ *
+ * @param {object} params - Parameters needed to update the Netlify env var.
+ * @param {string} params.accountId - Netlify account/team id.
+ * @param {string} params.siteId - Netlify site id.
+ * @param {string} params.netlifyToken - Personal access token with env-var write access.
+ * @param {string} params.instagramToken - Refreshed Instagram access token.
+ * @returns {Promise<void>} Resolves when Netlify accepts the update.
+ */
+const updateInstagramTokenEnvVar = async ({
+    accountId,
+    siteId,
+    netlifyToken,
+    instagramToken,
+}) => {
+    await axios.patch(
+        `${NETLIFY_API_BASE_URL}/accounts/${accountId}/env/${INSTAGRAM_TOKEN_KEY}`,
+        {
+            context: "all",
+            value: instagramToken,
+        },
+        {
+            headers: getNetlifyHeaders(netlifyToken),
+            params: {
+                site_id: siteId,
+            },
+        }
+    )
+}
+
+/**
+ * Refreshes the Instagram long-lived token, stores it back in Netlify, and starts a rebuild.
+ *
+ * @param {object} event - Netlify scheduled function event.
+ * @param {object} context - Netlify function runtime context.
+ * @returns {Promise<{statusCode: number, body: string}>} HTTP-style result for the function run.
+ */
 const refreshInstagramToken = async (event, context) => {
-    const currentToken = process.env.GATSBY_INSTA_ACCESS_TOKEN
+    const currentToken = process.env[INSTAGRAM_TOKEN_KEY]
     const netlifyToken = process.env.NETLIFY_ACCESS_TOKEN
     // Netlify functions don't have access to the reserved SITE_ID automatically, so we allow CUSTOM_SITE_ID
     const siteId = process.env.CUSTOM_SITE_ID || process.env.SITE_ID
+    const configuredAccountId = process.env.NETLIFY_ACCOUNT_ID
     const buildHook = process.env.NETLIFY_CRON_BUILD_HOOK
 
     console.log("Starting Instagram Token Refresh...")
@@ -63,25 +138,18 @@ const refreshInstagramToken = async (event, context) => {
     // 2. Update Netlify Env Var
     try {
         console.log("Updating Netlify Environment Variable...")
-        // Using Netlify API to update environment variable
-        // Endpoint: PUT /api/v1/sites/{site_id}/env/{key}
-        await axios.put(
-            `https://api.netlify.com/api/v1/sites/${siteId}/env/GATSBY_INSTA_ACCESS_TOKEN`,
-            {
-                values: [
-                    {
-                        value: newToken,
-                        context: "all", // Update for all contexts (production, deploy-preview, etc)
-                    },
-                ],
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${netlifyToken}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        )
+        const accountId = configuredAccountId || (await getNetlifyAccountId(siteId, netlifyToken))
+
+        if (!accountId) {
+            throw new Error("Could not determine Netlify account id")
+        }
+
+        await updateInstagramTokenEnvVar({
+            accountId,
+            siteId,
+            netlifyToken,
+            instagramToken: newToken,
+        })
         console.log("Netlify Environment Variable updated.")
     } catch (e) {
         console.error("Error updating Netlify Env Var", e.message)
