@@ -26,7 +26,56 @@ const getNetlifyHeaders = netlifyToken => ({
 })
 
 /**
- * Gets the Netlify account/team id that owns a site.
+ * Returns the first non-empty string from a list of possible values.
+ *
+ * @param {...unknown} values - Possible string values.
+ * @returns {string | undefined} First non-empty string.
+ */
+const getFirstString = (...values) =>
+    values.find(value => typeof value === "string" && value.trim())
+
+/**
+ * Finds a usable Netlify account identifier in a site API response.
+ *
+ * Netlify API paths call this value account_id, but team slugs are commonly
+ * accepted as identifiers too. Keeping both options makes the refresh job more
+ * tolerant of small API response differences.
+ *
+ * @param {object} site - Netlify site response body.
+ * @returns {string | undefined} Account id or slug.
+ */
+const getAccountIdentifierFromSite = site =>
+    getFirstString(
+        site?.account_id,
+        site?.account_slug,
+        site?.account_name,
+        site?.account?.id,
+        site?.account?.slug,
+        site?.account?.name
+    )
+
+/**
+ * Gets a Netlify account/team identifier available to the API token.
+ *
+ * @param {string} netlifyToken - Personal access token with access to the site.
+ * @returns {Promise<string | undefined>} Account id or slug when exactly one account is available.
+ */
+const getSingleAccessibleAccountIdentifier = async netlifyToken => {
+    const response = await axios.get(`${NETLIFY_API_BASE_URL}/accounts`, {
+        headers: getNetlifyHeaders(netlifyToken),
+    })
+    const accounts = Array.isArray(response.data) ? response.data : []
+
+    if (accounts.length !== 1) {
+        console.log(`Netlify account fallback found ${accounts.length} accessible accounts.`)
+        return undefined
+    }
+
+    return getFirstString(accounts[0]?.id, accounts[0]?.slug, accounts[0]?.name)
+}
+
+/**
+ * Gets the Netlify account/team identifier that owns a site.
  *
  * Netlify's environment-variable API is account-scoped, even when updating a
  * site-level variable. We keep NETLIFY_ACCOUNT_ID optional by deriving it from
@@ -34,14 +83,24 @@ const getNetlifyHeaders = netlifyToken => ({
  *
  * @param {string} siteId - Netlify site id.
  * @param {string} netlifyToken - Personal access token with access to the site.
- * @returns {Promise<string>} Account/team id for the site.
+ * @returns {Promise<string | undefined>} Account/team id or slug for the site.
  */
 const getNetlifyAccountId = async (siteId, netlifyToken) => {
     const response = await axios.get(`${NETLIFY_API_BASE_URL}/sites/${siteId}`, {
         headers: getNetlifyHeaders(netlifyToken),
     })
+    const siteAccountIdentifier = getAccountIdentifierFromSite(response.data)
 
-    return response.data.account_id
+    if (siteAccountIdentifier) {
+        return siteAccountIdentifier
+    }
+
+    console.log(
+        "Netlify site response did not include account_id/account_slug. " +
+            `Available site keys: ${Object.keys(response.data || {}).sort().join(", ")}`
+    )
+
+    return getSingleAccessibleAccountIdentifier(netlifyToken)
 }
 
 /**
@@ -87,7 +146,7 @@ const refreshInstagramToken = async () => {
     const currentToken = getEnvVar(INSTAGRAM_TOKEN_KEY)
     const netlifyToken = getEnvVar("NETLIFY_ACCESS_TOKEN")
     const siteId = getEnvVar("CUSTOM_SITE_ID") || getEnvVar("SITE_ID")
-    const configuredAccountId = getEnvVar("NETLIFY_ACCOUNT_ID")
+    const configuredAccountId = getEnvVar("NETLIFY_ACCOUNT_ID") || getEnvVar("NETLIFY_ACCOUNT_SLUG")
     const buildHook = getEnvVar("NETLIFY_CRON_BUILD_HOOK")
 
     console.log("Starting Instagram Token Refresh...")
@@ -134,7 +193,7 @@ const refreshInstagramToken = async () => {
         const accountId = configuredAccountId || (await getNetlifyAccountId(siteId, netlifyToken))
 
         if (!accountId) {
-            throw new Error("Could not determine Netlify account id")
+            throw new Error("Could not determine Netlify account id. Set NETLIFY_ACCOUNT_ID or NETLIFY_ACCOUNT_SLUG.")
         }
 
         await updateInstagramTokenEnvVar({
