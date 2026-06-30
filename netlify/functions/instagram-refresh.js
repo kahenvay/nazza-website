@@ -16,6 +16,18 @@ const DEFAULT_NETLIFY_ENV_CONTEXT = "production"
 const getEnvVar = key => globalThis.Netlify?.env?.get?.(key) || process.env[key]
 
 /**
+ * Trims a string environment variable without converting missing values.
+ *
+ * @param {string} key - Environment variable name.
+ * @returns {string | undefined} Trimmed environment variable value.
+ */
+const getTrimmedEnvVar = key => {
+    const value = getEnvVar(key)
+
+    return typeof value === "string" ? value.trim() : value
+}
+
+/**
  * Gets the Netlify deploy context to update for the refreshed token.
  *
  * Netlify rejects "all" for this account env-var value endpoint, so production
@@ -24,7 +36,31 @@ const getEnvVar = key => globalThis.Netlify?.env?.get?.(key) || process.env[key]
  * @returns {string} Netlify deploy context to update.
  */
 const getNetlifyEnvContext = () =>
-    getEnvVar("NETLIFY_ENV_CONTEXT") || getEnvVar("CONTEXT") || DEFAULT_NETLIFY_ENV_CONTEXT
+    getTrimmedEnvVar("NETLIFY_ENV_CONTEXT") || getTrimmedEnvVar("CONTEXT") || DEFAULT_NETLIFY_ENV_CONTEXT
+
+/**
+ * Returns a safe absolute HTTP URL or undefined when the value is invalid.
+ *
+ * @param {string | undefined} value - Possible URL value.
+ * @returns {string | undefined} Normalized URL string when valid.
+ */
+const getValidHttpUrl = value => {
+    if (!value) {
+        return undefined
+    }
+
+    try {
+        const url = new URL(value.trim())
+
+        if (!["http:", "https:"].includes(url.protocol)) {
+            return undefined
+        }
+
+        return url.toString()
+    } catch {
+        return undefined
+    }
+}
 
 /**
  * Builds the Netlify API authorization headers used by authenticated requests.
@@ -266,6 +302,45 @@ const updateInstagramTokenEnvVar = async ({
 }
 
 /**
+ * Triggers a Netlify production build after the refreshed token is saved.
+ *
+ * A configured build hook is preferred when it is a valid URL. If it is absent
+ * or malformed, the function falls back to the authenticated Netlify builds API.
+ *
+ * @param {object} params - Parameters needed to trigger a Netlify build.
+ * @param {string | undefined} params.buildHook - Optional Netlify build hook URL.
+ * @param {string} params.netlifyToken - Personal access token with access to the site.
+ * @param {string} params.siteId - Netlify site id.
+ * @returns {Promise<void>} Resolves when Netlify accepts the build trigger.
+ */
+const triggerNetlifyBuild = async ({ buildHook, netlifyToken, siteId }) => {
+    const buildHookUrl = getValidHttpUrl(buildHook)
+
+    if (buildHookUrl) {
+        console.log("Using NETLIFY_CRON_BUILD_HOOK...")
+        await axios.post(buildHookUrl, {})
+        return
+    }
+
+    if (buildHook) {
+        console.log("NETLIFY_CRON_BUILD_HOOK is present but not a valid absolute URL. Falling back to Netlify API.")
+    } else {
+        console.log("NETLIFY_CRON_BUILD_HOOK is missing. Falling back to Netlify API.")
+    }
+
+    console.log("Using Netlify API with SITE_ID...")
+    await axios.post(
+        `${NETLIFY_API_BASE_URL}/sites/${siteId}/builds`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${netlifyToken}`,
+            },
+        }
+    )
+}
+
+/**
  * Resolves the configured or inferred account identifier to the best API path value.
  *
  * Account ids are preferred over slugs for Netlify's environment-variable API.
@@ -313,8 +388,9 @@ const refreshInstagramToken = async () => {
     const accountIdEnv = getEnvVar("NETLIFY_ACCOUNT_ID")
     const accountSlugEnv = getEnvVar("NETLIFY_ACCOUNT_SLUG")
     const siteId = customSiteId || reservedSiteId
-    const buildHook = getEnvVar("NETLIFY_CRON_BUILD_HOOK")
+    const buildHook = getTrimmedEnvVar("NETLIFY_CRON_BUILD_HOOK")
     const netlifyEnvContext = getNetlifyEnvContext()
+    const buildHookUrl = getValidHttpUrl(buildHook)
 
     console.log("Starting Instagram Token Refresh...")
     console.log(
@@ -327,6 +403,7 @@ const refreshInstagramToken = async () => {
             `account id env present=${Boolean(accountIdEnv)}, ` +
             `account slug env present=${Boolean(accountSlugEnv)}, ` +
             `build hook present=${Boolean(buildHook)}, ` +
+            `build hook valid=${Boolean(buildHookUrl)}, ` +
             `netlify env context=${netlifyEnvContext}.`
     )
 
@@ -396,21 +473,11 @@ const refreshInstagramToken = async () => {
 
     try {
         console.log("Triggering new build...")
-        if (buildHook) {
-            console.log("Using NETLIFY_CRON_BUILD_HOOK...")
-            await axios.post(buildHook, {})
-        } else {
-            console.log("Using Netlify API with SITE_ID...")
-            await axios.post(
-                `${NETLIFY_API_BASE_URL}/sites/${siteId}/builds`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${netlifyToken}`,
-                    },
-                }
-            )
-        }
+        await triggerNetlifyBuild({
+            buildHook,
+            netlifyToken,
+            siteId,
+        })
         console.log("Build triggered successfully.")
     } catch (e) {
         console.error("Error triggering build", e.message)
